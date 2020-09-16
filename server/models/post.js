@@ -8,7 +8,6 @@ const commentSchema = new mongoose.Schema({
   },
   commentBody: {
     type: String,
-    required: true,
     trim: true,
   },
   replies: [
@@ -19,11 +18,14 @@ const commentSchema = new mongoose.Schema({
       },
       replyBody: {
         type: String,
-        required: true,
         trim: true,
       },
+      createdAt: { type: Date, default: Date.now },
+      updatedAt: { type: Date, default: Date.now },
     },
   ],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 const postSchema = new mongoose.Schema(
