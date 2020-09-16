@@ -72,7 +72,7 @@ const postSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
-    upvotes: {
+    upvoteCount: {
       type: Number,
       required: true,
       default: 1,
