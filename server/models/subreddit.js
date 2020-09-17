@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 const schemaCleaner = require('../utils/schemaCleaner');
 
 const subredditSchema = new mongoose.Schema(
@@ -7,6 +8,7 @@ const subredditSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true,
     },
     description: {
       type: String,
@@ -29,15 +31,17 @@ const subredditSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
-    subscribersCount: {
+    subscriberCount: {
       type: Number,
-      required: true,
+      default: 1,
     },
   },
   {
     timestamps: true,
   }
 );
+
+subredditSchema.plugin(uniqueValidator);
 
 // replaces _id with id, convert id to string from ObjectID and deletes __v
 schemaCleaner(subredditSchema);

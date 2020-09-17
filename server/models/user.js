@@ -15,10 +15,36 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      exists: {
+        type: Boolean,
+        default: 'false',
+      },
+      imageLink: {
+        type: String,
+        trim: true,
+        default: 'null',
+      },
+      imageId: {
+        type: String,
+        trim: true,
+        default: 'null',
+      },
+    },
+    karmaPoints: {
+      type: Number,
+      default: 0,
+    },
     posts: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post',
+      },
+    ],
+    subscribedSubs: [
+      {
+        type: String,
+        trim: true,
       },
     ],
   },

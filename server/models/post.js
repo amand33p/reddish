@@ -36,33 +36,32 @@ const postSchema = new mongoose.Schema(
       maxlength: 40,
       trim: true,
     },
-    mainContent: {
-      postType: {
-        type: String,
-        required: true,
-      },
-      textSubmission: {
+    postType: {
+      type: String,
+      required: true,
+    },
+    textSubmission: {
+      type: String,
+      trim: true,
+    },
+    linkSubmission: {
+      type: String,
+      trim: true,
+    },
+    imageSubmission: {
+      imageLink: {
         type: String,
         trim: true,
       },
-      linkSubmission: {
+      imageId: {
         type: String,
         trim: true,
-      },
-      imageSubmission: {
-        imageLink: {
-          type: String,
-          trim: true,
-        },
-        image_id: {
-          type: String,
-          trim: true,
-        },
       },
     },
     subreddit: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Subreddit',
+      type: String,
+      trim: true,
+      required: true,
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
@@ -74,7 +73,13 @@ const postSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
-    upvoteCount: {
+    downvotedBy: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    pointsCount: {
       type: Number,
       required: true,
       default: 1,
