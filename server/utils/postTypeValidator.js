@@ -15,34 +15,30 @@ const parseLinkSubmission = (linkSubmission) => {
 };
 
 const parseImageSubmission = (imageSubmission) => {
-  if (
-    !imageSubmission ||
-    !imageSubmission.imageLink ||
-    !imageSubmission.imageId
-  ) {
-    throw new Error(`Image link & ID are needed for type 'Image'.`);
+  if (!imageSubmission) {
+    throw new Error(`Image is needed for type 'Image'.`);
   }
   return imageSubmission;
 };
 
-const postTypeValidator = (bodyObj) => {
-  switch (bodyObj.postType) {
+const postTypeValidator = (type, text, link, image) => {
+  switch (type) {
     case 'Text':
       return {
         postType: 'Text',
-        textSubmission: parseTextSubmission(bodyObj.textSubmission),
+        textSubmission: parseTextSubmission(text),
       };
 
     case 'Link':
       return {
         postType: 'Link',
-        linkSubmission: parseLinkSubmission(bodyObj.linkSubmission),
+        linkSubmission: parseLinkSubmission(link),
       };
 
     case 'Image':
       return {
         postType: 'Image',
-        imageSubmission: parseImageSubmission(bodyObj.imageSubmission),
+        imageSubmission: parseImageSubmission(image),
       };
 
     default:

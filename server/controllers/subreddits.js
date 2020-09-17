@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { findById } = require('../models/subreddit');
 const Subreddit = require('../models/subreddit');
 const User = require('../models/user');
 const { auth } = require('../utils/middleware');

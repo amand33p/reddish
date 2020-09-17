@@ -11,9 +11,29 @@ router.get('/', async (_req, res) => {
 });
 
 router.post('/', auth, async (req, res) => {
-  const { title, subreddit } = req.body;
+  const {
+    title,
+    subreddit,
+    postType,
+    textSubmission,
+    linkSubmission,
+    imageSubmission,
+  } = req.body;
 
-  const postSubmission = postTypeValidator(req.body);
+  const validatedFields = postTypeValidator(
+    postType,
+    textSubmission,
+    linkSubmission,
+    imageSubmission
+  );
+
+  const author = await User.findById(req.user);
+
+  if (!author) {
+    return res
+      .status(404)
+      .send({ message: 'User does not exist in database.' });
+  }
 });
 
 module.exports = router;
