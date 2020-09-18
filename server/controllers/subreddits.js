@@ -97,11 +97,13 @@ router.patch('/:id/subscribe', auth, async (req, res) => {
     subreddit.subscribedBy = subreddit.subscribedBy.filter(
       (s) => s.toString() !== user._id.toString()
     );
+    subreddit.subscriberCount = subreddit.subscribedBy.length;
     user.subscribedSubs = user.subscribedSubs.filter(
       (s) => s.toString() !== subreddit._id.toString()
     );
   } else {
     subreddit.subscribedBy = subreddit.subscribedBy.concat(user._id);
+    subreddit.subscriberCount = subreddit.subscribedBy.length;
     user.subscribedSubs = user.subscribedSubs.concat(subreddit._id);
   }
 

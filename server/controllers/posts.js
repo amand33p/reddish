@@ -88,4 +88,69 @@ router.post('/', auth, async (req, res) => {
   res.status(201).json(postToSend);
 });
 
+router.patch('/:id', auth, async (req, res) => {
+  const { id } = req.params;
+
+  const { textSubmission, linkSubmission, imageSubmission } = req.body;
+
+  const post = await Post.findById(id);
+  const author = await User.findById(req.user);
+
+  if (!post) {
+    return res.status(404).send({
+      message: `Post with ID: ${id} does not exist in database.`,
+    });
+  }
+
+  if (!author) {
+    return res
+      .status(404)
+      .send({ message: 'User does not exist in database.' });
+  }
+
+  if (post.author.toString() !== author._id.toString()) {
+    return res.status(401).send({ message: 'Access is denied.' });
+  }
+
+  const validatedFields = postTypeValidator(
+    post.postType,
+    textSubmission,
+    linkSubmission,
+    imageSubmission
+  );
+
+  switch (post.postType) {
+    case 'Text':
+      post.textSubmission = validatedFields.textSubmission;
+      break;
+
+    case 'Link':
+      post.linkSubmission = validatedFields.linkSubmission;
+      break;
+
+    case 'Image':
+      const uploadedImage = await cloudinary.uploader.upload(
+        imageSubmission,
+        {
+          upload_preset: 'readify',
+        },
+        (error) => {
+          if (error) return res.status(401).send({ message: error.message });
+        }
+      );
+
+      post.imageSubmission = {
+        imageLink: uploadedImage.url,
+        imageId: uploadedImage.public_id,
+      };
+      break;
+
+    default:
+      return res.status(403).send({ message: 'Invalid post type.' });
+  }
+
+  await post.save();
+  res.status(202).json(post);
+});
+
 module.exports = router;
