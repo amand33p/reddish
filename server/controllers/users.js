@@ -7,6 +7,7 @@ router.get('/:id', async (req, res) => {
     'posts',
     '-downvotedBy -upvotedBy'
   );
+
   res.json(user);
 });
 

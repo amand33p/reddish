@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { findById } = require('../models/subreddit');
 const Subreddit = require('../models/subreddit');
 const User = require('../models/user');
 const { auth } = require('../utils/middleware');
@@ -84,6 +85,30 @@ router.patch('/:id', auth, async (req, res) => {
 
   await subreddit.save();
   res.status(202).json(subreddit);
+});
+
+router.patch('/:id/subscribe', auth, async (req, res) => {
+  const { id } = req.params;
+
+  const subreddit = await Subreddit.findById(id);
+  const user = await User.findById(req.user);
+
+  if (subreddit.subscribedBy.includes(user._id.toString())) {
+    subreddit.subscribedBy = subreddit.subscribedBy.filter(
+      (s) => s.toString() !== user._id.toString()
+    );
+    user.subscribedSubs = user.subscribedSubs.filter(
+      (s) => s.toString() !== subreddit._id.toString()
+    );
+  } else {
+    subreddit.subscribedBy = subreddit.subscribedBy.concat(user._id);
+    user.subscribedSubs = user.subscribedSubs.concat(subreddit._id);
+  }
+
+  await subreddit.save();
+  await user.save();
+
+  res.status(202).end();
 });
 
 module.exports = router;
