@@ -225,14 +225,14 @@ router.post('/:id/upvote', auth, async (req, res) => {
 
   const calculatedPoints = post.upvotedBy.length - post.downvotedBy.length;
 
-  if (calculatedPoints < 0) {
+  if (calculatedPoints <= 0) {
     post.pointsCount = 0;
   } else {
     post.pointsCount = calculatedPoints;
   }
 
   await post.save();
-  res.status(202).end();
+  res.status(201).end();
 });
 
 router.post('/:id/downvote', auth, async (req, res) => {
@@ -266,14 +266,137 @@ router.post('/:id/downvote', auth, async (req, res) => {
 
   const calculatedPoints = post.upvotedBy.length - post.downvotedBy.length;
 
-  if (calculatedPoints < 0) {
+  if (calculatedPoints <= 0) {
     post.pointsCount = 0;
   } else {
     post.pointsCount = calculatedPoints;
   }
 
   await post.save();
-  res.status(202).end();
+  res.status(201).end();
+});
+
+router.post('/:id/comment', auth, async (req, res) => {
+  const { id } = req.params;
+  const { comment } = req.body;
+
+  if (!comment) {
+    return res.status(400).send({ message: `Comment body can't be empty.` });
+  }
+
+  const post = await Post.findById(id);
+  const user = await User.findById(req.user);
+
+  if (!post) {
+    return res.status(404).send({
+      message: `Post with ID: ${id} does not exist in database.`,
+    });
+  }
+
+  if (!user) {
+    return res
+      .status(404)
+      .send({ message: 'User does not exist in database.' });
+  }
+
+  post.comments = post.comments.concat({
+    commentedBy: user._id,
+    commentBody: comment,
+  });
+
+  const savedPost = await post.save();
+  const populatedPost = await savedPost
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName')
+    .populate('comments.commentedBy', 'username')
+    .execPopulate();
+
+  res.status(201).json(populatedPost);
+});
+
+router.delete('/:id/comment/:commentId', auth, async (req, res) => {
+  const { id, commentId } = req.params;
+
+  const post = await Post.findById(id);
+  const user = await User.findById(req.user);
+
+  if (!post) {
+    return res.status(404).send({
+      message: `Post with ID: ${id} does not exist in database.`,
+    });
+  }
+
+  if (!user) {
+    return res
+      .status(404)
+      .send({ message: 'User does not exist in database.' });
+  }
+
+  const targetComment = post.comments.find(
+    (c) => c._id.toString() === commentId
+  );
+
+  if (!targetComment) {
+    return res.status(404).send({
+      message: `Comment with ID: '${commentId}'  does not exist in database.`,
+    });
+  }
+
+  if (targetComment.commentedBy.toString() !== user._id.toString()) {
+    return res.status(401).send({ message: 'Access is denied.' });
+  }
+
+  post.comments = post.comments.filter((c) => c._id.toString() !== commentId);
+  await post.save();
+
+  res.status(204).end();
+});
+
+router.patch('/:id/comment/:commentId', auth, async (req, res) => {
+  const { id, commentId } = req.params;
+  const { comment } = req.body;
+
+  if (!comment) {
+    return res.status(400).send({ message: `Comment body can't be empty.` });
+  }
+
+  const post = await Post.findById(id);
+  const user = await User.findById(req.user);
+
+  if (!post) {
+    return res.status(404).send({
+      message: `Post with ID: ${id} does not exist in database.`,
+    });
+  }
+
+  if (!user) {
+    return res
+      .status(404)
+      .send({ message: 'User does not exist in database.' });
+  }
+
+  const targetComment = post.comments.find(
+    (c) => c._id.toString() === commentId
+  );
+
+  if (!targetComment) {
+    return res.status(404).send({
+      message: `Comment with ID: '${commentId}'  does not exist in database.`,
+    });
+  }
+
+  if (targetComment.commentedBy.toString() !== user._id.toString()) {
+    return res.status(401).send({ message: 'Access is denied.' });
+  }
+
+  targetComment.commentBody = comment;
+
+  post.comments = post.comments.map((c) =>
+    c._id.toString() !== commentId ? c : targetComment
+  );
+
+  await post.save();
+  res.status(202).json(post);
 });
 
 module.exports = router;
