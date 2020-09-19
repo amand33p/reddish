@@ -194,7 +194,7 @@ router.delete('/:id', auth, async (req, res) => {
   res.status(204).end();
 });
 
-router.patch('/:id/upvote', auth, async (req, res) => {
+router.post('/:id/upvote', auth, async (req, res) => {
   const { id } = req.params;
 
   const post = await Post.findById(id);
@@ -235,7 +235,7 @@ router.patch('/:id/upvote', auth, async (req, res) => {
   res.status(202).end();
 });
 
-router.patch('/:id/downvote', auth, async (req, res) => {
+router.post('/:id/downvote', auth, async (req, res) => {
   const { id } = req.params;
 
   const post = await Post.findById(id);
