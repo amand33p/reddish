@@ -518,4 +518,76 @@ router.delete(
   }
 );
 
+router.patch(
+  '/:id/comment/:commentId/reply/:replyId',
+  auth,
+  async (req, res) => {
+    const { id, commentId, replyId } = req.params;
+    const { reply } = req.body;
+
+    if (!reply) {
+      return res.status(400).send({ message: `Reply body can't be empty.` });
+    }
+
+    const post = await Post.findById(id);
+    const user = await User.findById(req.user);
+
+    if (!post) {
+      return res.status(404).send({
+        message: `Post with ID: ${id} does not exist in database.`,
+      });
+    }
+
+    if (!user) {
+      return res
+        .status(404)
+        .send({ message: 'User does not exist in database.' });
+    }
+
+    const targetComment = post.comments.find(
+      (c) => c._id.toString() === commentId
+    );
+
+    if (!targetComment) {
+      return res.status(404).send({
+        message: `Comment with ID: '${commentId}'  does not exist in database.`,
+      });
+    }
+
+    const targetReply = targetComment.replies.find(
+      (r) => r._id.toString() === replyId
+    );
+
+    if (!targetReply) {
+      return res.status(404).send({
+        message: `Reply comment with ID: '${replyId}'  does not exist in database.`,
+      });
+    }
+
+    if (targetReply.repliedBy.toString() !== user._id.toString()) {
+      return res.status(401).send({ message: 'Access is denied.' });
+    }
+
+    targetReply.replyBody = reply;
+    targetComment.updatedAt = Date.now;
+    targetComment.replies = targetComment.replies.map((r) =>
+      r._id.toString() !== replyId ? r : targetReply
+    );
+
+    post.comments = post.comments.map((c) =>
+      c._id.toString() !== commentId ? c : targetComment
+    );
+
+    const savedPost = await post.save();
+    const populatedPost = await savedPost
+      .populate('author', 'username')
+      .populate('subreddit', 'subredditName')
+      .populate('comments.commentedBy', 'username')
+      .populate('comments.replies.repliedBy', 'username')
+      .execPopulate();
+
+    res.status(202).json(populatedPost);
+  }
+);
+
 module.exports = router;

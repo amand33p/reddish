@@ -93,5 +93,6 @@ const postSchema = new mongoose.Schema(
 // replaces _id with id, convert id to string from ObjectID and deletes __v
 schemaCleaner(postSchema);
 schemaCleaner(commentSchema);
+schemaCleaner(replySchema);
 
 module.exports = mongoose.model('Post', postSchema);
