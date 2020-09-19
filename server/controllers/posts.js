@@ -390,6 +390,7 @@ router.patch('/:id/comment/:commentId', auth, async (req, res) => {
   }
 
   targetComment.commentBody = comment;
+  targetComment.updatedAt = Date.now;
 
   post.comments = post.comments.map((c) =>
     c._id.toString() !== commentId ? c : targetComment
@@ -458,5 +459,63 @@ router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
 
   res.status(201).json(populatedPost);
 });
+
+router.delete(
+  '/:id/comment/:commentId/reply/:replyId',
+  auth,
+  async (req, res) => {
+    const { id, commentId, replyId } = req.params;
+
+    const post = await Post.findById(id);
+    const user = await User.findById(req.user);
+
+    if (!post) {
+      return res.status(404).send({
+        message: `Post with ID: ${id} does not exist in database.`,
+      });
+    }
+
+    if (!user) {
+      return res
+        .status(404)
+        .send({ message: 'User does not exist in database.' });
+    }
+
+    const targetComment = post.comments.find(
+      (c) => c._id.toString() === commentId
+    );
+
+    if (!targetComment) {
+      return res.status(404).send({
+        message: `Comment with ID: '${commentId}'  does not exist in database.`,
+      });
+    }
+
+    const targetReply = targetComment.replies.find(
+      (r) => r._id.toString() === replyId
+    );
+
+    if (!targetReply) {
+      return res.status(404).send({
+        message: `Reply comment with ID: '${replyId}'  does not exist in database.`,
+      });
+    }
+
+    if (targetReply.repliedBy.toString() !== user._id.toString()) {
+      return res.status(401).send({ message: 'Access is denied.' });
+    }
+
+    targetComment.replies = targetComment.replies.filter(
+      (r) => r._id.toString() !== replyId
+    );
+
+    post.comments = post.comments.map((c) =>
+      c._id.toString() !== commentId ? c : targetComment
+    );
+
+    await post.save();
+    res.status(204).end();
+  }
+);
 
 module.exports = router;
