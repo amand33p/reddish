@@ -8,8 +8,10 @@ const { cloudinary } = require('../utils/config');
 
 router.get('/', async (_req, res) => {
   const allPosts = await Post.find({})
-    .populate('author', { username: 1 })
-    .populate('subreddit', { subredditName: 1 });
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName')
+    .populate('comments.commentedBy', 'username')
+    .populate('comments.replies.repliedBy', 'username');
 
   res.status(200).json(allPosts);
 });
