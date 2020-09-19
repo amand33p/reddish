@@ -153,4 +153,45 @@ router.patch('/:id', auth, async (req, res) => {
   res.status(202).json(post);
 });
 
+router.delete('/:id', auth, async (req, res) => {
+  const { id } = req.params;
+
+  const post = await Post.findById(id);
+  const author = await User.findById(req.user);
+
+  if (!post) {
+    return res.status(404).send({
+      message: `Post with ID: ${id} does not exist in database.`,
+    });
+  }
+
+  if (!author) {
+    return res
+      .status(404)
+      .send({ message: 'User does not exist in database.' });
+  }
+
+  if (post.author.toString() !== author._id.toString()) {
+    return res.status(401).send({ message: 'Access is denied.' });
+  }
+
+  const subreddit = await Subreddit.findById(post.subreddit);
+
+  if (!subreddit) {
+    return res.status(404).send({
+      message: `Subreddit with ID: '${subreddit._id}'  does not exist in database.`,
+    });
+  }
+
+  await Post.findByIdAndDelete(id);
+
+  subreddit.posts = subreddit.posts.filter((p) => p.toString() !== id);
+  await subreddit.save();
+
+  author.posts = author.posts.filter((p) => p.toString() !== id);
+  await author.save();
+
+  res.status(204).end();
+});
+
 module.exports = router;
