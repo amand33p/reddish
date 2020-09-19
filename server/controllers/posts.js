@@ -395,8 +395,68 @@ router.patch('/:id/comment/:commentId', auth, async (req, res) => {
     c._id.toString() !== commentId ? c : targetComment
   );
 
-  await post.save();
-  res.status(202).json(post);
+  const savedPost = await post.save();
+  const populatedPost = await savedPost
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName')
+    .populate('comments.commentedBy', 'username')
+    .populate('comments.replies.repliedBy', 'username')
+    .execPopulate();
+
+  res.status(202).json(populatedPost);
+});
+
+router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
+  const { id, commentId } = req.params;
+  const { reply } = req.body;
+
+  if (!reply) {
+    return res.status(400).send({ message: `Reply body can't be empty.` });
+  }
+
+  const post = await Post.findById(id);
+  const user = await User.findById(req.user);
+
+  if (!post) {
+    return res.status(404).send({
+      message: `Post with ID: ${id} does not exist in database.`,
+    });
+  }
+
+  if (!user) {
+    return res
+      .status(404)
+      .send({ message: 'User does not exist in database.' });
+  }
+
+  const targetComment = post.comments.find(
+    (c) => c._id.toString() === commentId
+  );
+
+  if (!targetComment) {
+    return res.status(404).send({
+      message: `Comment with ID: '${commentId}'  does not exist in database.`,
+    });
+  }
+
+  targetComment.replies = targetComment.replies.concat({
+    replyBody: reply,
+    repliedBy: user._id,
+  });
+
+  post.comments = post.comments.map((c) =>
+    c._id.toString() !== commentId ? c : targetComment
+  );
+
+  const savedPost = await post.save();
+  const populatedPost = await savedPost
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName')
+    .populate('comments.commentedBy', 'username')
+    .populate('comments.replies.repliedBy', 'username')
+    .execPopulate();
+
+  res.status(201).json(populatedPost);
 });
 
 module.exports = router;

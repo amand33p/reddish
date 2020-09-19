@@ -1,6 +1,19 @@
 const mongoose = require('mongoose');
 const schemaCleaner = require('../utils/schemaCleaner');
 
+const replySchema = new mongoose.Schema({
+  repliedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  replyBody: {
+    type: String,
+    trim: true,
+  },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+});
+
 const commentSchema = new mongoose.Schema({
   commentedBy: {
     type: mongoose.Schema.Types.ObjectId,
@@ -10,20 +23,7 @@ const commentSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  replies: [
-    {
-      repliedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-      },
-      replyBody: {
-        type: String,
-        trim: true,
-      },
-      createdAt: { type: Date, default: Date.now },
-      updatedAt: { type: Date, default: Date.now },
-    },
-  ],
+  replies: [replySchema],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
