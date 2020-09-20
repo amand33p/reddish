@@ -52,8 +52,14 @@ router.post('/', auth, async (req, res) => {
 });
 
 router.patch('/:id', auth, async (req, res) => {
-  const { subredditName, description } = req.body;
+  const { description } = req.body;
   const { id } = req.params;
+
+  if (!description) {
+    return res
+      .status(400)
+      .send({ message: `Description body can't be empty.` });
+  }
 
   const admin = await User.findById(req.user);
   const subreddit = await Subreddit.findById(id);
@@ -74,13 +80,7 @@ router.patch('/:id', auth, async (req, res) => {
     return res.status(401).send({ message: 'Access is denied.' });
   }
 
-  if (subredditName) {
-    subreddit.subredditName = subredditName;
-  }
-
-  if (description) {
-    subreddit.description = description;
-  }
+  subreddit.description = description;
 
   await subreddit.save();
   res.status(202).json(subreddit);
@@ -96,15 +96,17 @@ router.post('/:id/subscribe', auth, async (req, res) => {
     subreddit.subscribedBy = subreddit.subscribedBy.filter(
       (s) => s.toString() !== user._id.toString()
     );
-    subreddit.subscriberCount = subreddit.subscribedBy.length;
+
     user.subscribedSubs = user.subscribedSubs.filter(
       (s) => s.toString() !== subreddit._id.toString()
     );
   } else {
     subreddit.subscribedBy = subreddit.subscribedBy.concat(user._id);
-    subreddit.subscriberCount = subreddit.subscribedBy.length;
+
     user.subscribedSubs = user.subscribedSubs.concat(subreddit._id);
   }
+
+  subreddit.subscriberCount = subreddit.subscribedBy.length;
 
   await subreddit.save();
   await user.save();

@@ -32,8 +32,14 @@ const userSchema = new mongoose.Schema(
       },
     },
     karmaPoints: {
-      type: Number,
-      default: 0,
+      postKarma: {
+        type: Number,
+        default: 0,
+      },
+      commentKarma: {
+        type: Number,
+        default: 0,
+      },
     },
     posts: [
       {
