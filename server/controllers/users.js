@@ -24,6 +24,12 @@ router.get('/:id', async (req, res) => {
 router.post('/avatar', auth, async (req, res) => {
   const { avatarImage } = req.body;
 
+  if (!avatarImage) {
+    return res
+      .status(400)
+      .send({ message: 'Image URL needed for setting avatar.' });
+  }
+
   const user = await User.findById(req.user);
 
   if (!user) {

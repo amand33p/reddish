@@ -32,7 +32,7 @@ router.post('/:id/comment', auth, async (req, res) => {
     upvotedBy: [user._id],
     pointsCount: 1,
   });
-
+  post.commentCount = post.commentCount + 1;
   const savedPost = await post.save();
 
   user.karmaPoints.commentKarma = user.karmaPoints.commentKarma + 1;
@@ -80,8 +80,9 @@ router.delete('/:id/comment/:commentId', auth, async (req, res) => {
   }
 
   post.comments = post.comments.filter((c) => c._id.toString() !== commentId);
-  await post.save();
+  post.commentCount = post.commentCount - 1;
 
+  await post.save();
   res.status(204).end();
 });
 
@@ -183,18 +184,18 @@ router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
   post.comments = post.comments.map((c) =>
     c._id.toString() !== commentId ? c : targetComment
   );
+  post.commentCount = post.commentCount + 1;
+  const savedPost = await post.save();
 
   user.karmaPoints.commentKarma = user.karmaPoints.commentKarma + 1;
+  await user.save();
 
-  const savedPost = await post.save();
   const populatedPost = await savedPost
     .populate('author', 'username')
     .populate('subreddit', 'subredditName')
     .populate('comments.commentedBy', 'username')
     .populate('comments.replies.repliedBy', 'username')
     .execPopulate();
-
-  await user.save();
 
   res.status(201).json(populatedPost);
 });
@@ -251,6 +252,7 @@ router.delete(
     post.comments = post.comments.map((c) =>
       c._id.toString() !== commentId ? c : targetComment
     );
+    post.commentCount = post.commentCount - 1;
 
     await post.save();
     res.status(204).end();

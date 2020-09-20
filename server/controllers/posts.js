@@ -10,10 +10,30 @@ router.get('/', async (_req, res) => {
   const allPosts = await Post.find({})
     .populate('author', 'username')
     .populate('subreddit', 'subredditName')
-    .populate('comments.commentedBy', 'username')
-    .populate('comments.replies.repliedBy', 'username');
+    .select('-comments');
 
   res.status(200).json(allPosts);
+});
+
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const post = await Post.findById(id);
+
+  if (!post) {
+    return res
+      .status(404)
+      .send({ message: `Post with ID: '${id}' does not exist in database.` });
+  }
+
+  const populatedPost = await post
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName')
+    .populate('comments.commentedBy', 'username')
+    .populate('comments.replies.repliedBy', 'username')
+    .execPopulate();
+
+  res.status(200).json(populatedPost);
 });
 
 router.post('/', auth, async (req, res) => {
@@ -38,7 +58,7 @@ router.post('/', auth, async (req, res) => {
 
   if (!targetSubreddit) {
     return res.status(404).send({
-      message: `Subreddit with ID: '${subreddit}'  does not exist in database.`,
+      message: `Subreddit with ID: '${subreddit}' does not exist in database.`,
     });
   }
 
