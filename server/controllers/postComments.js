@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Post = require('../models/post');
 const User = require('../models/user');
 const { auth } = require('../utils/middleware');
+const numOfComments = require('../utils/numOfComments');
 
 router.post('/:id/comment', auth, async (req, res) => {
   const { id } = req.params;
@@ -32,17 +33,14 @@ router.post('/:id/comment', auth, async (req, res) => {
     upvotedBy: [user._id],
     pointsCount: 1,
   });
-  post.commentCount = post.commentCount + 1;
+  post.commentCount = numOfComments(post.comments);
   const savedPost = await post.save();
 
   user.karmaPoints.commentKarma = user.karmaPoints.commentKarma + 1;
   await user.save();
 
-  const updatedComments = {
-    comments: savedPost.comments,
-  };
-
-  res.status(201).json(updatedComments);
+  const addedComment = savedPost.comments[savedPost.comments.length - 1];
+  res.status(201).json(addedComment);
 });
 
 router.delete('/:id/comment/:commentId', auth, async (req, res) => {
@@ -78,14 +76,10 @@ router.delete('/:id/comment/:commentId', auth, async (req, res) => {
   }
 
   post.comments = post.comments.filter((c) => c._id.toString() !== commentId);
-  post.commentCount = post.commentCount - 1;
+  post.commentCount = numOfComments(post.comments);
 
-  const savedPost = await post.save();
-  const updatedComments = {
-    comments: savedPost.comments,
-  };
-
-  res.status(204).json(updatedComments);
+  await post.save();
+  res.status(204).end();
 });
 
 router.patch('/:id/comment/:commentId', auth, async (req, res) => {
@@ -132,12 +126,8 @@ router.patch('/:id/comment/:commentId', auth, async (req, res) => {
     c._id.toString() !== commentId ? c : targetComment
   );
 
-  const savedPost = await post.save();
-  const updatedComments = {
-    comments: savedPost.comments,
-  };
-
-  res.status(202).json(updatedComments);
+  await post.save();
+  res.status(202).json(targetComment);
 });
 
 router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
@@ -183,17 +173,14 @@ router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
   post.comments = post.comments.map((c) =>
     c._id.toString() !== commentId ? c : targetComment
   );
-  post.commentCount = post.commentCount + 1;
-  const savedPost = await post.save();
+  post.commentCount = numOfComments(post.comments);
+  await post.save();
 
   user.karmaPoints.commentKarma = user.karmaPoints.commentKarma + 1;
   await user.save();
 
-  const updatedComments = {
-    comments: savedPost.comments,
-  };
-
-  res.status(201).json(updatedComments);
+  const addedReply = targetComment.replies[targetComment.replies.length - 1];
+  res.status(201).json(addedReply);
 });
 
 router.delete(
@@ -248,14 +235,10 @@ router.delete(
     post.comments = post.comments.map((c) =>
       c._id.toString() !== commentId ? c : targetComment
     );
-    post.commentCount = post.commentCount - 1;
+    post.commentCount = numOfComments(post.comments);
 
-    const savedPost = await post.save();
-    const updatedComments = {
-      comments: savedPost.comments,
-    };
-
-    res.status(204).json(updatedComments);
+    await post.save();
+    res.status(204).end();
   }
 );
 
@@ -310,7 +293,8 @@ router.patch(
     }
 
     targetReply.replyBody = reply;
-    targetComment.updatedAt = Date.now;
+    targetReply.updatedAt = Date.now;
+
     targetComment.replies = targetComment.replies.map((r) =>
       r._id.toString() !== replyId ? r : targetReply
     );
@@ -319,12 +303,8 @@ router.patch(
       c._id.toString() !== commentId ? c : targetComment
     );
 
-    const savedPost = await post.save();
-    const updatedComments = {
-      comments: savedPost.comments,
-    };
-
-    res.status(202).json(updatedComments);
+    await post.save();
+    res.status(202).json(targetReply);
   }
 );
 
