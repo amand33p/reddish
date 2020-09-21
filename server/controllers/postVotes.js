@@ -34,7 +34,7 @@ router.post('/:id/upvote', auth, async (req, res) => {
       (u) => u.toString() !== user._id.toString()
     );
 
-    author.karmaPoints.postKarma = author.karmaPoints.postKarma - 1;
+    author.karmaPoints.postKarma--;
   } else {
     post.upvotedBy = post.upvotedBy.concat(user._id);
     post.downvotedBy = post.downvotedBy.filter(
@@ -95,7 +95,7 @@ router.post('/:id/downvote', auth, async (req, res) => {
       (d) => d.toString() !== user._id.toString()
     );
 
-    author.karmaPoints.postKarma = author.karmaPoints.postKarma + 1;
+    author.karmaPoints.postKarma++;
   } else {
     post.downvotedBy = post.downvotedBy.concat(user._id);
     post.upvotedBy = post.upvotedBy.filter(
