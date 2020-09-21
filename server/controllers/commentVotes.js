@@ -44,16 +44,14 @@ router.post('/:id/comment/:commentId/upvote', auth, async (req, res) => {
       (u) => u.toString() !== user._id.toString()
     );
 
-    commentAuthor.karmaPoints.commentKarma =
-      commentAuthor.karmaPoints.commentKarma - 1;
+    commentAuthor.karmaPoints.commentKarma--;
   } else {
     targetComment.upvotedBy = targetComment.upvotedBy.concat(user._id);
     targetComment.downvotedBy = targetComment.downvotedBy.filter(
       (d) => d.toString() !== user._id.toString()
     );
 
-    commentAuthor.karmaPoints.commentKarma =
-      commentAuthor.karmaPoints.commentKarma + 1;
+    commentAuthor.karmaPoints.commentKarma++;
   }
 
   targetComment.pointsCount =
@@ -116,16 +114,14 @@ router.post('/:id/comment/:commentId/downvote', auth, async (req, res) => {
       (d) => d.toString() !== user._id.toString()
     );
 
-    commentAuthor.karmaPoints.commentKarma =
-      commentAuthor.karmaPoints.commentKarma + 1;
+    commentAuthor.karmaPoints.commentKarma++;
   } else {
     targetComment.downvotedBy = targetComment.downvotedBy.concat(user._id);
     targetComment.upvotedBy = targetComment.upvotedBy.filter(
       (u) => u.toString() !== user._id.toString()
     );
 
-    commentAuthor.karmaPoints.commentKarma =
-      commentAuthor.karmaPoints.commentKarma - 1;
+    commentAuthor.karmaPoints.commentKarma--;
   }
 
   targetComment.pointsCount =
@@ -201,16 +197,14 @@ router.post(
         (u) => u.toString() !== user._id.toString()
       );
 
-      replyAuthor.karmaPoints.commentKarma =
-        replyAuthor.karmaPoints.commentKarma - 1;
+      replyAuthor.karmaPoints.commentKarma--;
     } else {
       targetReply.upvotedBy = targetReply.upvotedBy.concat(user._id);
       targetReply.downvotedBy = targetReply.downvotedBy.filter(
         (d) => d.toString() !== user._id.toString()
       );
 
-      replyAuthor.karmaPoints.commentKarma =
-        replyAuthor.karmaPoints.commentKarma + 1;
+      replyAuthor.karmaPoints.commentKarma++;
     }
 
     targetReply.pointsCount =
@@ -291,16 +285,14 @@ router.post(
         (d) => d.toString() !== user._id.toString()
       );
 
-      replyAuthor.karmaPoints.commentKarma =
-        replyAuthor.karmaPoints.commentKarma + 1;
+      replyAuthor.karmaPoints.commentKarma++;
     } else {
       targetReply.downvotedBy = targetReply.downvotedBy.concat(user._id);
       targetReply.upvotedBy = targetReply.upvotedBy.filter(
         (u) => u.toString() !== user._id.toString()
       );
 
-      replyAuthor.karmaPoints.commentKarma =
-        replyAuthor.karmaPoints.commentKarma - 1;
+      replyAuthor.karmaPoints.commentKarma--;
     }
 
     targetReply.pointsCount =

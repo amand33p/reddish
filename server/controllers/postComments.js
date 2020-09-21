@@ -36,7 +36,7 @@ router.post('/:id/comment', auth, async (req, res) => {
   post.commentCount = numOfComments(post.comments);
   const savedPost = await post.save();
 
-  user.karmaPoints.commentKarma = user.karmaPoints.commentKarma + 1;
+  user.karmaPoints.commentKarma++;
   await user.save();
 
   const addedComment = savedPost.comments[savedPost.comments.length - 1];
@@ -176,7 +176,7 @@ router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
   post.commentCount = numOfComments(post.comments);
   await post.save();
 
-  user.karmaPoints.commentKarma = user.karmaPoints.commentKarma + 1;
+  user.karmaPoints.commentKarma++;
   await user.save();
 
   const addedReply = targetComment.replies[targetComment.replies.length - 1];
