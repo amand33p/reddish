@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const schemaCleaner = require('../utils/schemaCleaner');
+const { commentSchema } = require('./post');
 
 const userSchema = new mongoose.Schema(
   {

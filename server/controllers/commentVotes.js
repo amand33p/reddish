@@ -57,23 +57,22 @@ router.post('/:id/comment/:commentId/upvote', auth, async (req, res) => {
   }
 
   targetComment.pointsCount =
-    targetComment.upvotedBy - targetComment.downvotedBy;
+    targetComment.upvotedBy.length - targetComment.downvotedBy.length;
 
   post.comments = post.comments.map((c) =>
     c._id.toString() !== commentId ? c : targetComment
   );
 
-  const savedPost = await post.save();
-  const populatedPost = await savedPost
-    .populate('author', 'username')
-    .populate('subreddit', 'subredditName')
-    .populate('comments.commentedBy', 'username')
-    .populate('comments.replies.repliedBy', 'username')
-    .execPopulate();
-
+  await post.save();
   await commentAuthor.save();
 
-  res.status(201).json(populatedPost);
+  const updatedComment = {
+    upvotedBy: targetComment.upvotedBy,
+    downvotedBy: targetComment.downvotedBy,
+    pointsCount: targetComment.pointsCount,
+  };
+
+  res.status(201).json(updatedComment);
 });
 
 router.post('/:id/comment/:commentId/downvote', auth, async (req, res) => {
@@ -130,23 +129,22 @@ router.post('/:id/comment/:commentId/downvote', auth, async (req, res) => {
   }
 
   targetComment.pointsCount =
-    targetComment.upvotedBy - targetComment.downvotedBy;
+    targetComment.upvotedBy.length - targetComment.downvotedBy.length;
 
   post.comments = post.comments.map((c) =>
     c._id.toString() !== commentId ? c : targetComment
   );
 
-  const savedPost = await post.save();
-  const populatedPost = await savedPost
-    .populate('author', 'username')
-    .populate('subreddit', 'subredditName')
-    .populate('comments.commentedBy', 'username')
-    .populate('comments.replies.repliedBy', 'username')
-    .execPopulate();
-
+  await post.save();
   await commentAuthor.save();
 
-  res.status(201).json(populatedPost);
+  const updatedComment = {
+    upvotedBy: targetComment.upvotedBy,
+    downvotedBy: targetComment.downvotedBy,
+    pointsCount: targetComment.pointsCount,
+  };
+
+  res.status(201).json(updatedComment);
 });
 
 router.post(
@@ -215,7 +213,8 @@ router.post(
         replyAuthor.karmaPoints.commentKarma + 1;
     }
 
-    targetReply.pointsCount = targetReply.upvotedBy - targetReply.downvotedBy;
+    targetReply.pointsCount =
+      targetReply.upvotedBy.length - targetReply.downvotedBy.length;
 
     targetComment.replies = targetComment.replies.map((r) =>
       r._id.toString() !== replyId ? r : targetReply
@@ -225,17 +224,16 @@ router.post(
       c._id.toString() !== commentId ? c : targetComment
     );
 
-    const savedPost = await post.save();
-    const populatedPost = await savedPost
-      .populate('author', 'username')
-      .populate('subreddit', 'subredditName')
-      .populate('comments.commentedBy', 'username')
-      .populate('comments.replies.repliedBy', 'username')
-      .execPopulate();
-
+    await post.save();
     await replyAuthor.save();
 
-    res.status(201).json(populatedPost);
+    const updatedReply = {
+      upvotedBy: targetReply.upvotedBy,
+      downvotedBy: targetReply.downvotedBy,
+      pointsCount: targetReply.pointsCount,
+    };
+
+    res.status(201).json(updatedReply);
   }
 );
 
@@ -305,7 +303,8 @@ router.post(
         replyAuthor.karmaPoints.commentKarma - 1;
     }
 
-    targetReply.pointsCount = targetReply.upvotedBy - targetReply.downvotedBy;
+    targetReply.pointsCount =
+      targetReply.upvotedBy.length - targetReply.downvotedBy.length;
 
     targetComment.replies = targetComment.replies.map((r) =>
       r._id.toString() !== replyId ? r : targetReply
@@ -315,17 +314,16 @@ router.post(
       c._id.toString() !== commentId ? c : targetComment
     );
 
-    const savedPost = await post.save();
-    const populatedPost = await savedPost
-      .populate('author', 'username')
-      .populate('subreddit', 'subredditName')
-      .populate('comments.commentedBy', 'username')
-      .populate('comments.replies.repliedBy', 'username')
-      .execPopulate();
-
+    await post.save();
     await replyAuthor.save();
 
-    res.status(201).json(populatedPost);
+    const updatedReply = {
+      upvotedBy: targetReply.upvotedBy,
+      downvotedBy: targetReply.downvotedBy,
+      pointsCount: targetReply.pointsCount,
+    };
+
+    res.status(201).json(updatedReply);
   }
 );
 

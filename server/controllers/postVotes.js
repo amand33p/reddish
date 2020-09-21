@@ -54,7 +54,14 @@ router.post('/:id/upvote', auth, async (req, res) => {
 
   await post.save();
   await author.save();
-  res.status(201).end();
+
+  const updatedVotes = {
+    upvotedBy: post.upvotedBy,
+    downvotedBy: post.downvotedBy,
+    pointsCount: post.pointsCount,
+  };
+
+  res.status(201).json(updatedVotes);
 });
 
 router.post('/:id/downvote', auth, async (req, res) => {
@@ -108,7 +115,14 @@ router.post('/:id/downvote', auth, async (req, res) => {
 
   await post.save();
   await author.save();
-  res.status(201).end();
+
+  const updatedVotes = {
+    upvotedBy: post.upvotedBy,
+    downvotedBy: post.downvotedBy,
+    pointsCount: post.pointsCount,
+  };
+
+  res.status(201).json(updatedVotes);
 });
 
 module.exports = router;

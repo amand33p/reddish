@@ -56,16 +56,16 @@ router.post('/', auth, async (req, res) => {
   const author = await User.findById(req.user);
   const targetSubreddit = await Subreddit.findById(subreddit);
 
-  if (!targetSubreddit) {
-    return res.status(404).send({
-      message: `Subreddit with ID: '${subreddit}' does not exist in database.`,
-    });
-  }
-
   if (!author) {
     return res
       .status(404)
       .send({ message: 'User does not exist in database.' });
+  }
+
+  if (!targetSubreddit) {
+    return res.status(404).send({
+      message: `Subreddit with ID: '${subreddit}' does not exist in database.`,
+    });
   }
 
   const newPost = new Post({

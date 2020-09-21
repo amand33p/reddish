@@ -38,13 +38,11 @@ router.post('/:id/comment', auth, async (req, res) => {
   user.karmaPoints.commentKarma = user.karmaPoints.commentKarma + 1;
   await user.save();
 
-  const populatedPost = await savedPost
-    .populate('author', 'username')
-    .populate('subreddit', 'subredditName')
-    .populate('comments.commentedBy', 'username')
-    .execPopulate();
+  const updatedComments = {
+    comments: savedPost.comments,
+  };
 
-  res.status(201).json(populatedPost);
+  res.status(201).json(updatedComments);
 });
 
 router.delete('/:id/comment/:commentId', auth, async (req, res) => {
@@ -82,8 +80,12 @@ router.delete('/:id/comment/:commentId', auth, async (req, res) => {
   post.comments = post.comments.filter((c) => c._id.toString() !== commentId);
   post.commentCount = post.commentCount - 1;
 
-  await post.save();
-  res.status(204).end();
+  const savedPost = await post.save();
+  const updatedComments = {
+    comments: savedPost.comments,
+  };
+
+  res.status(204).json(updatedComments);
 });
 
 router.patch('/:id/comment/:commentId', auth, async (req, res) => {
@@ -131,14 +133,11 @@ router.patch('/:id/comment/:commentId', auth, async (req, res) => {
   );
 
   const savedPost = await post.save();
-  const populatedPost = await savedPost
-    .populate('author', 'username')
-    .populate('subreddit', 'subredditName')
-    .populate('comments.commentedBy', 'username')
-    .populate('comments.replies.repliedBy', 'username')
-    .execPopulate();
+  const updatedComments = {
+    comments: savedPost.comments,
+  };
 
-  res.status(202).json(populatedPost);
+  res.status(202).json(updatedComments);
 });
 
 router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
@@ -190,14 +189,11 @@ router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
   user.karmaPoints.commentKarma = user.karmaPoints.commentKarma + 1;
   await user.save();
 
-  const populatedPost = await savedPost
-    .populate('author', 'username')
-    .populate('subreddit', 'subredditName')
-    .populate('comments.commentedBy', 'username')
-    .populate('comments.replies.repliedBy', 'username')
-    .execPopulate();
+  const updatedComments = {
+    comments: savedPost.comments,
+  };
 
-  res.status(201).json(populatedPost);
+  res.status(201).json(updatedComments);
 });
 
 router.delete(
@@ -254,8 +250,12 @@ router.delete(
     );
     post.commentCount = post.commentCount - 1;
 
-    await post.save();
-    res.status(204).end();
+    const savedPost = await post.save();
+    const updatedComments = {
+      comments: savedPost.comments,
+    };
+
+    res.status(204).json(updatedComments);
   }
 );
 
@@ -320,14 +320,11 @@ router.patch(
     );
 
     const savedPost = await post.save();
-    const populatedPost = await savedPost
-      .populate('author', 'username')
-      .populate('subreddit', 'subredditName')
-      .populate('comments.commentedBy', 'username')
-      .populate('comments.replies.repliedBy', 'username')
-      .execPopulate();
+    const updatedComments = {
+      comments: savedPost.comments,
+    };
 
-    res.status(202).json(populatedPost);
+    res.status(202).json(updatedComments);
   }
 );
 
