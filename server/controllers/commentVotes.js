@@ -64,13 +64,7 @@ router.post('/:id/comment/:commentId/upvote', auth, async (req, res) => {
   await post.save();
   await commentAuthor.save();
 
-  const updatedComment = {
-    upvotedBy: targetComment.upvotedBy,
-    downvotedBy: targetComment.downvotedBy,
-    pointsCount: targetComment.pointsCount,
-  };
-
-  res.status(201).json(updatedComment);
+  res.status(201).end();
 });
 
 router.post('/:id/comment/:commentId/downvote', auth, async (req, res) => {
@@ -134,13 +128,7 @@ router.post('/:id/comment/:commentId/downvote', auth, async (req, res) => {
   await post.save();
   await commentAuthor.save();
 
-  const updatedComment = {
-    upvotedBy: targetComment.upvotedBy,
-    downvotedBy: targetComment.downvotedBy,
-    pointsCount: targetComment.pointsCount,
-  };
-
-  res.status(201).json(updatedComment);
+  res.status(201).end();
 });
 
 router.post(
@@ -221,13 +209,7 @@ router.post(
     await post.save();
     await replyAuthor.save();
 
-    const updatedReply = {
-      upvotedBy: targetReply.upvotedBy,
-      downvotedBy: targetReply.downvotedBy,
-      pointsCount: targetReply.pointsCount,
-    };
-
-    res.status(201).json(updatedReply);
+    res.status(201).end();
   }
 );
 
@@ -309,13 +291,7 @@ router.post(
     await post.save();
     await replyAuthor.save();
 
-    const updatedReply = {
-      upvotedBy: targetReply.upvotedBy,
-      downvotedBy: targetReply.downvotedBy,
-      pointsCount: targetReply.pointsCount,
-    };
-
-    res.status(201).json(updatedReply);
+    res.status(201).end();
   }
 );
 
