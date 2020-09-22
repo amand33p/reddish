@@ -3,10 +3,10 @@ const User = require('../models/user');
 const { auth } = require('../utils/middleware');
 const { cloudinary } = require('../utils/config');
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+router.get('/:username', async (req, res) => {
+  const { username } = req.params;
 
-  const user = await User.findById(id)
+  const user = await User.findOne({ username })
     .populate({
       path: 'posts',
       select: '-upvotedBy -downvotedBy',
@@ -17,7 +17,7 @@ router.get('/:id', async (req, res) => {
   if (!user) {
     return res
       .status(404)
-      .send({ message: 'User does not exist in database.' });
+      .send({ message: `Username '${username}' does not exist on server.` });
   }
 
   res.json(user);

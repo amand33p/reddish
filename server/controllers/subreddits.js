@@ -8,11 +8,23 @@ router.get('/', async (_req, res) => {
   res.json(allSubreddits);
 });
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const subreddit = await Subreddit.findById(id).populate('admin', {
-    username: 1,
-  });
+router.get('/:subredditName', async (req, res) => {
+  const { subredditName } = req.params;
+  const subreddit = await Subreddit.findOne({ subredditName }).populate(
+    'admin',
+    {
+      username: 1,
+    }
+  );
+
+  if (!subreddit) {
+    return res
+      .status(404)
+      .send({
+        message: `Subreddit '${subredditName}' does not exist on server.`,
+      });
+  }
+
   res.json(subreddit);
 });
 
