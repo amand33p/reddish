@@ -1,6 +1,7 @@
 import React from 'react';
+import NavBar from './components/NavBar';
 
-import { Container, Paper } from '@material-ui/core/';
+import { Paper } from '@material-ui/core/';
 import { useMainPaperStyles } from './styles/muiStyles';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
@@ -11,10 +12,10 @@ const App = () => {
     palette: {
       type: 'light',
       primary: {
-        main: '#4d577a',
+        main: '#FF5700',
       },
       secondary: {
-        main: '#9a8fb8',
+        main: '#b33d00',
       },
     },
   });
@@ -22,9 +23,7 @@ const App = () => {
   return (
     <ThemeProvider theme={customTheme}>
       <Paper className={classes.root} elevation={0}>
-        <Container disableGutters>
-          <h1>Readify</h1>
-        </Container>
+        <NavBar />
       </Paper>
     </ThemeProvider>
   );
