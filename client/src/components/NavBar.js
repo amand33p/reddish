@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AuthFormModal from './AuthFormModal';
 
 import {
   AppBar,
@@ -46,9 +47,7 @@ const NavBar = () => {
   const desktopMenu = () => {
     return (
       <>
-        <Button color="primary" className={classes.navButtons}>
-          Login/Register
-        </Button>
+        <AuthFormModal />
       </>
     );
   };
