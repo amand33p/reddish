@@ -7,7 +7,9 @@ const { SECRET } = require('../utils/config');
 router.post('/', async (req, res) => {
   const { username, password } = req.body;
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({
+    username: { $regex: new RegExp('^' + username + '$', 'i') },
+  });
 
   if (!user) {
     return res
@@ -27,7 +29,7 @@ router.post('/', async (req, res) => {
 
   const token = jwt.sign(payloadForToken, SECRET);
 
-  res.status(200).send({ token, username: user.username });
+  res.status(200).json({ token, username: user.username, id: user._id });
 });
 
 module.exports = router;

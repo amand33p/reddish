@@ -10,22 +10,18 @@ router.get('/', async (_req, res) => {
 
 router.get('/:subredditName', async (req, res) => {
   const { subredditName } = req.params;
-  const subreddit = await Subreddit.findOne({ subredditName }).populate(
-    'admin',
-    {
-      username: 1,
-    }
-  );
+
+  const subreddit = await Subreddit.findOne({
+    subredditName: { $regex: new RegExp('^' + subredditName + '$', 'i') },
+  }).populate('admin', 'username');
 
   if (!subreddit) {
-    return res
-      .status(404)
-      .send({
-        message: `Subreddit '${subredditName}' does not exist on server.`,
-      });
+    return res.status(404).send({
+      message: `Subreddit '${subredditName}' does not exist on server.`,
+    });
   }
 
-  res.json(subreddit);
+  res.status(200).json(subreddit);
 });
 
 router.post('/', auth, async (req, res) => {

@@ -15,7 +15,7 @@ router.get('/', async (_req, res) => {
   res.status(200).json(allPosts);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id/comments', async (req, res) => {
   const { id } = req.params;
 
   const post = await Post.findById(id);
@@ -27,13 +27,11 @@ router.get('/:id', async (req, res) => {
   }
 
   const populatedPost = await post
-    .populate('author', 'username')
-    .populate('subreddit', 'subredditName')
     .populate('comments.commentedBy', 'username')
     .populate('comments.replies.repliedBy', 'username')
     .execPopulate();
 
-  res.status(200).json(populatedPost);
+  res.status(200).json({ comments: populatedPost.comments });
 });
 
 router.post('/', auth, async (req, res) => {
@@ -103,12 +101,12 @@ router.post('/', auth, async (req, res) => {
   author.karmaPoints.postKarma = author.karmaPoints.postKarma + 1;
   await author.save();
 
-  const postToSend = await savedPost
+  const populatedPost = await savedPost
     .populate('author', 'username')
     .populate('subreddit', 'subredditName')
     .execPopulate();
 
-  res.status(201).json(postToSend);
+  res.status(201).json(populatedPost);
 });
 
 router.patch('/:id', auth, async (req, res) => {

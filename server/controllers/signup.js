@@ -20,12 +20,14 @@ router.post('/', async (req, res) => {
       .send({ message: 'Username character length must be in range of 3-20.' });
   }
 
-  const existingUser = await User.findOne({ username });
+  const existingUser = await User.findOne({
+    username: { $regex: new RegExp('^' + username + '$', 'i') },
+  });
 
   if (existingUser) {
-    return res
-      .status(400)
-      .send({ message: 'An account with this username already exists.' });
+    return res.status(400).send({
+      message: `Username '${username}' is already taken. Choose another one.`,
+    });
   }
 
   const saltRounds = 10;
@@ -44,9 +46,10 @@ router.post('/', async (req, res) => {
 
   const token = jwt.sign(payloadForToken, SECRET);
 
-  res.status(200).send({
+  res.status(200).json({
     token,
     username: savedUser.username,
+    id: savedUser._id,
   });
 });
 
