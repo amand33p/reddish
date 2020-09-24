@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../reducers/userReducer';
 import AuthFormModal from './AuthFormModal';
 
 import {
@@ -10,6 +12,7 @@ import {
   MenuItem,
   useMediaQuery,
   Link,
+  Button,
 } from '@material-ui/core';
 
 import { useNavStyles } from '../styles/muiStyles';
@@ -20,6 +23,9 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
@@ -35,6 +41,10 @@ const NavBar = () => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
+
   const mobileMenu = () => {
     return (
       <div>
@@ -44,10 +54,14 @@ const NavBar = () => {
   };
 
   const desktopMenu = () => {
-    return (
-      <>
+    return user ? (
+      <Button color="primary" onClick={handleLogout}>
+        Logout
+      </Button>
+    ) : (
+      <Button>
         <AuthFormModal />
-      </>
+      </Button>
     );
   };
 

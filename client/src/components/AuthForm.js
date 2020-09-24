@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { loginUser, signupUser } from '../reducers/userReducer';
 import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 import { TextInput } from './FormikMuiFields';
 
 import { Button, Typography, Divider } from '@material-ui/core';
@@ -9,17 +13,46 @@ import LockIcon from '@material-ui/icons/Lock';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
-const AuthForm = () => {
+const validationSchemaSignup = yup.object({
+  username: yup.string().required().max(20).min(3),
+  password: yup.string().required().min(6),
+});
+
+const validationSchemaLogin = yup.object({
+  username: yup.string().required(),
+  password: yup.string().required(),
+});
+
+const AuthForm = ({ closeModal }) => {
   const [authType, setAuthType] = useState('login');
 
+  const dispatch = useDispatch();
   const classes = useAuthStyles(authType)();
 
-  const handleLogin = (data) => {
-    console.log(data);
+  const handleLogin = async (data, { setSubmitting, resetForm }) => {
+    try {
+      setSubmitting(true);
+      await dispatch(loginUser(data));
+      setSubmitting(false);
+      resetForm();
+      closeModal();
+    } catch (err) {
+      setSubmitting(false);
+      console.log(err.message);
+    }
   };
 
-  const handleSignup = (data) => {
-    console.log(data);
+  const handleSignup = async (data, { setSubmitting, resetForm }) => {
+    try {
+      setSubmitting(true);
+      await dispatch(signupUser(data));
+      setSubmitting(false);
+      resetForm();
+      closeModal();
+    } catch (err) {
+      setSubmitting(false);
+      console.log(err.message);
+    }
   };
 
   return (
@@ -28,52 +61,64 @@ const AuthForm = () => {
         validateOnChange={true}
         initialValues={{ username: '', password: '' }}
         onSubmit={authType === 'login' ? handleLogin : handleSignup}
+        validationSchema={
+          authType === 'login' ? validationSchemaLogin : validationSchemaSignup
+        }
       >
-        <Form className={classes.form}>
-          <Typography
-            variant="h4"
-            color="secondary"
-            className={classes.formTitle}
-          >
-            {authType === 'login'
-              ? 'Login to your account'
-              : 'Create a new account'}
-          </Typography>
-          <div className={classes.input}>
-            <PersonIcon className={classes.inputIcon} color="secondary" />
-            <TextInput
-              name="username"
-              type="text"
-              placeholder="Enter username"
-              label="Username"
-              required
-              fullWidth
-            />
-          </div>
-          <div className={classes.input}>
-            <LockIcon className={classes.inputIcon} color="secondary" />
-            <TextInput
-              name="password"
-              type="password"
-              placeholder="Enter password"
-              label="Password"
-              required
-              fullWidth
-            />
-          </div>
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            size="large"
-            startIcon={
-              authType === 'login' ? <ExitToAppIcon /> : <PersonAddIcon />
-            }
-            className={classes.submitButton}
-          >
-            {authType === 'login' ? 'Login' : 'Sign Up'}
-          </Button>
-        </Form>
+        {({ isSubmitting }) => (
+          <Form className={classes.form}>
+            <Typography
+              variant="h4"
+              color="secondary"
+              className={classes.formTitle}
+            >
+              {authType === 'login'
+                ? 'Login to your account'
+                : 'Create a new account'}
+            </Typography>
+            <div className={classes.input}>
+              <PersonIcon className={classes.inputIcon} color="secondary" />
+              <TextInput
+                name="username"
+                type="text"
+                placeholder="Enter username"
+                label="Username"
+                required
+                fullWidth
+              />
+            </div>
+            <div className={classes.input}>
+              <LockIcon className={classes.inputIcon} color="secondary" />
+              <TextInput
+                name="password"
+                type="password"
+                placeholder="Enter password"
+                label="Password"
+                required
+                fullWidth
+              />
+            </div>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              size="large"
+              startIcon={
+                authType === 'login' ? <ExitToAppIcon /> : <PersonAddIcon />
+              }
+              className={classes.submitButton}
+              disabled={isSubmitting}
+            >
+              {authType === 'login'
+                ? isSubmitting
+                  ? 'Logging In'
+                  : 'Login'
+                : isSubmitting
+                ? 'Signing Up'
+                : 'Sign Up'}
+            </Button>
+          </Form>
+        )}
       </Formik>
       <Divider orientation="vertical" variant="middle" flexItem />
       <div className={classes.sidePanel}>
@@ -99,6 +144,10 @@ const AuthForm = () => {
       </div>
     </div>
   );
+};
+
+AuthForm.propTypes = {
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default AuthForm;

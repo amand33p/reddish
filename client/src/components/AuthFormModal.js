@@ -70,7 +70,7 @@ const AuthFormModal = () => {
       <Dialog open={open} onClose={handleClose} maxWidth="md">
         <DialogTitle onClose={handleClose}></DialogTitle>
         <DialogContent>
-          <AuthForm />
+          <AuthForm closeModal={handleClose} />
         </DialogContent>
       </Dialog>
     </div>
