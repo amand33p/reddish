@@ -31,7 +31,7 @@ const AuthForm = () => {
       >
         <Form className={classes.form}>
           <Typography
-            variant="h5"
+            variant="h4"
             color="secondary"
             className={classes.formTitle}
           >
