@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../reducers/userReducer';
 import AuthFormModal from './AuthFormModal';
+import storageService from '../utils/localStorage';
 
 import {
   AppBar,
@@ -33,6 +34,8 @@ const NavBar = () => {
 
   const open = Boolean(anchorEl);
 
+  const userLoggedIn = storageService.loadUser() || user;
+
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -54,14 +57,19 @@ const NavBar = () => {
   };
 
   const desktopMenu = () => {
-    return user ? (
-      <Button color="primary" onClick={handleLogout}>
-        Logout
-      </Button>
+    return userLoggedIn ? (
+      <>
+        <Typography color="primary">
+          Welcome, {user && user.username}
+        </Typography>
+        <Button color="primary" onClick={handleLogout}>
+          Logout
+        </Button>
+      </>
     ) : (
-      <Button>
+      <>
         <AuthFormModal />
-      </Button>
+      </>
     );
   };
 

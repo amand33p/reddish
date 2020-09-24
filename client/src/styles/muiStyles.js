@@ -48,7 +48,7 @@ export const useNavStyles = makeStyles((theme) => ({
 }));
 
 export const useAuthStyles = (authType) =>
-  makeStyles(() => ({
+  makeStyles((theme) => ({
     authWrapper: {
       display: 'flex',
       flexDirection: authType === 'login' ? 'row' : 'row-reverse',
@@ -62,9 +62,9 @@ export const useAuthStyles = (authType) =>
       paddingBottom: 20,
     },
     formTitle: { textAlign: 'center' },
-    switchText: { textAlign: 'center' },
+    switchText: { textAlign: 'center', marginBottom: '1.2em' },
     submitButton: {
-      marginTop: '1em',
+      marginTop: '1.8em',
     },
     input: {
       display: 'flex',
@@ -77,4 +77,14 @@ export const useAuthStyles = (authType) =>
       padding: 20,
       margin: 'auto 0',
     },
+    divider: {
+      marginLeft: 40,
+      marginRight: 40,
+    },
   }));
+
+export const useDialogStyles = makeStyles((theme) => ({
+  dialogWrapper: {
+    padding: theme.spacing(2),
+  },
+}));

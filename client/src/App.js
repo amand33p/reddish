@@ -23,7 +23,7 @@ const App = () => {
         main: '#FF5700',
       },
       secondary: {
-        main: '#b33d00',
+        main: '#941a1c',
       },
     },
   });

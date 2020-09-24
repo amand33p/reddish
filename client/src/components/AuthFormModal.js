@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 
+import { useDialogStyles } from '../styles/muiStyles';
 import { withStyles } from '@material-ui/core/styles';
 import { useNavStyles } from '../styles/muiStyles';
 import CloseIcon from '@material-ui/icons/Close';
@@ -48,7 +49,8 @@ const DialogTitle = withStyles(styles)((props) => {
 const AuthFormModal = () => {
   const [open, setOpen] = useState(false);
 
-  const classes = useNavStyles();
+  const classes = useDialogStyles();
+  const classesBtn = useNavStyles();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -63,11 +65,16 @@ const AuthFormModal = () => {
       <Button
         color="primary"
         onClick={handleClickOpen}
-        className={classes.navButtons}
+        className={classesBtn.navButtons}
       >
         Login/Register
       </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth="md">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="md"
+        classes={{ paper: classes.dialogWrapper }}
+      >
         <DialogTitle onClose={handleClose}></DialogTitle>
         <DialogContent>
           <AuthForm closeModal={handleClose} />
