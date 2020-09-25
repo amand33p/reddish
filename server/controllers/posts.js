@@ -12,7 +12,6 @@ router.get('/new', async (req, res) => {
   const limit = Number(req.query.limit);
 
   const postsCount = await Post.countDocuments();
-
   const paginated = paginateResults(page, limit, postsCount);
 
   const allPosts = await Post.find({})
