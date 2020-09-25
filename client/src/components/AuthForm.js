@@ -23,13 +23,20 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const validationSchemaSignup = yup.object({
-  username: yup.string().required().max(20).min(3),
-  password: yup.string().required().min(6),
+  username: yup
+    .string()
+    .required('Required')
+    .max(20, 'Must be at most 20 characters')
+    .min(3, 'Must be at least 3 characters'),
+  password: yup
+    .string()
+    .required('Required')
+    .min(6, 'Must be at least 6 characters'),
 });
 
 const validationSchemaLogin = yup.object({
-  username: yup.string().required(),
-  password: yup.string().required(),
+  username: yup.string().required('Required'),
+  password: yup.string().required('Required'),
 });
 
 const AuthForm = ({ closeModal }) => {
@@ -59,10 +66,17 @@ const AuthForm = ({ closeModal }) => {
   const handleSignup = async (data, { setSubmitting, resetForm }) => {
     try {
       setSubmitting(true);
-      await dispatch(signupUser(data));
+      const user = await dispatch(signupUser(data));
       setSubmitting(false);
+
       resetForm();
       closeModal();
+      dispatch(
+        notify(
+          `Welcome, ${user.username}. You've been successfully registered.`,
+          'success'
+        )
+      );
     } catch (err) {
       setSubmitting(false);
       console.log(err.message);

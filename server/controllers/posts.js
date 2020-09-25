@@ -10,7 +10,7 @@ router.get('/', async (_req, res) => {
   const allPosts = await Post.find({})
     .populate('author', 'username')
     .populate('subreddit', 'subredditName')
-    .select('-comments');
+    .select('-comments -textSubmission');
 
   res.status(200).json(allPosts);
 });
@@ -31,7 +31,7 @@ router.get('/:id/comments', async (req, res) => {
     .populate('comments.replies.repliedBy', 'username')
     .execPopulate();
 
-  res.status(200).json({ comments: populatedPost.comments });
+  res.status(200).json(populatedPost);
 });
 
 router.post('/', auth, async (req, res) => {
