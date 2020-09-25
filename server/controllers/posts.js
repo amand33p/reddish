@@ -5,14 +5,31 @@ const User = require('../models/user');
 const postTypeValidator = require('../utils/postTypeValidator');
 const { auth } = require('../utils/middleware');
 const { cloudinary } = require('../utils/config');
+const paginateResults = require('../utils/paginateResults');
 
-router.get('/', async (_req, res) => {
+router.get('/new', async (req, res) => {
+  const page = Number(req.query.page);
+  const limit = Number(req.query.limit);
+
+  const postsCount = await Post.countDocuments();
+
+  const paginated = paginateResults(page, limit, postsCount);
+
   const allPosts = await Post.find({})
+    .sort({ createdAt: -1 })
+    .select('-comments -textSubmission')
+    .limit(limit)
+    .skip(paginated.startIndex)
     .populate('author', 'username')
-    .populate('subreddit', 'subredditName')
-    .select('-comments -textSubmission');
+    .populate('subreddit', 'subredditName');
 
-  res.status(200).json(allPosts);
+  const paginatedPosts = {
+    previous: paginated.results.previous,
+    results: allPosts,
+    next: paginated.results.next,
+  };
+
+  res.status(200).json(paginatedPosts);
 });
 
 router.get('/:id/comments', async (req, res) => {
