@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './reducers/userReducer';
+import { initPosts } from './reducers/postReducer';
 import { clearNotif } from './reducers/notificationReducer';
 import NavBar from './components/NavBar';
 import ToastNotif from './components/ToastNotif';
+import PostsList from './components/PostsList';
 
 import { Paper } from '@material-ui/core/';
 import customTheme from './styles/customTheme';
@@ -16,6 +18,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(setUser());
+    dispatch(initPosts());
   }, []);
 
   const classes = useMainPaperStyles();
@@ -32,6 +35,7 @@ const App = () => {
           />
         )}
         <NavBar />
+        <PostsList />
       </Paper>
     </ThemeProvider>
   );

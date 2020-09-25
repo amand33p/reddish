@@ -11,9 +11,6 @@ export const useMainPaperStyles = makeStyles(() => ({
 }));
 
 export const useNavStyles = makeStyles((theme) => ({
-  main: {
-    flexGrow: 1,
-  },
   topLeftButton: {
     flexGrow: 1,
   },

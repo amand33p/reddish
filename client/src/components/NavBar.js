@@ -73,7 +73,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className={classes.main}>
+    <div>
       <AppBar position="static" color="inherit">
         <Toolbar>
           <div className={classes.topLeftButton}>
