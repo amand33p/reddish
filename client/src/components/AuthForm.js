@@ -5,13 +5,22 @@ import { loginUser, signupUser } from '../reducers/userReducer';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { TextInput } from './FormikMuiFields';
+import { notify } from '../reducers/notificationReducer';
 
-import { Button, Typography, Divider } from '@material-ui/core';
+import {
+  Button,
+  Typography,
+  Divider,
+  InputAdornment,
+  IconButton,
+} from '@material-ui/core';
 import { useAuthStyles } from '../styles/muiStyles';
 import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const validationSchemaSignup = yup.object({
   username: yup.string().required().max(20).min(3),
@@ -25,6 +34,7 @@ const validationSchemaLogin = yup.object({
 
 const AuthForm = ({ closeModal }) => {
   const [authType, setAuthType] = useState('login');
+  const [showPass, setShowPass] = useState(false);
 
   const dispatch = useDispatch();
   const classes = useAuthStyles(authType)();
@@ -32,10 +42,14 @@ const AuthForm = ({ closeModal }) => {
   const handleLogin = async (data, { setSubmitting, resetForm }) => {
     try {
       setSubmitting(true);
-      await dispatch(loginUser(data));
+      const user = await dispatch(loginUser(data));
       setSubmitting(false);
+
       resetForm();
       closeModal();
+      dispatch(
+        notify(`Welcome, ${user.username}. You're logged in!`, 'success')
+      );
     } catch (err) {
       setSubmitting(false);
       console.log(err.message);
@@ -70,7 +84,7 @@ const AuthForm = ({ closeModal }) => {
             <Form className={classes.form}>
               <Typography
                 variant="h4"
-                color="primary"
+                color="secondary"
                 className={classes.formTitle}
               >
                 {authType === 'login'
@@ -92,11 +106,24 @@ const AuthForm = ({ closeModal }) => {
                 <LockIcon className={classes.inputIcon} color="primary" />
                 <TextInput
                   name="password"
-                  type="password"
+                  type={showPass ? 'text' : 'password'}
                   placeholder="Enter password"
                   label="Password"
                   required
                   fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={() => setShowPass(!showPass)}>
+                          {showPass ? (
+                            <VisibilityOffIcon color="primary" />
+                          ) : (
+                            <VisibilityIcon color="primary" />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </div>
               <Button
@@ -142,7 +169,7 @@ const AuthForm = ({ closeModal }) => {
                 }
                 fullWidth
                 size="large"
-                color="secondary"
+                color="primary"
                 variant="outlined"
                 startIcon={
                   authType === 'login' ? <PersonAddIcon /> : <ExitToAppIcon />

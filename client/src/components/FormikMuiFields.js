@@ -9,6 +9,7 @@ export const TextInput = ({
   type,
   required,
   fullWidth,
+  InputProps,
   ...props
 }) => {
   const [field, meta] = useField(props);
@@ -19,6 +20,7 @@ export const TextInput = ({
       placeholder={placeholder}
       label={label}
       type={type}
+      InputProps={InputProps}
       required
       fullWidth
       {...field}

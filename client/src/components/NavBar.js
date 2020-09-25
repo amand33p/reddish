@@ -10,10 +10,9 @@ import {
   Typography,
   IconButton,
   Menu,
-  MenuItem,
-  useMediaQuery,
   Link,
   Button,
+  useMediaQuery,
 } from '@material-ui/core';
 
 import { useNavStyles } from '../styles/muiStyles';
@@ -51,7 +50,7 @@ const NavBar = () => {
   const mobileMenu = () => {
     return (
       <div>
-        <MenuItem onClick={() => handleClose()}>Login/Register</MenuItem>
+        <AuthFormModal closeMobileMenu={handleClose} />
       </div>
     );
   };

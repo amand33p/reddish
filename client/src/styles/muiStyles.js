@@ -52,6 +52,10 @@ export const useAuthStyles = (authType) =>
     authWrapper: {
       display: 'flex',
       flexDirection: authType === 'login' ? 'row' : 'row-reverse',
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: 'column',
+        marginTop: 10,
+      },
     },
     form: {
       display: 'flex',
@@ -60,9 +64,24 @@ export const useAuthStyles = (authType) =>
       paddingLeft: 20,
       paddingRight: 20,
       paddingBottom: 20,
+      [theme.breakpoints.down('xs')]: {
+        padding: '0 0 0 0',
+      },
     },
-    formTitle: { textAlign: 'center' },
-    switchText: { textAlign: 'center', marginBottom: '1.2em' },
+    formTitle: {
+      textAlign: 'center',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '1.5em',
+      },
+    },
+    switchText: {
+      textAlign: 'center',
+      marginBottom: '1.2em',
+      [theme.breakpoints.down('xs')]: {
+        marginBottom: 0,
+        fontSize: '1em',
+      },
+    },
     submitButton: {
       marginTop: '1.8em',
     },
@@ -86,5 +105,18 @@ export const useAuthStyles = (authType) =>
 export const useDialogStyles = makeStyles((theme) => ({
   dialogWrapper: {
     padding: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      padding: 0,
+    },
+  },
+}));
+
+export const useAlertStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+    marginTop: 10,
   },
 }));
