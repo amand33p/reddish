@@ -27,7 +27,12 @@ const validationSchemaSignup = yup.object({
     .string()
     .required('Required')
     .max(20, 'Must be at most 20 characters')
-    .min(3, 'Must be at least 3 characters'),
+    .min(3, 'Must be at least 3 characters')
+    .matches(
+      /^[a-zA-Z0-9]*$/,
+      'Only alphanumeric characters allowed, no spaces/symbols'
+    ),
+
   password: yup
     .string()
     .required('Required')
