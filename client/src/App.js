@@ -7,7 +7,7 @@ import NavBar from './components/NavBar';
 import ToastNotif from './components/ToastNotif';
 import PostsList from './components/PostsList';
 
-import { Paper } from '@material-ui/core/';
+import { Paper, Container } from '@material-ui/core/';
 import customTheme from './styles/customTheme';
 import { useMainPaperStyles } from './styles/muiStyles';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     dispatch(setUser());
     dispatch(initPosts());
-  }, []);
+  }, [dispatch]);
 
   const classes = useMainPaperStyles();
 
@@ -35,7 +35,9 @@ const App = () => {
           />
         )}
         <NavBar />
-        <PostsList />
+        <Container disableGutters maxWidth="lg" className={classes.container}>
+          <PostsList />
+        </Container>
       </Paper>
     </ThemeProvider>
   );

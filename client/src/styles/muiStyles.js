@@ -8,6 +8,10 @@ export const useMainPaperStyles = makeStyles(() => ({
     flex: 1,
     minHeight: '100vH',
   },
+  container: {
+    minWidth: '98%',
+    marginTop: '1em',
+  },
 }));
 
 export const useNavStyles = makeStyles((theme) => ({
@@ -117,3 +121,43 @@ export const useAlertStyles = makeStyles((theme) => ({
     marginTop: 10,
   },
 }));
+
+export const usePostsListStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+  },
+}));
+
+export const useCardStyles = (isUpvoted, isDownvoted) => {
+  return makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      width: 'auto',
+    },
+    votesWrapper: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: 30,
+      alignItems: 'center',
+      backgroundColor: '#f2f2f2',
+    },
+    points: {
+      color: isUpvoted ? '#FF8b60' : isDownvoted ? '#9494FF' : '#333',
+      fontWeight: 600,
+    },
+    thumbnailWrapper: {
+      alignSelf: 'center',
+      marginLeft: 5,
+    },
+    thumbnail: {
+      fontSize: '2em',
+      width: 70,
+      height: 90,
+      textAlign: 'center',
+      backgroundColor: '#f2f2f2',
+    },
+    thumbnailIcon: {
+      marginTop: 30,
+    },
+  }));
+};

@@ -20,4 +20,22 @@ const getNewPosts = async () => {
   return response.data;
 };
 
-export default { setToken, getNewPosts };
+const upvote = async (id) => {
+  const response = await axios.post(
+    `${baseUrl}/${id}/upvote`,
+    null,
+    setConfig()
+  );
+  return response.data;
+};
+
+const downvote = async (id) => {
+  const response = await axios.post(
+    `${baseUrl}/${id}/downvote`,
+    null,
+    setConfig()
+  );
+  return response.data;
+};
+
+export default { setToken, getNewPosts, upvote, downvote };

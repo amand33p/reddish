@@ -17,6 +17,8 @@ import { useDialogStyles } from '../styles/muiStyles';
 import { withStyles, useTheme } from '@material-ui/core/styles';
 import { useNavStyles } from '../styles/muiStyles';
 import CloseIcon from '@material-ui/icons/Close';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 const styles = (theme) => ({
   root: {
@@ -49,7 +51,7 @@ const DialogTitle = withStyles(styles)((props) => {
   );
 });
 
-const AuthFormModal = ({ closeMobileMenu }) => {
+const AuthFormModal = ({ closeMobileMenu, type }) => {
   const [open, setOpen] = useState(false);
 
   const classes = useDialogStyles();
@@ -72,7 +74,15 @@ const AuthFormModal = ({ closeMobileMenu }) => {
 
   return (
     <div>
-      {isMobile ? (
+      {type === 'upvote' ? (
+        <IconButton onClick={handleClickOpen} fontSize={isMobile && 'small'}>
+          <ArrowUpwardIcon style={{ color: '#b2b2b2' }} />
+        </IconButton>
+      ) : type === 'downvote' ? (
+        <IconButton onClick={handleClickOpen} fontSize={isMobile && 'small'}>
+          <ArrowDownwardIcon style={{ color: '#b2b2b2' }} />
+        </IconButton>
+      ) : isMobile ? (
         <MenuItem onClick={handleMobileMenu}>Login/Register</MenuItem>
       ) : (
         <Button
@@ -99,7 +109,7 @@ const AuthFormModal = ({ closeMobileMenu }) => {
 };
 
 AuthFormModal.propTypes = {
-  closeMobileMenu: PropTypes.func.isRequired,
+  closeMobileMenu: PropTypes.func,
 };
 
 export default AuthFormModal;
