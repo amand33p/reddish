@@ -1,14 +1,28 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 import { toggleUpvote, toggleDownvote } from '../reducers/postReducer';
 import AuthFormModal from './AuthFormModal';
+import getEditedThumbail from '../utils/getEditedThumbnail';
+import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
+import ReactTimeAgo from 'react-time-ago';
 
-import { Paper, Checkbox, Typography, useMediaQuery } from '@material-ui/core';
+import {
+  Paper,
+  Checkbox,
+  Typography,
+  useMediaQuery,
+  CardMedia,
+  Tooltip,
+  Link,
+} from '@material-ui/core';
 import { useCardStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MessageIcon from '@material-ui/icons/Message';
+import LinkIcon from '@material-ui/icons/Link';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 const PostCard = ({ post }) => {
   const {
@@ -69,6 +83,14 @@ const PostCard = ({ post }) => {
     }
   };
 
+  const linkToShow =
+    postType === 'Link'
+      ? linkSubmission
+      : postType === 'Image'
+      ? imageSubmission.imageLink
+      : '';
+  const formattedLink = trimLink(prettifyLink(linkToShow));
+
   return (
     <Paper className={classes.root} variant="outlined">
       <div className={classes.votesWrapper}>
@@ -107,7 +129,66 @@ const PostCard = ({ post }) => {
               style={{ color: '#787878' }}
             />
           </Paper>
-        ) : null}
+        ) : postType === 'Link' ? (
+          <a href={fixUrl(linkSubmission)} target="_noblank">
+            <Paper elevation={0} square className={classes.thumbnail}>
+              <LinkIcon
+                fontSize="inherit"
+                className={classes.thumbnailIcon}
+                style={{ color: '#787878' }}
+              />
+            </Paper>
+          </a>
+        ) : (
+          <Paper elevation={0} square className={classes.thumbnail}>
+            <CardMedia
+              className={classes.thumbnail}
+              image={getEditedThumbail(imageSubmission.imageLink)}
+              title={title}
+              component="a"
+              href={imageSubmission.imageLink}
+              target="_noblank"
+            />
+          </Paper>
+        )}
+      </div>
+      <div className={classes.postInfoWrapper}>
+        <Typography variant="h6">
+          {title}{' '}
+          <Typography variant="caption" color="primary" className={classes.url}>
+            <Link
+              href={
+                postType === 'Link'
+                  ? fixUrl(linkSubmission)
+                  : postType === 'Image'
+                  ? imageSubmission.imageLink
+                  : ''
+              }
+            >
+              {formattedLink}
+              {postType === 'Text' ? null : (
+                <OpenInNewIcon fontSize="inherit" />
+              )}
+            </Link>
+          </Typography>
+        </Typography>
+        <Typography variant="subtitle2">
+          <Link component={RouterLink} to={`/r/${subreddit.subredditName}`}>
+            r/{subreddit.subredditName}
+          </Link>
+          <Typography variant="caption" className={classes.userAndDate}>
+            Posted by{' '}
+            <Link component={RouterLink} to={`/r/${subreddit.subredditName}`}>
+              u/{author.username}
+            </Link>{' '}
+            •{' '}
+            <Tooltip title={String(new Date(createdAt))}>
+              <span>
+                <ReactTimeAgo date={createdAt} />
+              </span>
+            </Tooltip>
+          </Typography>
+        </Typography>
       </div>
     </Paper>
   );

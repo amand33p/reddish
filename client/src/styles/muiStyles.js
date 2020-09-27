@@ -155,9 +155,20 @@ export const useCardStyles = (isUpvoted, isDownvoted) => {
       height: 90,
       textAlign: 'center',
       backgroundColor: '#f2f2f2',
+      borderRadius: 8,
     },
     thumbnailIcon: {
       marginTop: 30,
+    },
+    postInfoWrapper: {
+      paddingTop: 8,
+      paddingLeft: 8,
+    },
+    url: {
+      marginLeft: '1.5em',
+    },
+    userAndDate: {
+      marginLeft: 10,
     },
   }));
 };
