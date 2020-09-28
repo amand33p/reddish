@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import AddPostForm from './AddPostForm';
 import HideOnScroll from './HideOnScroll';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
 
@@ -9,6 +10,7 @@ import {
   DialogContent,
   Button,
   Fab,
+  IconButton,
   Paper,
   Avatar,
   useMediaQuery,
@@ -16,10 +18,14 @@ import {
 import { useDialogStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
 import PostAddIcon from '@material-ui/icons/PostAdd';
+import ImageIcon from '@material-ui/icons/Image';
+import LinkIcon from '@material-ui/icons/Link';
 
 const AddPostModal = () => {
   const [open, setOpen] = useState(false);
+  const [postType, setPostType] = useState('Text');
   const user = useSelector((state) => state.user);
+
   const classes = useDialogStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
@@ -30,6 +36,16 @@ const AddPostModal = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleImagePost = () => {
+    setPostType('Image');
+    handleClickOpen();
+  };
+
+  const handleLinkPost = () => {
+    setPostType('Link');
+    handleClickOpen();
   };
 
   return (
@@ -64,9 +80,18 @@ const AddPostModal = () => {
               fullWidth
               className={classes.createBtn}
               startIcon={<PostAddIcon />}
+              size="large"
             >
               Create Post
             </Button>
+            <div className={classes.iconGroup}>
+              <IconButton onClick={handleImagePost}>
+                <ImageIcon color="primary" />
+              </IconButton>
+              <IconButton onClick={handleLinkPost}>
+                <LinkIcon color="primary" />
+              </IconButton>
+            </div>
           </Paper>
         ))}
       <Dialog
@@ -76,7 +101,9 @@ const AddPostModal = () => {
         classes={{ paper: classes.dialogWrapper }}
       >
         <DialogTitle onClose={handleClose}></DialogTitle>
-        <DialogContent>Form here</DialogContent>
+        <DialogContent>
+          <AddPostForm postType={postType} />
+        </DialogContent>
       </Dialog>
     </div>
   );

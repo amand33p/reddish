@@ -117,6 +117,7 @@ export const useDialogStyles = makeStyles((theme) => ({
     borderRadius: 0,
     marginBottom: 10,
     padding: 6,
+    alignItems: 'center',
   },
   createBtn: {
     marginLeft: 8,
@@ -128,6 +129,9 @@ export const useDialogStyles = makeStyles((theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
     zIndex: 1000,
+  },
+  iconGroup: {
+    display: 'flex',
   },
 }));
 
@@ -208,3 +212,40 @@ export const useCardStyles = (isUpvoted, isDownvoted) => {
     },
   }));
 };
+
+export const usePostFormStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      marginTop: 10,
+    },
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 20,
+    [theme.breakpoints.down('xs')]: {
+      padding: '0 0 0 0',
+    },
+  },
+  formTitle: {
+    textAlign: 'center',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '1.5em',
+    },
+  },
+  submitButton: {
+    marginTop: '1.8em',
+  },
+  input: {
+    display: 'flex',
+    alignItems: 'flex-end',
+  },
+  inputIcon: {
+    marginRight: 8,
+  },
+}));
