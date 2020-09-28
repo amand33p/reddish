@@ -4,8 +4,8 @@ const User = require('../models/user');
 const { auth } = require('../utils/middleware');
 
 router.get('/', async (_req, res) => {
-  const allSubreddits = await Subreddit.find({});
-  res.json(allSubreddits);
+  const allSubreddits = await Subreddit.find({}).select('id subredditName');
+  res.status(200).json(allSubreddits);
 });
 
 router.get('/:subredditName', async (req, res) => {

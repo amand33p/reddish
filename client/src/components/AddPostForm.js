@@ -3,8 +3,11 @@ import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
 
 import { usePostFormStyles } from '../styles/muiStyles';
-import { Typography, Button, ButtonGroup } from '@material-ui/core';
+import { Button, ButtonGroup } from '@material-ui/core';
 import TitleIcon from '@material-ui/icons/Title';
+import TextFormatIcon from '@material-ui/icons/TextFormat';
+import ImageIcon from '@material-ui/icons/Image';
+import LinkIcon from '@material-ui/icons/Link';
 
 const AddPostForm = ({ postType }) => {
   const classes = usePostFormStyles();
@@ -28,34 +31,34 @@ const AddPostForm = ({ postType }) => {
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <Form className={classes.form}>
-            <div>
-              <ButtonGroup color="secondary" fullWidth>
-                <Button
-                  onClick={() => setFieldValue('postType', 'Text')}
-                  variant={
-                    values.postType === 'Text' ? 'contained' : 'outlined'
-                  }
-                >
-                  Text
-                </Button>
-                <Button
-                  onClick={() => setFieldValue('postType', 'Image')}
-                  variant={
-                    values.postType === 'Image' ? 'contained' : 'outlined'
-                  }
-                >
-                  Image
-                </Button>
-                <Button
-                  onClick={() => setFieldValue('postType', 'Link')}
-                  variant={
-                    values.postType === 'Link' ? 'contained' : 'outlined'
-                  }
-                >
-                  Link
-                </Button>
-              </ButtonGroup>
-            </div>
+            <ButtonGroup
+              color="secondary"
+              fullWidth
+              className={classes.typeBtnGroup}
+            >
+              <Button
+                onClick={() => setFieldValue('postType', 'Text')}
+                variant={values.postType === 'Text' ? 'contained' : 'outlined'}
+              >
+                <TextFormatIcon style={{ marginRight: 5 }} />
+                Text
+              </Button>
+              <Button
+                onClick={() => setFieldValue('postType', 'Image')}
+                variant={values.postType === 'Image' ? 'contained' : 'outlined'}
+              >
+                <ImageIcon style={{ marginRight: 5 }} />
+                Image
+              </Button>
+              <Button
+                onClick={() => setFieldValue('postType', 'Link')}
+                variant={values.postType === 'Link' ? 'contained' : 'outlined'}
+              >
+                <LinkIcon style={{ marginRight: 5 }} />
+                Link
+              </Button>
+            </ButtonGroup>
+
             <div className={classes.input}>
               <TitleIcon className={classes.inputIcon} color="primary" />
               <TextInput

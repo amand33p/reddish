@@ -248,4 +248,7 @@ export const usePostFormStyles = makeStyles((theme) => ({
   inputIcon: {
     marginRight: 8,
   },
+  typeBtnGroup: {
+    marginBottom: 5,
+  },
 }));
