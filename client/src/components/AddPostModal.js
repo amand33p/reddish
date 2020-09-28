@@ -4,16 +4,16 @@ import AddPostForm from './AddPostForm';
 import HideOnScroll from './HideOnScroll';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
 
-import DialogTitle from './CustomDialogTitle';
+import { DialogTitle, DialogContent } from './CustomDialogTitle';
 import {
   Dialog,
-  DialogContent,
   Button,
   Fab,
   IconButton,
   Paper,
   Avatar,
   useMediaQuery,
+  Typography,
 } from '@material-ui/core';
 import { useDialogStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
@@ -100,7 +100,11 @@ const AddPostModal = () => {
         maxWidth="md"
         classes={{ paper: classes.dialogWrapper }}
       >
-        <DialogTitle onClose={handleClose}></DialogTitle>
+        <DialogTitle onClose={handleClose}>
+          <Typography color="primary" variant="h6">
+            Add New Post
+          </Typography>
+        </DialogTitle>
         <DialogContent>
           <AddPostForm postType={postType} />
         </DialogContent>

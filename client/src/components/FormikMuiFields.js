@@ -1,7 +1,7 @@
 import React from 'react';
 import { useField } from 'formik';
 
-import { TextField } from '@material-ui/core';
+import { TextField, FormControlLabel, Radio, Button } from '@material-ui/core';
 
 export const TextInput = ({
   placeholder,
@@ -28,4 +28,9 @@ export const TextInput = ({
       error={!!errorText}
     />
   );
+};
+
+export const RadioInput = ({ label, ...props }) => {
+  const [field] = useField(props);
+  return <FormControlLabel {...field} control={<Radio />} label={label} />;
 };

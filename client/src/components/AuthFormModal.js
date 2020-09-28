@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AuthForm from './AuthForm';
 
-import DialogTitle from './CustomDialogTitle';
+import { DialogTitle } from './CustomDialogTitle';
 import {
   Dialog,
   DialogContent,

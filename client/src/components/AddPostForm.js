@@ -3,40 +3,65 @@ import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
 
 import { usePostFormStyles } from '../styles/muiStyles';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, ButtonGroup } from '@material-ui/core';
 import TitleIcon from '@material-ui/icons/Title';
 
 const AddPostForm = ({ postType }) => {
   const classes = usePostFormStyles();
 
-  const handleAddPost = (data, { setSubmitting, resetForm }) => {};
+  const handleAddPost = (data, { setSubmitting, resetForm }) => {
+    console.log(data);
+  };
 
   return (
     <div className={classes.root}>
       <Formik
         initialValues={{
           title: '',
+          postType: postType,
           textSubmission: '',
           linkSubmission: '',
           imageSubmission: '',
+          subreddit: '',
         }}
         onSubmit={handleAddPost}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values, setFieldValue }) => (
           <Form className={classes.form}>
-            <Typography
-              variant="h4"
-              color="secondary"
-              className={classes.formTitle}
-            >
-              Add new post
-            </Typography>
+            <div>
+              <ButtonGroup color="secondary" fullWidth>
+                <Button
+                  onClick={() => setFieldValue('postType', 'Text')}
+                  variant={
+                    values.postType === 'Text' ? 'contained' : 'outlined'
+                  }
+                >
+                  Text
+                </Button>
+                <Button
+                  onClick={() => setFieldValue('postType', 'Image')}
+                  variant={
+                    values.postType === 'Image' ? 'contained' : 'outlined'
+                  }
+                >
+                  Image
+                </Button>
+                <Button
+                  onClick={() => setFieldValue('postType', 'Link')}
+                  variant={
+                    values.postType === 'Link' ? 'contained' : 'outlined'
+                  }
+                >
+                  Link
+                </Button>
+              </ButtonGroup>
+            </div>
             <div className={classes.input}>
               <TitleIcon className={classes.inputIcon} color="primary" />
               <TextInput
                 name="title"
                 type="text"
-                placeholder="Enter title for your post"
+                placeholder="Enter title"
                 label="Title"
                 required
                 fullWidth
@@ -53,6 +78,7 @@ const AddPostForm = ({ postType }) => {
             >
               Submit
             </Button>
+            {JSON.stringify(values, null, 2)}
           </Form>
         )}
       </Formik>
