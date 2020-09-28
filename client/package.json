@@ -22,6 +22,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "typeface-varela-round": "0.0.71",
     "yup": "^0.29.3"
   },
   "scripts": {
@@ -45,9 +46,6 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "eslint": "^7.9.0",
-    "eslint-plugin-react": "^7.21.1"
-  },
+  "devDependencies": {},
   "proxy": "http://localhost:3005"
 }

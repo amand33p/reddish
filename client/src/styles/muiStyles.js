@@ -29,6 +29,7 @@ export const useNavStyles = makeStyles((theme) => ({
   logo: {
     display: 'flex',
     alignItems: 'center',
+    fontFamily: 'Varela Round',
   },
   logoIcon: {
     marginRight: 5,
@@ -133,6 +134,7 @@ export const useCardStyles = (isUpvoted, isDownvoted) => {
     root: {
       display: 'flex',
       width: 'auto',
+      borderRadius: 0,
     },
     votesWrapper: {
       display: 'flex',
@@ -156,6 +158,10 @@ export const useCardStyles = (isUpvoted, isDownvoted) => {
       textAlign: 'center',
       backgroundColor: '#f2f2f2',
       borderRadius: 8,
+      [theme.breakpoints.down('xs')]: {
+        width: 60,
+        height: 80,
+      },
     },
     thumbnailIcon: {
       marginTop: 30,
@@ -164,11 +170,23 @@ export const useCardStyles = (isUpvoted, isDownvoted) => {
       paddingTop: 8,
       paddingLeft: 8,
     },
-    url: {
-      marginLeft: '1.5em',
-    },
+    url: {},
     userAndDate: {
       marginLeft: 10,
+    },
+    commentsBtn: {
+      textTransform: 'capitalize',
+      color: '#787878',
+    },
+    title: {
+      marginRight: 5,
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '1em',
+        margin: 0,
+      },
+    },
+    bottomBtns: {
+      display: 'flex',
     },
   }));
 };

@@ -12,6 +12,8 @@ const postReducer = (state = [], action) => {
       return state.map((s) =>
         s.id !== action.payload.id ? s : { ...s, ...action.payload.data }
       );
+    case 'DELETE_POST':
+      return state.filter((s) => s.id !== action.payload);
     default:
       return state;
   }
@@ -41,7 +43,7 @@ export const toggleUpvote = (id, upvotedBy, downvotedBy) => {
       payload,
     });
 
-    await postService.upvote(id);
+    await postService.upvotePost(id);
   };
 };
 
@@ -59,7 +61,18 @@ export const toggleDownvote = (id, downvotedBy, upvotedBy) => {
       payload,
     });
 
-    await postService.downvote(id);
+    await postService.downvotePost(id);
+  };
+};
+
+export const removePost = (id) => {
+  return async (dispatch) => {
+    await postService.deletePost(id);
+
+    dispatch({
+      type: 'DELETE_POST',
+      payload: id,
+    });
   };
 };
 

@@ -20,7 +20,7 @@ const getNewPosts = async () => {
   return response.data;
 };
 
-const upvote = async (id) => {
+const upvotePost = async (id) => {
   const response = await axios.post(
     `${baseUrl}/${id}/upvote`,
     null,
@@ -29,7 +29,7 @@ const upvote = async (id) => {
   return response.data;
 };
 
-const downvote = async (id) => {
+const downvotePost = async (id) => {
   const response = await axios.post(
     `${baseUrl}/${id}/downvote`,
     null,
@@ -38,4 +38,9 @@ const downvote = async (id) => {
   return response.data;
 };
 
-export default { setToken, getNewPosts, upvote, downvote };
+const deletePost = async (id) => {
+  const response = await axios.delete(`${baseUrl}/${id}`, setConfig());
+  return response.data;
+};
+
+export default { setToken, getNewPosts, upvotePost, downvotePost, deletePost };

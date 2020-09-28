@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../reducers/userReducer';
+import MobileUserMenu from './MobileUserMenu';
 import AuthFormModal from './AuthFormModal';
 import storageService from '../utils/localStorage';
 
@@ -8,8 +9,6 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  IconButton,
-  Menu,
   Link,
   Button,
   useMediaQuery,
@@ -19,40 +18,18 @@ import { useNavStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
 import RedditIcon from '@material-ui/icons/Reddit';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const NavBar = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const classes = useNavStyles();
-
-  const open = Boolean(anchorEl);
-
   const userLoggedIn = storageService.loadUser() || user;
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleLogout = () => {
     dispatch(logoutUser());
-  };
-
-  const mobileMenu = () => {
-    return (
-      <div>
-        <AuthFormModal closeMobileMenu={handleClose} />
-      </div>
-    );
   };
 
   const desktopMenu = () => {
@@ -80,7 +57,7 @@ const NavBar = () => {
             <div className={classes.logoWrapper}>
               <Typography variant="h6" className={classes.logo} color="primary">
                 <RedditIcon className={classes.logoIcon} color="primary" />
-                Readify
+                readify
               </Typography>
               <Typography variant="caption" color="secondary">
                 Made with <FavoriteIcon style={{ fontSize: 12 }} /> by
@@ -96,27 +73,7 @@ const NavBar = () => {
             </div>
           </div>
           {isMobile ? (
-            <>
-              <IconButton onClick={handleMenu} color="primary">
-                <MoreVertIcon color="primary" />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                {mobileMenu()}
-              </Menu>
-            </>
+            <MobileUserMenu user={user} handleLogout={handleLogout} />
           ) : (
             <>{desktopMenu()}</>
           )}

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { toggleUpvote, toggleDownvote } from '../reducers/postReducer';
 import AuthFormModal from './AuthFormModal';
+import EditDeleteMenu from './EditDeleteMenu';
 import getEditedThumbail from '../utils/getEditedThumbnail';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 import ReactTimeAgo from 'react-time-ago';
@@ -15,6 +16,7 @@ import {
   CardMedia,
   Tooltip,
   Link,
+  Button,
 } from '@material-ui/core';
 import { useCardStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
@@ -23,13 +25,13 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MessageIcon from '@material-ui/icons/Message';
 import LinkIcon from '@material-ui/icons/Link';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import CommentIcon from '@material-ui/icons/Comment';
 
 const PostCard = ({ post }) => {
   const {
     id,
     title,
     postType,
-    textSubmission,
     linkSubmission,
     imageSubmission,
     subreddit,
@@ -153,7 +155,7 @@ const PostCard = ({ post }) => {
         )}
       </div>
       <div className={classes.postInfoWrapper}>
-        <Typography variant="h6">
+        <Typography variant="h6" className={classes.title}>
           {title}{' '}
           <Typography variant="caption" color="primary" className={classes.url}>
             <Link
@@ -178,7 +180,7 @@ const PostCard = ({ post }) => {
           </Link>
           <Typography variant="caption" className={classes.userAndDate}>
             Posted by{' '}
-            <Link component={RouterLink} to={`/r/${subreddit.subredditName}`}>
+            <Link component={RouterLink} to={`/u/${author.username}`}>
               u/{author.username}
             </Link>{' '}
             •{' '}
@@ -189,6 +191,20 @@ const PostCard = ({ post }) => {
             </Tooltip>
           </Typography>
         </Typography>
+        <div className={classes.bottomBtns}>
+          <Button
+            startIcon={<CommentIcon />}
+            className={classes.commentsBtn}
+            component={RouterLink}
+            to={`/comments/${id}`}
+            size={isMobile ? 'small' : 'medium'}
+          >
+            {commentCount} comments
+          </Button>
+          {user && user.id === author.id && (
+            <EditDeleteMenu id={id} isMobile={isMobile} title={title} />
+          )}
+        </div>
       </div>
     </Paper>
   );
