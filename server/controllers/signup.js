@@ -50,6 +50,7 @@ router.post('/', async (req, res) => {
     token,
     username: savedUser.username,
     id: savedUser._id,
+    avatar: savedUser.avatar,
   });
 });
 

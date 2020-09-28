@@ -111,6 +111,24 @@ export const useDialogStyles = makeStyles((theme) => ({
       padding: 0,
     },
   },
+  createPostWrapper: {
+    display: 'flex',
+    width: 'auto',
+    borderRadius: 0,
+    marginBottom: 10,
+    padding: 6,
+  },
+  createBtn: {
+    marginLeft: 8,
+    textTransform: 'capitalize',
+    justifyContent: 'flex-start',
+  },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+    zIndex: 1000,
+  },
 }));
 
 export const useAlertStyles = makeStyles((theme) => ({

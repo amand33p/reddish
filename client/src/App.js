@@ -6,6 +6,7 @@ import { clearNotif } from './reducers/notificationReducer';
 import NavBar from './components/NavBar';
 import ToastNotif from './components/ToastNotif';
 import PostsList from './components/PostsList';
+import AddPostModal from './components/AddPostModal';
 
 import { Paper, Container } from '@material-ui/core/';
 import customTheme from './styles/customTheme';
@@ -15,6 +16,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 const App = () => {
   const dispatch = useDispatch();
   const notification = useSelector((state) => state.notification);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(setUser());
@@ -36,6 +38,7 @@ const App = () => {
         )}
         <NavBar />
         <Container disableGutters maxWidth="lg" className={classes.container}>
+          {user && <AddPostModal />}
           <PostsList />
         </Container>
       </Paper>

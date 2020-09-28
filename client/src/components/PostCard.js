@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { toggleUpvote, toggleDownvote } from '../reducers/postReducer';
 import AuthFormModal from './AuthFormModal';
 import EditDeleteMenu from './EditDeleteMenu';
-import getEditedThumbail from '../utils/getEditedThumbnail';
+import getEditedThumbail from '../utils/cloudinaryTransform';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 import ReactTimeAgo from 'react-time-ago';
 
@@ -102,7 +102,7 @@ const PostCard = ({ post }) => {
             icon={<ArrowUpwardIcon style={{ color: '#b2b2b2' }} />}
             checkedIcon={<ArrowUpwardIcon style={{ color: '#FF8b60' }} />}
             onChange={handleUpvoteToggle}
-            size={isMobile && 'small'}
+            size={isMobile ? 'small' : 'medium'}
           />
         ) : (
           <AuthFormModal type="upvote" />
@@ -116,7 +116,7 @@ const PostCard = ({ post }) => {
             icon={<ArrowDownwardIcon style={{ color: '#b2b2b2' }} />}
             checkedIcon={<ArrowDownwardIcon style={{ color: '#9494FF' }} />}
             onChange={handleDownvoteToggle}
-            size={isMobile && 'small'}
+            size={isMobile ? 'small' : 'medium'}
           />
         ) : (
           <AuthFormModal type="downvote" />
