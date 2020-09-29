@@ -1,19 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
 
 import { usePostFormStyles } from '../styles/muiStyles';
-import { Button, ButtonGroup, TextField, Typography } from '@material-ui/core';
+import {
+  Button,
+  ButtonGroup,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useTheme } from '@material-ui/core/styles';
 import TitleIcon from '@material-ui/icons/Title';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
 import ImageIcon from '@material-ui/icons/Image';
 import LinkIcon from '@material-ui/icons/Link';
+import ChatIcon from '@material-ui/icons/Chat';
+import PublishIcon from '@material-ui/icons/Publish';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const AddPostForm = ({ postType }) => {
+  const [fileName, setFileName] = useState('');
   const subreddits = useSelector((state) => state.subreddits);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const classes = usePostFormStyles();
+
+  const generateBase64Encode = (file, setValue) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setValue('imageSubmission', reader.result);
+    };
+  };
+
+  const fileInputOnChange = (e, setFieldValue) => {
+    const file = e.target.files[0];
+    setFileName(file.name);
+    generateBase64Encode(file, setFieldValue);
+  };
+
+  const clearFileSelection = (setFieldValue) => {
+    setFieldValue('imageSubmission', '');
+    setFileName('');
+  };
 
   const handleAddPost = (values, { setSubmitting, resetForm }) => {
     console.log(values);
@@ -43,7 +77,7 @@ const AddPostForm = ({ postType }) => {
                 onClick={() => setFieldValue('postType', 'Text')}
                 variant={values.postType === 'Text' ? 'contained' : 'outlined'}
               >
-                <TextFormatIcon style={{ marginRight: 3 }} />
+                <TextFormatIcon style={{ marginRight: 2 }} />
                 Text
               </Button>
               <Button
@@ -96,7 +130,79 @@ const AddPostForm = ({ postType }) => {
                 fullWidth
               />
             </div>
+            {values.postType === 'Text' && (
+              <div className={classes.input}>
+                <ChatIcon className={classes.inputIcon} color="primary" />
+                <TextInput
+                  name="textSubmission"
+                  placeholder="Enter text"
+                  multiline
+                  rows={4}
+                  rowsMax={Infinity}
+                  label="Text"
+                  required
+                  fullWidth
+                />
+              </div>
+            )}
+            {values.postType === 'Image' && (
+              <div className={classes.imageInput}>
+                <div className={classes.imageBtnsWrapper}>
+                  <ImageIcon className={classes.inputIcon} color="primary" />
+                  <input
+                    type="file"
+                    id="image-upload"
+                    accept="image/*"
+                    hidden
+                    onChange={(e) => fileInputOnChange(e, setFieldValue)}
+                  />
 
+                  <Button
+                    component="label"
+                    htmlFor="image-upload"
+                    variant="outlined"
+                    color="primary"
+                    fullWidth={!isMobile}
+                    startIcon={
+                      values.imageSubmission ? (
+                        <CheckCircleIcon />
+                      ) : (
+                        <PublishIcon />
+                      )
+                    }
+                    size={isMobile ? 'small' : 'medium'}
+                  >
+                    {values.imageSubmission
+                      ? `Selected "${fileName}"`
+                      : `Selected Image`}
+                  </Button>
+                  {values.imageSubmission && (
+                    <Button
+                      onClick={() => clearFileSelection(setFieldValue)}
+                      variant="outlined"
+                      color="secondary"
+                      size={isMobile ? 'small' : 'medium'}
+                    >
+                      <CancelIcon />
+                    </Button>
+                  )}
+                </div>
+                {values.imageSubmission && (
+                  <a
+                    href={values.imageSubmission}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      alt={fileName}
+                      src={values.imageSubmission}
+                      width={isMobile ? 250 : 400}
+                      className={classes.imagePreview}
+                    />
+                  </a>
+                )}
+              </div>
+            )}
             <Button
               type="submit"
               color="secondary"
@@ -107,7 +213,7 @@ const AddPostForm = ({ postType }) => {
             >
               Submit
             </Button>
-            {JSON.stringify(values, null, 2)}
+            {/*JSON.stringify(values, null, 2)*/}
           </Form>
         )}
       </Formik>

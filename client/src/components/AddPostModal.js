@@ -97,8 +97,9 @@ const AddPostModal = () => {
       <Dialog
         open={open}
         onClose={handleClose}
-        maxWidth="md"
         classes={{ paper: classes.dialogWrapper }}
+        fullWidth={true}
+        maxWidth="md"
       >
         <DialogTitle onClose={handleClose}>
           <Typography color="primary" variant="h6">

@@ -228,6 +228,7 @@ export const usePostFormStyles = makeStyles((theme) => ({
     paddingLeft: 20,
     paddingRight: 20,
     paddingBottom: 20,
+    flexGrow: 1,
     [theme.breakpoints.down('xs')]: {
       padding: '0 0 0 0',
     },
@@ -244,17 +245,34 @@ export const usePostFormStyles = makeStyles((theme) => ({
   input: {
     display: 'flex',
     alignItems: 'flex-end',
+    marginTop: '0.5em',
   },
   inputIcon: {
     marginRight: 8,
   },
   inputIconText: {
-    padding: 3,
+    padding: 2,
     paddingBottom: 0,
-    marginRight: 8,
+    marginRight: 9,
     fontWeight: 700,
   },
   typeBtnGroup: {
     marginBottom: 5,
+  },
+  imageInput: {
+    marginTop: '1em',
+  },
+  imageBtnsWrapper: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    [theme.breakpoints.down('xs')]: {
+      flexWrap: 'wrap',
+    },
+  },
+  imagePreview: {
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '50%',
   },
 }));

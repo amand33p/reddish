@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../reducers/userReducer';
 import MobileUserMenu from './MobileUserMenu';

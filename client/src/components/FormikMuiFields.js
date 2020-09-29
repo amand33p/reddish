@@ -10,6 +10,11 @@ export const TextInput = ({
   required,
   fullWidth,
   InputProps,
+  multiline,
+  rows,
+  rowsMax,
+  variant,
+  size,
   ...props
 }) => {
   const [field, meta] = useField(props);
@@ -21,8 +26,13 @@ export const TextInput = ({
       label={label}
       type={type}
       InputProps={InputProps}
-      required
+      required={required}
       fullWidth
+      multiline={required}
+      rows={rows}
+      rowsMax={rowsMax}
+      variant={variant}
+      size={size}
       {...field}
       helperText={errorText}
       error={!!errorText}
