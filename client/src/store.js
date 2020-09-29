@@ -4,11 +4,13 @@ import thunk from 'redux-thunk';
 import notificationReducer from './reducers/notificationReducer';
 import userReducer from './reducers/userReducer';
 import postReducer from './reducers/postReducer';
+import subredditReducer from './reducers/subredditReducer';
 
 const reducer = combineReducers({
   user: userReducer,
   notification: notificationReducer,
   posts: postReducer,
+  subreddits: subredditReducer,
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));

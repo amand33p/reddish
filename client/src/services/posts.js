@@ -1,13 +1,9 @@
 import axios from 'axios';
 import backendUrl from '../backendUrl';
+import authService from './auth';
 
 const baseUrl = `${backendUrl}/api/posts`;
-
-let token = null;
-
-const setToken = (newToken) => {
-  token = newToken;
-};
+const token = authService.token;
 
 const setConfig = () => {
   return {
@@ -43,4 +39,4 @@ const deletePost = async (id) => {
   return response.data;
 };
 
-export default { setToken, getNewPosts, upvotePost, downvotePost, deletePost };
+export default { getNewPosts, upvotePost, downvotePost, deletePost };

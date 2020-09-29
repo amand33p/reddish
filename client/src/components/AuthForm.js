@@ -51,10 +51,10 @@ const AuthForm = ({ closeModal }) => {
   const dispatch = useDispatch();
   const classes = useAuthStyles(authType)();
 
-  const handleLogin = async (data, { setSubmitting, resetForm }) => {
+  const handleLogin = async (values, { setSubmitting, resetForm }) => {
     try {
       setSubmitting(true);
-      const user = await dispatch(loginUser(data));
+      const user = await dispatch(loginUser(values));
       setSubmitting(false);
 
       resetForm();
@@ -68,10 +68,10 @@ const AuthForm = ({ closeModal }) => {
     }
   };
 
-  const handleSignup = async (data, { setSubmitting, resetForm }) => {
+  const handleSignup = async (values, { setSubmitting, resetForm }) => {
     try {
       setSubmitting(true);
-      const user = await dispatch(signupUser(data));
+      const user = await dispatch(signupUser(values));
       setSubmitting(false);
 
       resetForm();

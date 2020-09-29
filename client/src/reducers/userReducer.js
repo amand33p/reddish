@@ -1,6 +1,5 @@
 import authService from '../services/auth';
 import storageService from '../utils/localStorage';
-import postService from '../services/posts';
 
 const userReducer = (state = null, action) => {
   switch (action.type) {
@@ -21,7 +20,7 @@ export const loginUser = (credentials) => {
   return async (dispatch) => {
     const user = await authService.login(credentials);
     storageService.saveUser(user);
-    postService.setToken(user.token);
+    authService.setToken(user.token);
 
     dispatch({
       type: 'LOGIN',
@@ -36,7 +35,7 @@ export const signupUser = (credentials) => {
   return async (dispatch) => {
     const user = await authService.signup(credentials);
     storageService.saveUser(user);
-    postService.setToken(user.token);
+    authService.setToken(user.token);
 
     dispatch({
       type: 'SIGNUP',
@@ -50,7 +49,7 @@ export const signupUser = (credentials) => {
 export const logoutUser = () => {
   return (dispatch) => {
     storageService.logoutUser();
-    postService.setToken(null);
+    authService.setToken(null);
 
     dispatch({
       type: 'LOGOUT',
@@ -63,7 +62,7 @@ export const setUser = () => {
     const loggedUser = storageService.loadUser();
 
     if (loggedUser) {
-      postService.setToken(loggedUser.token);
+      authService.setToken(loggedUser.token);
 
       dispatch({
         type: 'SET_USER',

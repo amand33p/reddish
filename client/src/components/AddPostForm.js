@@ -1,19 +1,22 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
 
 import { usePostFormStyles } from '../styles/muiStyles';
-import { Button, ButtonGroup } from '@material-ui/core';
+import { Button, ButtonGroup, TextField, Typography } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import TitleIcon from '@material-ui/icons/Title';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
 import ImageIcon from '@material-ui/icons/Image';
 import LinkIcon from '@material-ui/icons/Link';
 
 const AddPostForm = ({ postType }) => {
+  const subreddits = useSelector((state) => state.subreddits);
   const classes = usePostFormStyles();
 
-  const handleAddPost = (data, { setSubmitting, resetForm }) => {
-    console.log(data);
+  const handleAddPost = (values, { setSubmitting, resetForm }) => {
+    console.log(values);
   };
 
   return (
@@ -40,7 +43,7 @@ const AddPostForm = ({ postType }) => {
                 onClick={() => setFieldValue('postType', 'Text')}
                 variant={values.postType === 'Text' ? 'contained' : 'outlined'}
               >
-                <TextFormatIcon style={{ marginRight: 5 }} />
+                <TextFormatIcon style={{ marginRight: 3 }} />
                 Text
               </Button>
               <Button
@@ -58,7 +61,30 @@ const AddPostForm = ({ postType }) => {
                 Link
               </Button>
             </ButtonGroup>
-
+            <div className={classes.input}>
+              <Typography
+                className={classes.inputIconText}
+                color="primary"
+                variant="h5"
+              >
+                r/
+              </Typography>
+              <Autocomplete
+                name="subreddit"
+                onChange={(e, value) =>
+                  setFieldValue('subreddit', value ? value.id : '')
+                }
+                fullWidth
+                options={subreddits}
+                getOptionLabel={(option) => option.subredditName}
+                getOptionSelected={(option, value) =>
+                  option && option.id === value && value.id
+                }
+                renderInput={(params) => (
+                  <TextField {...params} label="Choose a subreddit" />
+                )}
+              />
+            </div>
             <div className={classes.input}>
               <TitleIcon className={classes.inputIcon} color="primary" />
               <TextInput
