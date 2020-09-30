@@ -186,7 +186,7 @@ router.patch('/:id', auth, async (req, res) => {
       return res.status(403).send({ message: 'Invalid post type.' });
   }
 
-  post.updatedAt = Date.now;
+  post.updatedAt = Date.now();
 
   await post.save();
   res.status(202).json(post);

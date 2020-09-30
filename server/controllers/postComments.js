@@ -120,7 +120,7 @@ router.patch('/:id/comment/:commentId', auth, async (req, res) => {
   }
 
   targetComment.commentBody = comment;
-  targetComment.updatedAt = Date.now;
+  targetComment.updatedAt = Date.now();
 
   post.comments = post.comments.map((c) =>
     c._id.toString() !== commentId ? c : targetComment
@@ -293,7 +293,7 @@ router.patch(
     }
 
     targetReply.replyBody = reply;
-    targetReply.updatedAt = Date.now;
+    targetReply.updatedAt = Date.now();
 
     targetComment.replies = targetComment.replies.map((r) =>
       r._id.toString() !== replyId ? r : targetReply

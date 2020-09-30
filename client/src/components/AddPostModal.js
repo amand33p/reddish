@@ -14,14 +14,24 @@ import {
   Avatar,
   useMediaQuery,
   Typography,
+  MenuItem,
+  ListItemIcon,
 } from '@material-ui/core';
 import { useDialogStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import ImageIcon from '@material-ui/icons/Image';
 import LinkIcon from '@material-ui/icons/Link';
+import EditIcon from '@material-ui/icons/Edit';
 
-const AddPostModal = () => {
+const AddPostModal = ({
+  actionType,
+  handleMenuClose,
+  postToEditType,
+  postToEditTitle,
+  postToEditSub,
+  postToEditId,
+}) => {
   const [open, setOpen] = useState(false);
   const [postType, setPostType] = useState('Text');
   const user = useSelector((state) => state.user);
@@ -48,10 +58,22 @@ const AddPostModal = () => {
     handleClickOpen();
   };
 
+  const handleMenuClick = () => {
+    handleClickOpen();
+    handleMenuClose();
+  };
+
   return (
     <div>
       {user &&
-        (isMobile ? (
+        (actionType === 'edit' ? (
+          <MenuItem onClick={handleMenuClick}>
+            <ListItemIcon>
+              <EditIcon style={{ marginRight: 10 }} />
+              <Typography>Edit Post</Typography>
+            </ListItemIcon>
+          </MenuItem>
+        ) : isMobile ? (
           <HideOnScroll>
             <Fab
               className={classes.fab}
@@ -103,11 +125,19 @@ const AddPostModal = () => {
       >
         <DialogTitle onClose={handleClose}>
           <Typography color="primary" className={classes.dialogTitle}>
-            Add New Post
+            {actionType === 'edit' ? 'Update your post' : 'Add a new post'}
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <AddPostForm postType={postType} closeModal={handleClose} />
+          <AddPostForm
+            actionType={actionType}
+            postType={postType}
+            closeModal={handleClose}
+            postToEditType={postToEditType}
+            postToEditTitle={postToEditTitle}
+            postToEditSub={postToEditSub}
+            postToEditId={postToEditId}
+          />
         </DialogContent>
       </Dialog>
     </div>

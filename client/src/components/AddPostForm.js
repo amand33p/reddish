@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
 import generateBase64Encode from '../utils/genBase64Encode';
-import { createNewPost } from '../reducers/singlePostReducer';
+import { createNewPost, updatePost } from '../reducers/singlePostReducer';
+import * as yup from 'yup';
 
 import { usePostFormStyles } from '../styles/muiStyles';
 import {
@@ -25,7 +26,27 @@ import PublishIcon from '@material-ui/icons/Publish';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-const AddPostForm = ({ postType, closeModal }) => {
+const validationSchema = yup.object({
+  title: yup.string().required('Required'),
+  textSubmission: yup.string(),
+  imageSubmission: yup.string(),
+  linkSubmission: yup
+    .string()
+    .matches(
+      /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+      'Valid URL required'
+    ),
+});
+
+const AddPostForm = ({
+  postType,
+  closeModal,
+  actionType,
+  postToEditType,
+  postToEditTitle,
+  postToEditSub,
+  postToEditId,
+}) => {
   const [fileName, setFileName] = useState('');
   const subreddits = useSelector((state) => state.subreddits);
   const dispatch = useDispatch();
@@ -48,7 +69,21 @@ const AddPostForm = ({ postType, closeModal }) => {
   const handleAddPost = async (values, { setSubmitting, resetForm }) => {
     try {
       setSubmitting(true);
-      await dispatch(createNewPost(values));
+      dispatch(createNewPost(values));
+      setSubmitting(false);
+
+      resetForm();
+      closeModal();
+    } catch (err) {
+      setSubmitting(false);
+      console.log(err.response.data.message);
+    }
+  };
+
+  const handleUpdatePost = async (values, { setSubmitting, resetForm }) => {
+    try {
+      setSubmitting(true);
+      dispatch(updatePost(postToEditId, values));
       setSubmitting(false);
 
       resetForm();
@@ -63,44 +98,54 @@ const AddPostForm = ({ postType, closeModal }) => {
     <div className={classes.root}>
       <Formik
         initialValues={{
-          title: '',
-          postType: postType,
+          title: actionType === 'edit' ? postToEditTitle : '',
+          postType: actionType !== 'edit' ? postType : postToEditType,
           textSubmission: '',
           linkSubmission: '',
           imageSubmission: '',
-          subreddit: '',
+          subreddit: actionType === 'edit' ? postToEditSub.id : '',
         }}
-        onSubmit={handleAddPost}
+        onSubmit={actionType === 'edit' ? handleUpdatePost : handleAddPost}
+        validationSchema={validationSchema}
       >
         {({ isSubmitting, values, setFieldValue }) => (
           <Form className={classes.form}>
-            <ButtonGroup
-              color="secondary"
-              fullWidth
-              className={classes.typeBtnGroup}
-            >
-              <Button
-                onClick={() => setFieldValue('postType', 'Text')}
-                variant={values.postType === 'Text' ? 'contained' : 'outlined'}
+            {actionType !== 'edit' && (
+              <ButtonGroup
+                color="secondary"
+                fullWidth
+                className={classes.typeBtnGroup}
               >
-                <TextFormatIcon style={{ marginRight: 2 }} />
-                Text
-              </Button>
-              <Button
-                onClick={() => setFieldValue('postType', 'Image')}
-                variant={values.postType === 'Image' ? 'contained' : 'outlined'}
-              >
-                <ImageIcon style={{ marginRight: 5 }} />
-                Image
-              </Button>
-              <Button
-                onClick={() => setFieldValue('postType', 'Link')}
-                variant={values.postType === 'Link' ? 'contained' : 'outlined'}
-              >
-                <LinkIcon style={{ marginRight: 5 }} />
-                Link
-              </Button>
-            </ButtonGroup>
+                <Button
+                  onClick={() => setFieldValue('postType', 'Text')}
+                  variant={
+                    values.postType === 'Text' ? 'contained' : 'outlined'
+                  }
+                >
+                  <TextFormatIcon style={{ marginRight: 2 }} />
+                  Text
+                </Button>
+                <Button
+                  onClick={() => setFieldValue('postType', 'Image')}
+                  variant={
+                    values.postType === 'Image' ? 'contained' : 'outlined'
+                  }
+                >
+                  <ImageIcon style={{ marginRight: 5 }} />
+                  Image
+                </Button>
+                <Button
+                  onClick={() => setFieldValue('postType', 'Link')}
+                  variant={
+                    values.postType === 'Link' ? 'contained' : 'outlined'
+                  }
+                >
+                  <LinkIcon style={{ marginRight: 5 }} />
+                  Link
+                </Button>
+              </ButtonGroup>
+            )}
+
             <div className={classes.input}>
               <Typography
                 className={classes.inputIconText}
@@ -116,18 +161,25 @@ const AddPostForm = ({ postType, closeModal }) => {
                 }
                 fullWidth
                 options={subreddits}
+                disabled={actionType === 'edit'}
                 getOptionLabel={(option) => option.subredditName}
                 getOptionSelected={(option, value) => option.id === value.id}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Choose a subreddit"
+                    label={
+                      actionType === 'edit'
+                        ? postToEditSub.subredditName
+                        : 'Choose a subreddit'
+                    }
                     placeholder="Search by subreddit name"
                     required
+                    disabled={actionType === 'edit'}
                   />
                 )}
               />
             </div>
+
             <div className={classes.input}>
               <TitleIcon className={classes.inputIcon} color="primary" />
               <TextInput
@@ -137,6 +189,7 @@ const AddPostForm = ({ postType, closeModal }) => {
                 label="Title"
                 required
                 fullWidth
+                disabled={actionType === 'edit'}
               />
             </div>
             {values.postType === 'Text' && (
@@ -151,6 +204,7 @@ const AddPostForm = ({ postType, closeModal }) => {
                   label="Text"
                   required={values.postType === 'Text'}
                   fullWidth
+                  variant={actionType === 'edit' ? 'outlined' : 'standard'}
                 />
               </div>
             )}
@@ -219,6 +273,7 @@ const AddPostForm = ({ postType, closeModal }) => {
                   label="Link"
                   required={values.postType === 'Link'}
                   fullWidth
+                  variant={actionType === 'edit' ? 'outlined' : 'standard'}
                 />
               </div>
             )}

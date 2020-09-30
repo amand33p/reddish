@@ -20,6 +20,11 @@ const addNew = async (postObj) => {
   return response.data;
 };
 
+const editPost = async (id, postObj) => {
+  const response = await axios.patch(`${baseUrl}/${id}`, postObj, setConfig());
+  return response.data;
+};
+
 const upvotePost = async (id) => {
   const response = await axios.post(
     `${baseUrl}/${id}/upvote`,
@@ -43,4 +48,11 @@ const deletePost = async (id) => {
   return response.data;
 };
 
-export default { getNewPosts, addNew, upvotePost, downvotePost, deletePost };
+export default {
+  getNewPosts,
+  addNew,
+  editPost,
+  upvotePost,
+  downvotePost,
+  deletePost,
+};

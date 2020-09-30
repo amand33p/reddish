@@ -15,6 +15,7 @@ export const TextInput = ({
   rowsMax,
   variant,
   size,
+  disabled,
   ...props
 }) => {
   const [field, meta] = useField(props);
@@ -33,6 +34,7 @@ export const TextInput = ({
       rowsMax={rowsMax}
       variant={variant}
       size={size}
+      disabled={disabled}
       {...field}
       helperText={errorText}
       error={!!errorText}

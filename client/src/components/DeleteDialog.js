@@ -13,11 +13,12 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const DeleteDialog = ({ title, handleDelete }) => {
+const DeleteDialog = ({ title, handleDelete, handleMenuClose }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
+    handleMenuClose();
   };
 
   const handleClose = () => {

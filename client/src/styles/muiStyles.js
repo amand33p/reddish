@@ -248,7 +248,7 @@ export const usePostFormStyles = makeStyles((theme) => ({
   input: {
     display: 'flex',
     alignItems: 'flex-end',
-    marginTop: '0.5em',
+    marginTop: '0.7em',
   },
   inputIcon: {
     marginRight: 8,

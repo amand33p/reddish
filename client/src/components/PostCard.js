@@ -14,7 +14,6 @@ import {
   Typography,
   useMediaQuery,
   CardMedia,
-  Tooltip,
   Link,
   Button,
 } from '@material-ui/core';
@@ -41,6 +40,7 @@ const PostCard = ({ post }) => {
     pointsCount,
     commentCount,
     createdAt,
+    updatedAt,
   } = post;
 
   const user = useSelector((state) => state.user);
@@ -183,12 +183,8 @@ const PostCard = ({ post }) => {
             <Link component={RouterLink} to={`/u/${author.username}`}>
               u/{author.username}
             </Link>{' '}
-            •{' '}
-            <Tooltip title={String(new Date(createdAt))}>
-              <span>
-                <ReactTimeAgo date={new Date(createdAt)} />
-              </span>
-            </Tooltip>
+            • <ReactTimeAgo date={new Date(createdAt)} />
+            {createdAt !== updatedAt && '*'}
           </Typography>
         </Typography>
         <div className={classes.bottomBtns}>
@@ -202,7 +198,13 @@ const PostCard = ({ post }) => {
             {commentCount} comments
           </Button>
           {user && user.id === author.id && (
-            <EditDeleteMenu id={id} isMobile={isMobile} title={title} />
+            <EditDeleteMenu
+              id={id}
+              isMobile={isMobile}
+              title={title}
+              postType={postType}
+              subreddit={subreddit}
+            />
           )}
         </div>
       </div>
