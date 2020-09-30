@@ -54,37 +54,37 @@ const AuthForm = ({ closeModal }) => {
   const handleLogin = async (values, { setSubmitting, resetForm }) => {
     try {
       setSubmitting(true);
-      const user = await dispatch(loginUser(values));
+      dispatch(loginUser(values));
       setSubmitting(false);
 
       resetForm();
       closeModal();
       dispatch(
-        notify(`Welcome, ${user.username}. You're logged in!`, 'success')
+        notify(`Welcome, ${values.username}. You're logged in!`, 'success')
       );
     } catch (err) {
       setSubmitting(false);
-      console.log(err.message);
+      console.log(err.response.data.message);
     }
   };
 
   const handleSignup = async (values, { setSubmitting, resetForm }) => {
     try {
       setSubmitting(true);
-      const user = await dispatch(signupUser(values));
+      dispatch(signupUser(values));
       setSubmitting(false);
 
       resetForm();
       closeModal();
       dispatch(
         notify(
-          `Welcome, ${user.username}. You've been successfully registered.`,
+          `Welcome, ${values.username}. You've been successfully registered.`,
           'success'
         )
       );
     } catch (err) {
       setSubmitting(false);
-      console.log(err.message);
+      console.log(err.response.data.message);
     }
   };
 

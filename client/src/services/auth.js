@@ -1,7 +1,7 @@
 import axios from 'axios';
 import backendUrl from '../backendUrl';
 
-let token = null;
+export let token = null;
 
 const setToken = (newToken) => {
   token = newToken;
@@ -17,4 +17,4 @@ const signup = async (enteredData) => {
   return response.data;
 };
 
-export default { token, setToken, login, signup };
+export default { setToken, login, signup };

@@ -1,9 +1,8 @@
 import axios from 'axios';
 import backendUrl from '../backendUrl';
-import authService from './auth';
+import { token } from './auth';
 
 const baseUrl = `${backendUrl}/api/posts`;
-const token = authService.token;
 
 const setConfig = () => {
   return {
@@ -13,6 +12,11 @@ const setConfig = () => {
 
 const getNewPosts = async () => {
   const response = await axios.get(`${baseUrl}/new`);
+  return response.data;
+};
+
+const addNew = async (postObj) => {
+  const response = await axios.post(`${baseUrl}`, postObj, setConfig());
   return response.data;
 };
 
@@ -39,4 +43,4 @@ const deletePost = async (id) => {
   return response.data;
 };
 
-export default { getNewPosts, upvotePost, downvotePost, deletePost };
+export default { getNewPosts, addNew, upvotePost, downvotePost, deletePost };

@@ -35,12 +35,14 @@ const MobileUserMenu = ({ user, handleLogout }) => {
         onClose={handleClose}
       >
         {user ? (
-          <>
+          <div>
             <MenuItem>Hi, {user.username}</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
-          </>
+          </div>
         ) : (
-          <AuthFormModal closeMobileMenu={handleClose} />
+          <div>
+            <AuthFormModal closeMobileMenu={handleClose} />
+          </div>
         )}
       </Menu>
     </div>

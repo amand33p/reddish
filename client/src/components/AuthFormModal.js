@@ -42,11 +42,17 @@ const AuthFormModal = ({ closeMobileMenu, type }) => {
   return (
     <div>
       {type === 'upvote' ? (
-        <IconButton onClick={handleClickOpen} fontSize={isMobile && 'small'}>
+        <IconButton
+          onClick={handleClickOpen}
+          fontSize={isMobile ? 'small' : 'medium'}
+        >
           <ArrowUpwardIcon style={{ color: '#b2b2b2' }} />
         </IconButton>
       ) : type === 'downvote' ? (
-        <IconButton onClick={handleClickOpen} fontSize={isMobile && 'small'}>
+        <IconButton
+          onClick={handleClickOpen}
+          fontSize={isMobile ? 'small' : 'medium'}
+        >
           <ArrowDownwardIcon style={{ color: '#b2b2b2' }} />
         </IconButton>
       ) : isMobile ? (

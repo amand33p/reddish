@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
+import generateBase64Encode from '../utils/genBase64Encode';
+import { createNewPost } from '../reducers/singlePostReducer';
 
 import { usePostFormStyles } from '../styles/muiStyles';
 import {
@@ -23,21 +25,14 @@ import PublishIcon from '@material-ui/icons/Publish';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-const AddPostForm = ({ postType }) => {
+const AddPostForm = ({ postType, closeModal }) => {
   const [fileName, setFileName] = useState('');
   const subreddits = useSelector((state) => state.subreddits);
+  const dispatch = useDispatch();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const classes = usePostFormStyles();
-
-  const generateBase64Encode = (file, setValue) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setValue('imageSubmission', reader.result);
-    };
-  };
 
   const fileInputOnChange = (e, setFieldValue) => {
     const file = e.target.files[0];
@@ -50,8 +45,18 @@ const AddPostForm = ({ postType }) => {
     setFileName('');
   };
 
-  const handleAddPost = (values, { setSubmitting, resetForm }) => {
-    console.log(values);
+  const handleAddPost = async (values, { setSubmitting, resetForm }) => {
+    try {
+      setSubmitting(true);
+      await dispatch(createNewPost(values));
+      setSubmitting(false);
+
+      resetForm();
+      closeModal();
+    } catch (err) {
+      setSubmitting(false);
+      console.log(err.response.data.message);
+    }
   };
 
   return (
@@ -112,9 +117,7 @@ const AddPostForm = ({ postType }) => {
                 fullWidth
                 options={subreddits}
                 getOptionLabel={(option) => option.subredditName}
-                getOptionSelected={(option, value) =>
-                  option && option.id === value && value.id
-                }
+                getOptionSelected={(option, value) => option.id === value.id}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -196,18 +199,13 @@ const AddPostForm = ({ postType }) => {
                   )}
                 </div>
                 {values.imageSubmission && (
-                  <a
-                    href={values.imageSubmission}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <div className={classes.imagePreview}>
                     <img
                       alt={fileName}
                       src={values.imageSubmission}
                       width={isMobile ? 250 : 400}
-                      className={classes.imagePreview}
                     />
-                  </a>
+                  </div>
                 )}
               </div>
             )}
@@ -234,7 +232,7 @@ const AddPostForm = ({ postType }) => {
             >
               Submit
             </Button>
-            {JSON.stringify(values, null, 2)}
+            {/*JSON.stringify(values, null, 2)*/}
           </Form>
         )}
       </Formik>

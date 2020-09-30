@@ -26,8 +26,6 @@ export const loginUser = (credentials) => {
       type: 'LOGIN',
       payload: user,
     });
-
-    return user;
   };
 };
 
@@ -41,8 +39,6 @@ export const signupUser = (credentials) => {
       type: 'SIGNUP',
       payload: user,
     });
-
-    return user;
   };
 };
 

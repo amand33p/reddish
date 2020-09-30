@@ -102,12 +102,12 @@ const AddPostModal = () => {
         maxWidth="md"
       >
         <DialogTitle onClose={handleClose}>
-          <Typography color="primary" variant="h6">
+          <Typography color="primary" className={classes.dialogTitle}>
             Add New Post
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <AddPostForm postType={postType} />
+          <AddPostForm postType={postType} closeModal={handleClose} />
         </DialogContent>
       </Dialog>
     </div>

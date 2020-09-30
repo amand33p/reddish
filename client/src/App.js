@@ -19,13 +19,19 @@ const App = () => {
   const notification = useSelector((state) => state.notification);
   const user = useSelector((state) => state.user);
 
-  useEffect(() => {
+  /*useEffect(() => {
     dispatch(setUser());
+
+    dispatch(initPosts());
+    dispatch(setSubredditList());
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []);*/
 
   useEffect(() => {
-    const setPostsandSubreddits = async () => {
+    dispatch(setUser());
+
+    const setPostsAndSubreddits = async () => {
       try {
         dispatch(initPosts());
         dispatch(setSubredditList());
@@ -34,7 +40,7 @@ const App = () => {
       }
     };
 
-    setPostsandSubreddits();
+    setPostsAndSubreddits();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -53,7 +59,7 @@ const App = () => {
         )}
         <NavBar />
         <Container disableGutters maxWidth="lg" className={classes.container}>
-          {user && <AddPostModal />}
+          <AddPostModal />
           <PostsList />
         </Container>
       </Paper>

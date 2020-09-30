@@ -186,7 +186,7 @@ const PostCard = ({ post }) => {
             •{' '}
             <Tooltip title={String(new Date(createdAt))}>
               <span>
-                <ReactTimeAgo date={createdAt} />
+                <ReactTimeAgo date={new Date(createdAt)} />
               </span>
             </Tooltip>
           </Typography>

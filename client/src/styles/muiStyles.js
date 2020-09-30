@@ -106,7 +106,7 @@ export const useAuthStyles = (authType) =>
 
 export const useDialogStyles = makeStyles((theme) => ({
   dialogWrapper: {
-    padding: theme.spacing(2),
+    padding: 0,
     [theme.breakpoints.down('xs')]: {
       padding: 0,
     },
@@ -132,6 +132,9 @@ export const useDialogStyles = makeStyles((theme) => ({
   },
   iconGroup: {
     display: 'flex',
+  },
+  dialogTitle: {
+    fontSize: '1.2em',
   },
 }));
 

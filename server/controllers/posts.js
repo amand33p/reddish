@@ -114,7 +114,7 @@ router.post('/', auth, async (req, res) => {
   await targetSubreddit.save();
 
   author.posts = author.posts.concat(savedPost._id);
-  author.karmaPoints.postKarma = author.karmaPoints.postKarma + 1;
+  author.karmaPoints.postKarma++;
   await author.save();
 
   const populatedPost = await savedPost
