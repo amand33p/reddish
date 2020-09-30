@@ -10,6 +10,7 @@ import {
   TextField,
   Typography,
   useMediaQuery,
+  IconButton,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useTheme } from '@material-ui/core/styles';
@@ -115,7 +116,12 @@ const AddPostForm = ({ postType }) => {
                   option && option.id === value && value.id
                 }
                 renderInput={(params) => (
-                  <TextField {...params} label="Choose a subreddit" />
+                  <TextField
+                    {...params}
+                    label="Choose a subreddit"
+                    placeholder="Search by subreddit name"
+                    required
+                  />
                 )}
               />
             </div>
@@ -140,7 +146,7 @@ const AddPostForm = ({ postType }) => {
                   rows={4}
                   rowsMax={Infinity}
                   label="Text"
-                  required
+                  required={values.postType === 'Text'}
                   fullWidth
                 />
               </div>
@@ -155,6 +161,7 @@ const AddPostForm = ({ postType }) => {
                     accept="image/*"
                     hidden
                     onChange={(e) => fileInputOnChange(e, setFieldValue)}
+                    required={values.postType === 'Image'}
                   />
 
                   <Button
@@ -171,20 +178,21 @@ const AddPostForm = ({ postType }) => {
                       )
                     }
                     size={isMobile ? 'small' : 'medium'}
+                    className={classes.selectBtn}
                   >
                     {values.imageSubmission
-                      ? `Selected "${fileName}"`
-                      : `Selected Image`}
+                      ? `${isMobile ? '' : 'Selected '}"${fileName}"`
+                      : `Select Image`}
                   </Button>
                   {values.imageSubmission && (
-                    <Button
+                    <IconButton
                       onClick={() => clearFileSelection(setFieldValue)}
-                      variant="outlined"
                       color="secondary"
                       size={isMobile ? 'small' : 'medium'}
+                      className={classes.clearSelectionBtn}
                     >
                       <CancelIcon />
-                    </Button>
+                    </IconButton>
                   )}
                 </div>
                 {values.imageSubmission && (
@@ -203,6 +211,19 @@ const AddPostForm = ({ postType }) => {
                 )}
               </div>
             )}
+            {values.postType === 'Link' && (
+              <div className={classes.input}>
+                <LinkIcon className={classes.inputIcon} color="primary" />
+                <TextInput
+                  name="linkSubmission"
+                  type="text"
+                  placeholder="Enter URL"
+                  label="Link"
+                  required={values.postType === 'Link'}
+                  fullWidth
+                />
+              </div>
+            )}
             <Button
               type="submit"
               color="secondary"
@@ -213,7 +234,7 @@ const AddPostForm = ({ postType }) => {
             >
               Submit
             </Button>
-            {/*JSON.stringify(values, null, 2)*/}
+            {JSON.stringify(values, null, 2)}
           </Form>
         )}
       </Formik>

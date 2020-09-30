@@ -265,14 +265,18 @@ export const usePostFormStyles = makeStyles((theme) => ({
   imageBtnsWrapper: {
     display: 'flex',
     alignItems: 'flex-end',
-    [theme.breakpoints.down('xs')]: {
-      flexWrap: 'wrap',
-    },
   },
   imagePreview: {
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
+    marginTop: '1em',
+  },
+  clearSelectionBtn: {
+    padding: '0.25em',
+  },
+  selectBtn: {
+    textTransform: 'capitalize',
   },
 }));
