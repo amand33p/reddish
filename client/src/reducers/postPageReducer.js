@@ -1,6 +1,6 @@
 import postService from '../services/posts';
 
-const singlePostReducer = (state = null, action) => {
+const postPageReducer = (state = null, action) => {
   switch (action.type) {
     case 'CREATE_NEW_POST':
       return state;
@@ -33,4 +33,4 @@ export const updatePost = (id, postObject) => {
   };
 };
 
-export default singlePostReducer;
+export default postPageReducer;

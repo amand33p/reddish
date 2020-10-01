@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import AddPostForm from './AddPostForm';
+import PostForm from './PostForm';
 import HideOnScroll from './HideOnScroll';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
 
@@ -129,7 +129,7 @@ const AddPostModal = ({
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <AddPostForm
+          <PostForm
             actionType={actionType}
             postType={postType}
             closeModal={handleClose}

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
 import generateBase64Encode from '../utils/genBase64Encode';
-import { createNewPost, updatePost } from '../reducers/singlePostReducer';
+import { createNewPost, updatePost } from '../reducers/postPageReducer';
 import * as yup from 'yup';
 
 import { usePostFormStyles } from '../styles/muiStyles';

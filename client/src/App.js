@@ -7,7 +7,7 @@ import { clearNotif } from './reducers/notificationReducer';
 import NavBar from './components/NavBar';
 import ToastNotif from './components/ToastNotif';
 import PostsList from './components/PostsList';
-import AddPostModal from './components/AddPostModal';
+import PostFormModal from './components/PostFormModal';
 
 import { Paper, Container } from '@material-ui/core/';
 import customTheme from './styles/customTheme';
@@ -17,20 +17,9 @@ import { ThemeProvider } from '@material-ui/core/styles';
 const App = () => {
   const dispatch = useDispatch();
   const notification = useSelector((state) => state.notification);
-  const user = useSelector((state) => state.user);
-
-  /*useEffect(() => {
-    dispatch(setUser());
-
-    dispatch(initPosts());
-    dispatch(setSubredditList());
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);*/
 
   useEffect(() => {
     dispatch(setUser());
-
     const setPostsAndSubreddits = async () => {
       try {
         dispatch(initPosts());
@@ -59,7 +48,7 @@ const App = () => {
         )}
         <NavBar />
         <Container disableGutters maxWidth="lg" className={classes.container}>
-          <AddPostModal />
+          <PostFormModal />
           <PostsList />
         </Container>
       </Paper>

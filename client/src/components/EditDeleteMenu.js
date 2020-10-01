@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import DeleteDialog from './DeleteDialog';
-import AddPostModal from './AddPostModal';
+import PostFormModal from './PostFormModal';
 import { removePost } from '../reducers/postReducer';
 
 import { IconButton, Menu } from '@material-ui/core';
@@ -40,7 +40,7 @@ const EditDeleteMenu = ({ id, title, postType, subreddit }) => {
         onClose={handleClose}
       >
         <div>
-          <AddPostModal
+          <PostFormModal
             actionType="edit"
             handleMenuClose={handleClose}
             postToEditType={postType}
