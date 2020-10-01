@@ -1,7 +1,7 @@
-let charLimit = 30;
-
-export const trimLink = (link) => {
-  return link.length < charLimit ? link : link.slice(0, 30).concat('...');
+export const trimLink = (link, charLimit) => {
+  return link.length < charLimit
+    ? link
+    : link.slice(0, charLimit).concat('...');
 };
 
 export const prettifyLink = (link) => {

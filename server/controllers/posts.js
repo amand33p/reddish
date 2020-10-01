@@ -43,6 +43,8 @@ router.get('/:id/comments', async (req, res) => {
   }
 
   const populatedPost = await post
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName')
     .populate('comments.commentedBy', 'username')
     .populate('comments.replies.repliedBy', 'username')
     .execPopulate();

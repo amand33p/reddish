@@ -91,7 +91,7 @@ const PostCard = ({ post }) => {
       : postType === 'Image'
       ? imageSubmission.imageLink
       : '';
-  const formattedLink = trimLink(prettifyLink(linkToShow));
+  const formattedLink = trimLink(prettifyLink(linkToShow), 30);
 
   return (
     <Paper className={classes.root} variant="outlined">
@@ -124,13 +124,15 @@ const PostCard = ({ post }) => {
       </div>
       <div className={classes.thumbnailWrapper}>
         {postType === 'Text' ? (
-          <Paper elevation={0} square className={classes.thumbnail}>
-            <MessageIcon
-              fontSize="inherit"
-              className={classes.thumbnailIcon}
-              style={{ color: '#787878' }}
-            />
-          </Paper>
+          <RouterLink to={`/comments/${id}`}>
+            <Paper elevation={0} square className={classes.thumbnail}>
+              <MessageIcon
+                fontSize="inherit"
+                className={classes.thumbnailIcon}
+                style={{ color: '#787878' }}
+              />
+            </Paper>
+          </RouterLink>
         ) : postType === 'Link' ? (
           <a href={fixUrl(linkSubmission)} target="_noblank">
             <Paper elevation={0} square className={classes.thumbnail}>

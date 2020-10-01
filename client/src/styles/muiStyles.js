@@ -166,7 +166,7 @@ export const useCardStyles = (isUpvoted, isDownvoted) => {
       flexDirection: 'column',
       width: 30,
       alignItems: 'center',
-      backgroundColor: '#f2f2f2',
+      backgroundColor: '#f7f5f3',
     },
     points: {
       color: isUpvoted ? '#FF8b60' : isDownvoted ? '#9494FF' : '#333',
@@ -181,7 +181,7 @@ export const useCardStyles = (isUpvoted, isDownvoted) => {
       width: 70,
       height: 90,
       textAlign: 'center',
-      backgroundColor: '#f2f2f2',
+      backgroundColor: '#f7f5f3',
       borderRadius: 8,
       [theme.breakpoints.down('xs')]: {
         width: 60,
@@ -287,13 +287,43 @@ export const usePostFormStyles = makeStyles((theme) => ({
 export const usePostCommentsStyles = makeStyles((theme) => ({
   mainPaper: {
     marginTop: '1em',
+    display: 'flex',
   },
   votesWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    width: 30,
+    width: 50,
     alignItems: 'center',
     justifyContent: 'flex-start',
+    backgroundColor: '#f7f5f3',
+    [theme.breakpoints.down('xs')]: {
+      width: 35,
+    },
   },
-  postDetails: {},
+  postDetails: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '0.5em',
+    borderRadius: 0,
+  },
+  title: {
+    fontWeight: 500,
+    marginBottom: '0.7em',
+  },
+  imagePost: {
+    width: '500px',
+    alignSelf: 'center',
+    [theme.breakpoints.down('xs')]: {
+      width: '200px',
+    },
+  },
+  bottomBar: {
+    display: 'flex',
+    marginTop: '0.8em',
+  },
+  commentcount: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));

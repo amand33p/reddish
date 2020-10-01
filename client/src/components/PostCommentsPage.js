@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPostComments } from '../reducers/postCommentsReducer';
 import AuthFormModal from './AuthFormModal';
+import EditDeleteMenu from './EditDeleteMenu';
+import ReactTimeAgo from 'react-time-ago';
+import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 
 import {
   Container,
@@ -10,11 +13,14 @@ import {
   Checkbox,
   useMediaQuery,
   Typography,
+  Link,
 } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import CommentIcon from '@material-ui/icons/Comment';
 
 const PostCommentsPage = () => {
   const { id: postId } = useParams();
@@ -42,6 +48,7 @@ const PostCommentsPage = () => {
     id,
     title,
     postType,
+    textSubmission,
     linkSubmission,
     imageSubmission,
     subreddit,
@@ -90,6 +97,9 @@ const PostCommentsPage = () => {
     }
   };
 
+  const formattedLink =
+    postType === 'Link' && trimLink(prettifyLink(linkSubmission), 70);
+
   return (
     <Container>
       <Paper variant="outlined" className={classes.mainPaper}>
@@ -127,7 +137,52 @@ const PostCommentsPage = () => {
             <AuthFormModal type="downvote" />
           )}
         </div>
-        <div className={classes.postDetails}></div>
+        <div className={classes.postDetails} elevation={0}>
+          <Typography variant="subtitle2">
+            <Link component={RouterLink} to={`/r/${subreddit.subredditName}`}>
+              {`r/${subreddit.subredditName} `}
+            </Link>
+            <Typography variant="caption" className={classes.userAndDate}>
+              • Posted by
+              <Link component={RouterLink} to={`/u/${author.username}`}>
+                {` u/${author.username} `}
+              </Link>
+              • <ReactTimeAgo date={new Date(createdAt)} />
+              {createdAt !== updatedAt && '*'}
+            </Typography>
+          </Typography>
+          <Typography variant="h5" className={classes.title}>
+            {title}
+          </Typography>
+          {postType === 'Text' ? (
+            <Typography variant="body1">{textSubmission}</Typography>
+          ) : postType === 'Image' ? (
+            <img
+              alt={title}
+              src={imageSubmission.imageLink}
+              className={classes.imagePost}
+            />
+          ) : (
+            <Link href={fixUrl(linkSubmission)}>
+              {formattedLink} <OpenInNewIcon fontSize="inherit" />
+            </Link>
+          )}
+          <div className={classes.bottomBar}>
+            <Typography variant="body1" className={classes.commentcount}>
+              <CommentIcon fontSize="inherit" style={{ marginRight: 5 }} />
+              {commentCount} comments
+            </Typography>
+            {user && user.id === author.id && (
+              <EditDeleteMenu
+                id={id}
+                isMobile={isMobile}
+                title={title}
+                postType={postType}
+                subreddit={subreddit}
+              />
+            )}
+          </div>
+        </div>
       </Paper>
     </Container>
   );

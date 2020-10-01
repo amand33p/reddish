@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import DeleteDialog from './DeleteDialog';
 import PostFormModal from './PostFormModal';
 import { removePost } from '../reducers/postReducer';
@@ -10,6 +11,8 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 const EditDeleteMenu = ({ id, title, postType, subreddit }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -23,6 +26,9 @@ const EditDeleteMenu = ({ id, title, postType, subreddit }) => {
     try {
       handleClose();
       dispatch(removePost(id));
+      if (location.pathname !== '/') {
+        history.push('/');
+      }
     } catch (err) {
       console.log(err.response.data.error);
     }
