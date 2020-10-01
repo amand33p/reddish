@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPostComments } from '../reducers/postCommentsReducer';
+import {
+  fetchPostComments,
+  toggleUpvote,
+  toggleDownvote,
+} from '../reducers/postCommentsReducer';
 import AuthFormModal from './AuthFormModal';
 import EditDeleteMenu from './EditDeleteMenu';
 import ReactTimeAgo from 'react-time-ago';
@@ -69,11 +73,11 @@ const PostCommentsPage = () => {
     try {
       if (isUpvoted) {
         const updatedUpvotedBy = upvotedBy.filter((u) => u !== user.id);
-        //await dispatch(toggleUpvote(id, updatedUpvotedBy, downvotedBy));
+        dispatch(toggleUpvote(id, updatedUpvotedBy, downvotedBy));
       } else {
         const updatedUpvotedBy = [...upvotedBy, user.id];
         const updatedDownvotedBy = downvotedBy.filter((d) => d !== user.id);
-        //await dispatch(toggleUpvote(id, updatedUpvotedBy, updatedDownvotedBy));
+        dispatch(toggleUpvote(id, updatedUpvotedBy, updatedDownvotedBy));
       }
     } catch (err) {
       console.log(err.response.data.message);
@@ -84,13 +88,11 @@ const PostCommentsPage = () => {
     try {
       if (isDownvoted) {
         const updatedDownvotedBy = downvotedBy.filter((d) => d !== user.id);
-        //await dispatch(toggleDownvote(id, updatedDownvotedBy, upvotedBy));
+        dispatch(toggleDownvote(id, updatedDownvotedBy, upvotedBy));
       } else {
         const updatedDownvotedBy = [...downvotedBy, user.id];
         const updatedUpvotedBy = upvotedBy.filter((u) => u !== user.id);
-        /*await dispatch(
-          toggleDownvote(id, updatedDownvotedBy, updatedUpvotedBy)
-        );*/
+        dispatch(toggleDownvote(id, updatedDownvotedBy, updatedUpvotedBy));
       }
     } catch (err) {
       console.log(err.response.data.message);
@@ -168,8 +170,8 @@ const PostCommentsPage = () => {
             </Link>
           )}
           <div className={classes.bottomBar}>
-            <Typography variant="body1" className={classes.commentcount}>
-              <CommentIcon fontSize="inherit" style={{ marginRight: 5 }} />
+            <Typography variant="body1" className={classes.bottomButton}>
+              <CommentIcon className={classes.commentIcon} />
               {commentCount} comments
             </Typography>
             {user && user.id === author.id && (
@@ -179,6 +181,7 @@ const PostCommentsPage = () => {
                 title={title}
                 postType={postType}
                 subreddit={subreddit}
+                buttonType="buttonGroup"
               />
             )}
           </div>

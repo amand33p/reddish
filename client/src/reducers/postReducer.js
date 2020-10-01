@@ -36,11 +36,9 @@ export const toggleUpvote = (id, upvotedBy, downvotedBy) => {
       pointsCount = 0;
     }
 
-    const payload = { id, data: { upvotedBy, pointsCount, downvotedBy } };
-
     dispatch({
       type: 'TOGGLE_UPVOTE',
-      payload,
+      payload: { id, data: { upvotedBy, pointsCount, downvotedBy } },
     });
 
     await postService.upvotePost(id);
@@ -54,11 +52,9 @@ export const toggleDownvote = (id, downvotedBy, upvotedBy) => {
       pointsCount = 0;
     }
 
-    const payload = { id, data: { upvotedBy, pointsCount, downvotedBy } };
-
     dispatch({
       type: 'TOGGLE_DOWNVOTE',
-      payload,
+      payload: { id, data: { upvotedBy, pointsCount, downvotedBy } },
     });
 
     await postService.downvotePost(id);

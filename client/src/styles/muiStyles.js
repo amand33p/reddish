@@ -322,8 +322,12 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
     display: 'flex',
     marginTop: '0.8em',
   },
-  commentcount: {
+  bottomButton: {
     display: 'flex',
     alignItems: 'center',
+    fontSize: '1em',
+  },
+  commentIcon: {
+    marginRight: 10,
   },
 }));

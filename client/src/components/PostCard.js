@@ -57,11 +57,11 @@ const PostCard = ({ post }) => {
     try {
       if (isUpvoted) {
         const updatedUpvotedBy = upvotedBy.filter((u) => u !== user.id);
-        await dispatch(toggleUpvote(id, updatedUpvotedBy, downvotedBy));
+        dispatch(toggleUpvote(id, updatedUpvotedBy, downvotedBy));
       } else {
         const updatedUpvotedBy = [...upvotedBy, user.id];
         const updatedDownvotedBy = downvotedBy.filter((d) => d !== user.id);
-        await dispatch(toggleUpvote(id, updatedUpvotedBy, updatedDownvotedBy));
+        dispatch(toggleUpvote(id, updatedUpvotedBy, updatedDownvotedBy));
       }
     } catch (err) {
       console.log(err.response.data.message);
@@ -72,13 +72,11 @@ const PostCard = ({ post }) => {
     try {
       if (isDownvoted) {
         const updatedDownvotedBy = downvotedBy.filter((d) => d !== user.id);
-        await dispatch(toggleDownvote(id, updatedDownvotedBy, upvotedBy));
+        dispatch(toggleDownvote(id, updatedDownvotedBy, upvotedBy));
       } else {
         const updatedDownvotedBy = [...downvotedBy, user.id];
         const updatedUpvotedBy = upvotedBy.filter((u) => u !== user.id);
-        await dispatch(
-          toggleDownvote(id, updatedDownvotedBy, updatedUpvotedBy)
-        );
+        dispatch(toggleDownvote(id, updatedDownvotedBy, updatedUpvotedBy));
       }
     } catch (err) {
       console.log(err.response.data.message);

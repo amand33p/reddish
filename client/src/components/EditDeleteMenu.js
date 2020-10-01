@@ -5,10 +5,10 @@ import DeleteDialog from './DeleteDialog';
 import PostFormModal from './PostFormModal';
 import { removePost } from '../reducers/postReducer';
 
-import { IconButton, Menu } from '@material-ui/core';
+import { IconButton, Menu, Button } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-const EditDeleteMenu = ({ id, title, postType, subreddit }) => {
+const EditDeleteMenu = ({ id, title, postType, subreddit, buttonType }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -36,16 +36,8 @@ const EditDeleteMenu = ({ id, title, postType, subreddit }) => {
 
   return (
     <div>
-      <IconButton onClick={handleClick}>
-        <MoreHorizIcon />
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <div>
+      {buttonType === 'buttonGroup' ? (
+        <div style={{ display: 'flex' }}>
           <PostFormModal
             actionType="edit"
             handleMenuClose={handleClose}
@@ -54,13 +46,42 @@ const EditDeleteMenu = ({ id, title, postType, subreddit }) => {
             postToEditSub={subreddit}
             postToEditId={id}
           />
+          <DeleteDialog
+            title={title}
+            handleDelete={handleDeletePost}
+            handleMenuClose={handleClose}
+          />
         </div>
-        <DeleteDialog
-          title={title}
-          handleDelete={handleDeletePost}
-          handleMenuClose={handleClose}
-        />
-      </Menu>
+      ) : (
+        <div>
+          {' '}
+          <IconButton onClick={handleClick}>
+            <MoreHorizIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <div>
+              <PostFormModal
+                actionType="edit"
+                handleMenuClose={handleClose}
+                postToEditType={postType}
+                postToEditTitle={title}
+                postToEditSub={subreddit}
+                postToEditId={id}
+              />
+            </div>
+            <DeleteDialog
+              title={title}
+              handleDelete={handleDeletePost}
+              handleMenuClose={handleClose}
+            />
+          </Menu>
+        </div>
+      )}
     </div>
   );
 };
