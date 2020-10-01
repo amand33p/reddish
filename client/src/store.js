@@ -5,13 +5,13 @@ import notificationReducer from './reducers/notificationReducer';
 import userReducer from './reducers/userReducer';
 import postReducer from './reducers/postReducer';
 import subredditReducer from './reducers/subredditReducer';
-import postPageReducer from './reducers/postPageReducer';
+import postCommentsReducer from './reducers/postCommentsReducer';
 
 const reducer = combineReducers({
   user: userReducer,
   notification: notificationReducer,
   posts: postReducer,
-  postPage: postPageReducer,
+  postComments: postCommentsReducer,
   subreddits: subredditReducer,
 });
 

@@ -2,13 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PostCard from './PostCard';
 
-import { Paper } from '@material-ui/core';
-import { usePostsListStyles } from '../styles/muiStyles';
+import { usePostListStyles } from '../styles/muiStyles';
 
-const PostsList = () => {
+const PostList = () => {
   const posts = useSelector((state) => state.posts);
 
-  const classes = usePostsListStyles();
+  const classes = usePostListStyles();
 
   return (
     <div>
@@ -19,4 +18,4 @@ const PostsList = () => {
   );
 };
 
-export default PostsList;
+export default PostList;

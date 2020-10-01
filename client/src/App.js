@@ -6,10 +6,9 @@ import { setSubredditList } from './reducers/subredditReducer';
 import { clearNotif } from './reducers/notificationReducer';
 import NavBar from './components/NavBar';
 import ToastNotif from './components/ToastNotif';
-import PostsList from './components/PostsList';
-import PostFormModal from './components/PostFormModal';
+import Routes from './components/Routes';
 
-import { Paper, Container } from '@material-ui/core/';
+import { Paper } from '@material-ui/core/';
 import customTheme from './styles/customTheme';
 import { useMainPaperStyles } from './styles/muiStyles';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -47,10 +46,7 @@ const App = () => {
           />
         )}
         <NavBar />
-        <Container disableGutters maxWidth="lg" className={classes.container}>
-          <PostFormModal />
-          <PostsList />
-        </Container>
+        <Routes />
       </Paper>
     </ThemeProvider>
   );

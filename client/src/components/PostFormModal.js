@@ -63,59 +63,62 @@ const AddPostModal = ({
     handleMenuClose();
   };
 
+  if (!user) {
+    return null;
+  }
+
   return (
     <div>
-      {user &&
-        (actionType === 'edit' ? (
-          <MenuItem onClick={handleMenuClick}>
-            <ListItemIcon>
-              <EditIcon style={{ marginRight: 10 }} />
-              <Typography>Edit Post</Typography>
-            </ListItemIcon>
-          </MenuItem>
-        ) : isMobile ? (
-          <HideOnScroll>
-            <Fab
-              className={classes.fab}
-              color="primary"
-              onClick={handleClickOpen}
-            >
-              <PostAddIcon />
-            </Fab>
-          </HideOnScroll>
-        ) : (
-          <Paper variant="outlined" className={classes.createPostWrapper}>
-            {user.avatar && user.avatar.exists ? (
-              <Avatar
-                alt={user.username}
-                src={getCircularAvatar(user.avatar.imageLink)}
-              />
-            ) : (
-              <Avatar style={{ backgroundColor: '#941a1c' }}>
-                {user.username[0]}
-              </Avatar>
-            )}
-            <Button
-              color="primary"
-              variant="outlined"
-              onClick={handleClickOpen}
-              fullWidth
-              className={classes.createBtn}
-              startIcon={<PostAddIcon />}
-              size="large"
-            >
-              Create Post
-            </Button>
-            <div className={classes.iconGroup}>
-              <IconButton onClick={handleImagePost}>
-                <ImageIcon color="primary" />
-              </IconButton>
-              <IconButton onClick={handleLinkPost}>
-                <LinkIcon color="primary" />
-              </IconButton>
-            </div>
-          </Paper>
-        ))}
+      {actionType === 'edit' ? (
+        <MenuItem onClick={handleMenuClick}>
+          <ListItemIcon>
+            <EditIcon style={{ marginRight: 10 }} />
+            <Typography>Edit Post</Typography>
+          </ListItemIcon>
+        </MenuItem>
+      ) : isMobile ? (
+        <HideOnScroll>
+          <Fab
+            className={classes.fab}
+            color="primary"
+            onClick={handleClickOpen}
+          >
+            <PostAddIcon />
+          </Fab>
+        </HideOnScroll>
+      ) : (
+        <Paper variant="outlined" className={classes.createPostWrapper}>
+          {user.avatar && user.avatar.exists ? (
+            <Avatar
+              alt={user.username}
+              src={getCircularAvatar(user.avatar.imageLink)}
+            />
+          ) : (
+            <Avatar style={{ backgroundColor: '#941a1c' }}>
+              {user.username[0]}
+            </Avatar>
+          )}
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={handleClickOpen}
+            fullWidth
+            className={classes.createBtn}
+            startIcon={<PostAddIcon />}
+            size="large"
+          >
+            Create Post
+          </Button>
+          <div className={classes.iconGroup}>
+            <IconButton onClick={handleImagePost}>
+              <ImageIcon color="primary" />
+            </IconButton>
+            <IconButton onClick={handleLinkPost}>
+              <LinkIcon color="primary" />
+            </IconButton>
+          </div>
+        </Paper>
+      )}
       <Dialog
         open={open}
         onClose={handleClose}

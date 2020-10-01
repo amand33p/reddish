@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
 import generateBase64Encode from '../utils/genBase64Encode';
-import { createNewPost, updatePost } from '../reducers/postPageReducer';
+import { createNewPost, updatePost } from '../reducers/postCommentsReducer';
 import * as yup from 'yup';
 
 import { usePostFormStyles } from '../styles/muiStyles';
@@ -33,7 +33,7 @@ const validationSchema = yup.object({
   linkSubmission: yup
     .string()
     .matches(
-      /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+      /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
       'Valid URL required'
     ),
 });

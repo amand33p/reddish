@@ -25,6 +25,11 @@ const editPost = async (id, postObj) => {
   return response.data;
 };
 
+const getPostComments = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}/comments`);
+  return response.data;
+};
+
 const upvotePost = async (id) => {
   const response = await axios.post(
     `${baseUrl}/${id}/upvote`,
@@ -52,6 +57,7 @@ export default {
   getNewPosts,
   addNew,
   editPost,
+  getPostComments,
   upvotePost,
   downvotePost,
   deletePost,

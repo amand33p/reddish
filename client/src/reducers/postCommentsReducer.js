@@ -2,6 +2,8 @@ import postService from '../services/posts';
 
 const postPageReducer = (state = null, action) => {
   switch (action.type) {
+    case 'FETCH_POST_COMMENTS':
+      return action.payload;
     case 'CREATE_NEW_POST':
       return state;
     case 'UPDATE_POST':
@@ -9,6 +11,17 @@ const postPageReducer = (state = null, action) => {
     default:
       return state;
   }
+};
+
+export const fetchPostComments = (id) => {
+  return async (dispatch) => {
+    const fetchedPost = await postService.getPostComments(id);
+
+    dispatch({
+      type: 'FETCH_POST_COMMENTS',
+      payload: fetchedPost,
+    });
+  };
 };
 
 export const createNewPost = (postObject) => {

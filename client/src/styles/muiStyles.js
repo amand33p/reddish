@@ -148,7 +148,7 @@ export const useAlertStyles = makeStyles((theme) => ({
   },
 }));
 
-export const usePostsListStyles = makeStyles((theme) => ({
+export const usePostListStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
   },
@@ -282,4 +282,18 @@ export const usePostFormStyles = makeStyles((theme) => ({
   selectBtn: {
     textTransform: 'capitalize',
   },
+}));
+
+export const usePostCommentsStyles = makeStyles((theme) => ({
+  mainPaper: {
+    marginTop: '1em',
+  },
+  votesWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: 30,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  postDetails: {},
 }));
