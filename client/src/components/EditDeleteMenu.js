@@ -5,10 +5,18 @@ import DeleteDialog from './DeleteDialog';
 import PostFormModal from './PostFormModal';
 import { removePost } from '../reducers/postReducer';
 
-import { IconButton, Menu, Button } from '@material-ui/core';
+import { IconButton, Menu } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-const EditDeleteMenu = ({ id, title, postType, subreddit, buttonType }) => {
+const EditDeleteMenu = ({
+  id,
+  title,
+  postType,
+  subreddit,
+  buttonType,
+  textSubmission,
+  linkSubmission,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -45,6 +53,8 @@ const EditDeleteMenu = ({ id, title, postType, subreddit, buttonType }) => {
             postToEditTitle={title}
             postToEditSub={subreddit}
             postToEditId={id}
+            textSubmission={textSubmission}
+            linkSubmission={linkSubmission}
           />
           <DeleteDialog
             title={title}
@@ -72,6 +82,8 @@ const EditDeleteMenu = ({ id, title, postType, subreddit, buttonType }) => {
                 postToEditTitle={title}
                 postToEditSub={subreddit}
                 postToEditId={id}
+                textSubmission={textSubmission}
+                linkSubmission={linkSubmission}
               />
             </div>
             <DeleteDialog

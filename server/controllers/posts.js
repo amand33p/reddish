@@ -16,7 +16,7 @@ router.get('/new', async (req, res) => {
 
   const allPosts = await Post.find({})
     .sort({ createdAt: -1 })
-    .select('-comments -textSubmission')
+    .select('-comments')
     .limit(limit)
     .skip(paginated.startIndex)
     .populate('author', 'username')
@@ -190,8 +190,15 @@ router.patch('/:id', auth, async (req, res) => {
 
   post.updatedAt = Date.now();
 
-  await post.save();
-  res.status(202).json(post);
+  const savedPost = await post.save();
+  const populatedPost = await savedPost
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName')
+    .populate('comments.commentedBy', 'username')
+    .populate('comments.replies.repliedBy', 'username')
+    .execPopulate();
+
+  res.status(202).json(populatedPost);
 });
 
 router.delete('/:id', auth, async (req, res) => {

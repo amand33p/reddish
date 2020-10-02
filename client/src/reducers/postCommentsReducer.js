@@ -5,9 +5,9 @@ const postPageReducer = (state = null, action) => {
     case 'FETCH_POST_COMMENTS':
       return action.payload;
     case 'CREATE_NEW_POST':
-      return state;
+      return action.payload;
     case 'UPDATE_POST':
-      return state;
+      return action.payload;
     case 'TOGGLE_UPVOTE':
       return { ...state, ...action.payload };
     case 'TOGGLE_DOWNVOTE':
@@ -36,6 +36,8 @@ export const createNewPost = (postObject) => {
       type: 'CREATE_NEW_POST',
       payload: addedPost,
     });
+
+    return addedPost.id;
   };
 };
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
 import generateBase64Encode from '../utils/genBase64Encode';
@@ -46,10 +47,13 @@ const AddPostForm = ({
   postToEditTitle,
   postToEditSub,
   postToEditId,
+  textSubmission,
+  linkSubmission,
 }) => {
   const [fileName, setFileName] = useState('');
   const subreddits = useSelector((state) => state.subreddits);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
@@ -69,9 +73,10 @@ const AddPostForm = ({
   const handleAddPost = async (values, { setSubmitting, resetForm }) => {
     try {
       setSubmitting(true);
-      dispatch(createNewPost(values));
+      const postId = await dispatch(createNewPost(values));
       setSubmitting(false);
 
+      history.push(`/comments/${postId}`);
       resetForm();
       closeModal();
     } catch (err) {
@@ -86,6 +91,7 @@ const AddPostForm = ({
       dispatch(updatePost(postToEditId, values));
       setSubmitting(false);
 
+      history.push(`/comments/${postToEditId}`);
       resetForm();
       closeModal();
     } catch (err) {
@@ -99,9 +105,9 @@ const AddPostForm = ({
       <Formik
         initialValues={{
           title: actionType === 'edit' ? postToEditTitle : '',
-          postType: actionType !== 'edit' ? postType : postToEditType,
-          textSubmission: '',
-          linkSubmission: '',
+          postType: actionType === 'edit' ? postToEditType : postType,
+          textSubmission: actionType === 'edit' ? textSubmission : '',
+          linkSubmission: actionType === 'edit' ? linkSubmission : '',
           imageSubmission: '',
           subreddit: actionType === 'edit' ? postToEditSub.id : '',
         }}

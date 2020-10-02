@@ -150,7 +150,11 @@ const PostCommentsPage = () => {
                 {` u/${author.username} `}
               </Link>
               • <ReactTimeAgo date={new Date(createdAt)} />
-              {createdAt !== updatedAt && '*'}
+              {createdAt !== updatedAt && (
+                <span>
+                  {' • Updated:'} <ReactTimeAgo date={new Date(updatedAt)} />
+                </span>
+              )}
             </Typography>
           </Typography>
           <Typography variant="h5" className={classes.title}>
@@ -182,6 +186,8 @@ const PostCommentsPage = () => {
                 postType={postType}
                 subreddit={subreddit}
                 buttonType="buttonGroup"
+                textSubmission={textSubmission}
+                linkSubmission={linkSubmission}
               />
             )}
           </div>

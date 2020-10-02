@@ -195,7 +195,6 @@ export const useCardStyles = (isUpvoted, isDownvoted) => {
       paddingTop: 8,
       paddingLeft: 8,
     },
-    url: {},
     userAndDate: {
       marginLeft: 10,
     },

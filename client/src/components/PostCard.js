@@ -31,6 +31,7 @@ const PostCard = ({ post }) => {
     id,
     title,
     postType,
+    textSubmission,
     linkSubmission,
     imageSubmission,
     subreddit,
@@ -204,6 +205,8 @@ const PostCard = ({ post }) => {
               title={title}
               postType={postType}
               subreddit={subreddit}
+              textSubmission={textSubmission}
+              linkSubmission={linkSubmission}
             />
           )}
         </div>
