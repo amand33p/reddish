@@ -8,6 +8,7 @@ import {
 } from '../reducers/postCommentsReducer';
 import AuthFormModal from './AuthFormModal';
 import EditDeleteMenu from './EditDeleteMenu';
+import CommentsDisplay from './CommentsDisplay';
 import ReactTimeAgo from 'react-time-ago';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 import ReactHtmlParser from 'react-html-parser';
@@ -152,9 +153,9 @@ const PostCommentsPage = () => {
               </Link>
               • <ReactTimeAgo date={new Date(createdAt)} />
               {createdAt !== updatedAt && (
-                <span>
-                  {' • Updated:'} <ReactTimeAgo date={new Date(updatedAt)} />
-                </span>
+                <em>
+                  {' • edited'} <ReactTimeAgo date={new Date(updatedAt)} />
+                </em>
               )}
             </Typography>
           </Typography>
@@ -166,11 +167,14 @@ const PostCommentsPage = () => {
               {ReactHtmlParser(textSubmission)}
             </Typography>
           ) : postType === 'Image' ? (
-            <img
-              alt={title}
-              src={imageSubmission.imageLink}
+            <a
+              href={imageSubmission.imageLink}
+              target="_blank"
+              rel="noopener noreferrer"
               className={classes.imagePost}
-            />
+            >
+              <img alt={title} src={imageSubmission.imageLink} />
+            </a>
           ) : (
             <Link href={fixUrl(linkSubmission)}>
               {formattedLink} <OpenInNewIcon fontSize="inherit" />
@@ -194,6 +198,7 @@ const PostCommentsPage = () => {
               />
             )}
           </div>
+          <CommentsDisplay comments={comments} />
         </div>
       </Paper>
     </Container>

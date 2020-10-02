@@ -328,8 +328,32 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     fontSize: '1em',
+    color: '#757575',
   },
   commentIcon: {
     marginRight: 10,
+  },
+  commentsContainer: {
+    marginTop: '1.5em',
+  },
+  divider: {
+    marginBottom: '2em',
+  },
+  commentWrapper: {
+    marginBottom: '2em',
+    display: 'flex',
+  },
+  commentVotesWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: 30,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  commentDetails: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '1em',
+    paddingTop: '0.7em',
   },
 }));

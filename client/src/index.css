@@ -31,4 +31,9 @@ code {
     width: 100vw;
     overflow-x: hidden;
   }
+
+  .ck-editor__editable_inline {
+    min-height: 200px;
+    max-width: auto;
+  }
 }
