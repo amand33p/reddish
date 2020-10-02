@@ -72,14 +72,27 @@ const CommentsDisplay = ({ comments }) => {
     <div className={classes.commentsContainer}>
       <Divider className={classes.divider} />
       {comments.map((c) => (
-        <div key={c.id} className={classes.commentWrapper}>
-          <div className={classes.commentVotesWrapper}>
-            {upvoteButton(c)}
-            {downvoteButton(c)}
+        <div key={c.id} className={classes.wholeComment}>
+          <div className={classes.commentWrapper}>
+            <div className={classes.commentVotesWrapper}>
+              {upvoteButton(c)}
+              {downvoteButton(c)}
+            </div>
+            <div className={classes.commentDetails}>
+              {commentDetails(c.commentedBy, c, c.commentBody)}
+            </div>
           </div>
-          <div className={classes.commentDetails}>
-            {commentDetails(c.commentedBy, c, c.commentBody)}
-          </div>
+          {c.replies.map((r) => (
+            <div key={r.id} className={classes.replyWrapper}>
+              <div className={classes.commentVotesWrapper}>
+                {upvoteButton(r)}
+                {downvoteButton(r)}
+              </div>
+              <div className={classes.commentDetails}>
+                {commentDetails(r.repliedBy, r, r.replyBody)}
+              </div>
+            </div>
+          ))}
         </div>
       ))}
     </div>

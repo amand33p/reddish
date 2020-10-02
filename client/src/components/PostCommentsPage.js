@@ -20,6 +20,8 @@ import {
   useMediaQuery,
   Typography,
   Link,
+  MenuItem,
+  ListItemIcon,
 } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
@@ -105,101 +107,110 @@ const PostCommentsPage = () => {
     postType === 'Link' && trimLink(prettifyLink(linkSubmission), 70);
 
   return (
-    <Container>
+    <Container disableGutters>
       <Paper variant="outlined" className={classes.mainPaper}>
-        <div className={classes.votesWrapper}>
-          {user ? (
-            <Checkbox
-              checked={isUpvoted}
-              icon={<ArrowUpwardIcon style={{ color: '#b2b2b2' }} />}
-              checkedIcon={<ArrowUpwardIcon style={{ color: '#FF8b60' }} />}
-              onChange={handleUpvoteToggle}
-              size={isMobile ? 'small' : 'medium'}
-            />
-          ) : (
-            <AuthFormModal type="upvote" />
-          )}
-          <Typography
-            variant="body1"
-            className={classes.points}
-            style={{
-              color: isUpvoted ? '#FF8b60' : isDownvoted ? '#9494FF' : '#333',
-              fontWeight: 600,
-            }}
-          >
-            {pointsCount}
-          </Typography>
-          {user ? (
-            <Checkbox
-              checked={isDownvoted}
-              icon={<ArrowDownwardIcon style={{ color: '#b2b2b2' }} />}
-              checkedIcon={<ArrowDownwardIcon style={{ color: '#9494FF' }} />}
-              onChange={handleDownvoteToggle}
-              size={isMobile ? 'small' : 'medium'}
-            />
-          ) : (
-            <AuthFormModal type="downvote" />
-          )}
-        </div>
-        <div className={classes.postDetails} elevation={0}>
-          <Typography variant="subtitle2">
-            <Link component={RouterLink} to={`/r/${subreddit.subredditName}`}>
-              {`r/${subreddit.subredditName} `}
-            </Link>
-            <Typography variant="caption" className={classes.userAndDate}>
-              • Posted by
-              <Link component={RouterLink} to={`/u/${author.username}`}>
-                {` u/${author.username} `}
-              </Link>
-              • <ReactTimeAgo date={new Date(createdAt)} />
-              {createdAt !== updatedAt && (
-                <em>
-                  {' • edited'} <ReactTimeAgo date={new Date(updatedAt)} />
-                </em>
-              )}
-            </Typography>
-          </Typography>
-          <Typography variant="h5" className={classes.title}>
-            {title}
-          </Typography>
-          {postType === 'Text' ? (
-            <Typography variant="body1">
-              {ReactHtmlParser(textSubmission)}
-            </Typography>
-          ) : postType === 'Image' ? (
-            <a
-              href={imageSubmission.imageLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={classes.imagePost}
-            >
-              <img alt={title} src={imageSubmission.imageLink} />
-            </a>
-          ) : (
-            <Link href={fixUrl(linkSubmission)}>
-              {formattedLink} <OpenInNewIcon fontSize="inherit" />
-            </Link>
-          )}
-          <div className={classes.bottomBar}>
-            <Typography variant="body1" className={classes.bottomButton}>
-              <CommentIcon className={classes.commentIcon} />
-              {commentCount} comments
-            </Typography>
-            {user && user.id === author.id && (
-              <EditDeleteMenu
-                id={id}
-                isMobile={isMobile}
-                title={title}
-                postType={postType}
-                subreddit={subreddit}
-                buttonType="buttonGroup"
-                textSubmission={textSubmission}
-                linkSubmission={linkSubmission}
+        <div className={classes.topPortion}>
+          <div className={classes.votesWrapper}>
+            {user ? (
+              <Checkbox
+                checked={isUpvoted}
+                icon={<ArrowUpwardIcon style={{ color: '#b2b2b2' }} />}
+                checkedIcon={<ArrowUpwardIcon style={{ color: '#FF8b60' }} />}
+                onChange={handleUpvoteToggle}
+                size={isMobile ? 'small' : 'medium'}
               />
+            ) : (
+              <AuthFormModal type="upvote" />
+            )}
+            <Typography
+              variant="body1"
+              className={classes.points}
+              style={{
+                color: isUpvoted ? '#FF8b60' : isDownvoted ? '#9494FF' : '#333',
+                fontWeight: 600,
+              }}
+            >
+              {pointsCount}
+            </Typography>
+            {user ? (
+              <Checkbox
+                checked={isDownvoted}
+                icon={<ArrowDownwardIcon style={{ color: '#b2b2b2' }} />}
+                checkedIcon={<ArrowDownwardIcon style={{ color: '#9494FF' }} />}
+                onChange={handleDownvoteToggle}
+                size={isMobile ? 'small' : 'medium'}
+              />
+            ) : (
+              <AuthFormModal type="downvote" />
             )}
           </div>
-          <CommentsDisplay comments={comments} />
+          <div className={classes.postDetails} elevation={0}>
+            <Typography variant="subtitle2">
+              <Link component={RouterLink} to={`/r/${subreddit.subredditName}`}>
+                {`r/${subreddit.subredditName} `}
+              </Link>
+              <Typography variant="caption" className={classes.userAndDate}>
+                • Posted by
+                <Link component={RouterLink} to={`/u/${author.username}`}>
+                  {` u/${author.username} `}
+                </Link>
+                • <ReactTimeAgo date={new Date(createdAt)} />
+                {createdAt !== updatedAt && (
+                  <em>
+                    {' • edited'} <ReactTimeAgo date={new Date(updatedAt)} />
+                  </em>
+                )}
+              </Typography>
+            </Typography>
+            <Typography variant="h5" className={classes.title}>
+              {title}
+            </Typography>
+            {postType === 'Text' ? (
+              <Typography variant="body1">
+                {ReactHtmlParser(textSubmission)}
+              </Typography>
+            ) : postType === 'Image' ? (
+              <a
+                href={imageSubmission.imageLink}
+                alt={title}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.imagePost}
+              >
+                <img
+                  alt={title}
+                  src={imageSubmission.imageLink}
+                  className={classes.image}
+                />
+              </a>
+            ) : (
+              <Link href={fixUrl(linkSubmission)}>
+                {formattedLink} <OpenInNewIcon fontSize="inherit" />
+              </Link>
+            )}
+            <div className={classes.bottomBar}>
+              <MenuItem className={classes.bottomButton}>
+                <ListItemIcon>
+                  <CommentIcon className={classes.commentIcon} />
+                  <Typography variant="subtitle2">{commentCount}</Typography>
+                </ListItemIcon>
+              </MenuItem>
+              {user && user.id === author.id && (
+                <EditDeleteMenu
+                  id={id}
+                  isMobile={isMobile}
+                  title={title}
+                  postType={postType}
+                  subreddit={subreddit}
+                  buttonType="buttonGroup"
+                  textSubmission={textSubmission}
+                  linkSubmission={linkSubmission}
+                />
+              )}
+            </div>
+          </div>
         </div>
+        <CommentsDisplay comments={comments} />
       </Paper>
     </Container>
   );

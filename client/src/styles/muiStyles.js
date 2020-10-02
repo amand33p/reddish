@@ -290,6 +290,11 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
   mainPaper: {
     marginTop: '1em',
     display: 'flex',
+    flexDirection: 'column',
+    borderRadius: 0,
+  },
+  topPortion: {
+    display: 'flex',
   },
   votesWrapper: {
     display: 'flex',
@@ -314,33 +319,39 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
     marginBottom: '0.7em',
   },
   imagePost: {
-    width: '500px',
-    alignSelf: 'center',
+    textAlign: 'center',
+  },
+  image: {
+    width: '40%',
     [theme.breakpoints.down('xs')]: {
-      width: '200px',
+      width: '40%',
     },
+    border: '1px solid #e9e3d8',
+    borderRadius: 8,
   },
   bottomBar: {
     display: 'flex',
     marginTop: '0.8em',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '0.9em',
+    },
   },
   bottomButton: {
     display: 'flex',
     alignItems: 'center',
     fontSize: '1em',
-    color: '#757575',
   },
   commentIcon: {
     marginRight: 10,
   },
-  commentsContainer: {
-    marginTop: '1.5em',
-  },
+  commentsContainer: {},
   divider: {
+    marginBottom: '1em',
+  },
+  wholeComment: {
     marginBottom: '2em',
   },
   commentWrapper: {
-    marginBottom: '2em',
     display: 'flex',
   },
   commentVotesWrapper: {
@@ -355,5 +366,10 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     padding: '1em',
     paddingTop: '0.7em',
+  },
+  replyWrapper: {
+    marginBottom: '0.2em',
+    display: 'flex',
+    marginLeft: '2em',
   },
 }));

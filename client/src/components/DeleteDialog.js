@@ -8,8 +8,8 @@ import {
   DialogContentText,
   DialogTitle,
   MenuItem,
-  ListItemIcon,
   Typography,
+  ListItemIcon,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -29,8 +29,8 @@ const DeleteDialog = ({ title, handleDelete, handleMenuClose }) => {
     <div>
       <MenuItem onClick={handleClickOpen}>
         <ListItemIcon>
-          <DeleteIcon style={{ marginRight: 10 }} />
-          <Typography>Delete</Typography>
+          <DeleteIcon style={{ marginRight: 5 }} />
+          <Typography variant="subtitle2">Delete</Typography>
         </ListItemIcon>
       </MenuItem>
       <Dialog open={open} keepMounted onClose={handleClose}>

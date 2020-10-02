@@ -79,8 +79,8 @@ const AddPostModal = ({
       {actionType === 'edit' ? (
         <MenuItem onClick={handleMenuClick}>
           <ListItemIcon>
-            <EditIcon style={{ marginRight: 10 }} />
-            <Typography>Edit Post</Typography>
+            <EditIcon style={{ marginRight: 5 }} />
+            <Typography variant="subtitle2">Edit Post</Typography>
           </ListItemIcon>
         </MenuItem>
       ) : isMobile ? (
