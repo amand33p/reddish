@@ -50,6 +50,11 @@ const AddPostModal = ({
     setOpen(false);
   };
 
+  const handleTextPost = () => {
+    setPostType('Text');
+    handleClickOpen();
+  };
+
   const handleImagePost = () => {
     setPostType('Image');
     handleClickOpen();
@@ -103,7 +108,7 @@ const AddPostModal = ({
           <Button
             color="primary"
             variant="outlined"
-            onClick={handleClickOpen}
+            onClick={handleTextPost}
             fullWidth
             className={classes.createBtn}
             startIcon={<PostAddIcon />}

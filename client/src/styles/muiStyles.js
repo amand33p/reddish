@@ -221,7 +221,6 @@ export const usePostFormStyles = makeStyles((theme) => ({
     display: 'flex',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
-      marginTop: 10,
     },
   },
   form: {

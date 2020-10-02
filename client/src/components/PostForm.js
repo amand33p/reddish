@@ -202,17 +202,6 @@ const AddPostForm = ({
             </div>
             {values.postType === 'Text' && (
               <div className={classes.textInput}>
-                {/*<TextInput
-                  name="textSubmission"
-                  placeholder="Enter text"
-                  multiline
-                  rows={4}
-                  rowsMax={Infinity}
-                  label="Text"
-                  required={values.postType === 'Text'}
-                  fullWidth
-                  variant="outlined"
-                />*/}
                 <CKEditor
                   editor={ClassicEditor}
                   data={values.textSubmission}
