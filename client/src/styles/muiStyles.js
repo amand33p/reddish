@@ -107,6 +107,7 @@ export const useAuthStyles = (authType) =>
 export const useDialogStyles = makeStyles((theme) => ({
   dialogWrapper: {
     padding: 0,
+    overflow: 'hidden',
     [theme.breakpoints.down('xs')]: {
       padding: 0,
     },
@@ -280,6 +281,9 @@ export const usePostFormStyles = makeStyles((theme) => ({
   },
   selectBtn: {
     textTransform: 'capitalize',
+  },
+  textInput: {
+    marginTop: '1.5em',
   },
 }));
 

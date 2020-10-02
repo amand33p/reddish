@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form } from 'formik';
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 import { TextInput } from './FormikMuiFields';
 import generateBase64Encode from '../utils/genBase64Encode';
 import { createNewPost, updatePost } from '../reducers/postCommentsReducer';
@@ -22,7 +25,6 @@ import TitleIcon from '@material-ui/icons/Title';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
 import ImageIcon from '@material-ui/icons/Image';
 import LinkIcon from '@material-ui/icons/Link';
-import ChatIcon from '@material-ui/icons/Chat';
 import PublishIcon from '@material-ui/icons/Publish';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -199,9 +201,8 @@ const AddPostForm = ({
               />
             </div>
             {values.postType === 'Text' && (
-              <div className={classes.input}>
-                <ChatIcon className={classes.inputIcon} color="primary" />
-                <TextInput
+              <div className={classes.textInput}>
+                {/*<TextInput
                   name="textSubmission"
                   placeholder="Enter text"
                   multiline
@@ -210,7 +211,14 @@ const AddPostForm = ({
                   label="Text"
                   required={values.postType === 'Text'}
                   fullWidth
-                  variant={actionType === 'edit' ? 'outlined' : 'standard'}
+                  variant="outlined"
+                />*/}
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={values.textSubmission}
+                  onChange={(e, editor) =>
+                    setFieldValue('textSubmission', editor.getData())
+                  }
                 />
               </div>
             )}

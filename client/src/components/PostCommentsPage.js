@@ -10,6 +10,7 @@ import AuthFormModal from './AuthFormModal';
 import EditDeleteMenu from './EditDeleteMenu';
 import ReactTimeAgo from 'react-time-ago';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
+import ReactHtmlParser from 'react-html-parser';
 
 import {
   Container,
@@ -161,7 +162,9 @@ const PostCommentsPage = () => {
             {title}
           </Typography>
           {postType === 'Text' ? (
-            <Typography variant="body1">{textSubmission}</Typography>
+            <Typography variant="body1">
+              {ReactHtmlParser(textSubmission)}
+            </Typography>
           ) : postType === 'Image' ? (
             <img
               alt={title}
