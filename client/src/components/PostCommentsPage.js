@@ -198,7 +198,7 @@ const PostCommentsPage = () => {
             <CommentInput user={user} postId={id} isMobile={isMobile} />
           </div>
         </div>
-        <CommentsDisplay comments={comments} postId={id} />
+        <CommentsDisplay comments={comments} postId={id} isMobile={isMobile} />
       </Paper>
     </Container>
   );

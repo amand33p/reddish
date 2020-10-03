@@ -40,6 +40,15 @@ const postPageReducer = (state = null, action) => {
         ...state,
         comments: [...state.comments, action.payload],
       };
+    case 'ADD_REPLY':
+      return {
+        ...state,
+        comments: state.comments.map((c) =>
+          c.id !== action.payload.commentId
+            ? c
+            : { ...c, replies: [...c.replies, action.payload.addedReply] }
+        ),
+      };
     default:
       return state;
   }
@@ -201,6 +210,19 @@ export const addComment = (postId, comment) => {
     dispatch({
       type: 'ADD_COMMENT',
       payload: addedComment,
+    });
+  };
+};
+
+export const addReply = (postId, commentId, reply) => {
+  return async (dispatch) => {
+    const addedReply = await postService.postReply(postId, commentId, {
+      reply,
+    });
+
+    dispatch({
+      type: 'ADD_REPLY',
+      payload: { commentId, addedReply },
     });
   };
 };

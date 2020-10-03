@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
+import ReplyInput from './ReplyInput';
 import {
   toggleCommentUpvote,
   toggleCommentDownvote,
@@ -13,7 +14,7 @@ import ReactTimeAgo from 'react-time-ago';
 import { Divider, Typography, Link } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
 
-const CommentsDisplay = ({ comments, postId }) => {
+const CommentsDisplay = ({ comments, postId, isMobile }) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -150,7 +151,7 @@ const CommentsDisplay = ({ comments, postId }) => {
 
   const commentDetails = (by, comment, body) => {
     return (
-      <div>
+      <>
         <Typography variant="caption">
           <Link component={RouterLink} to={`/u/${by.username}`}>
             {by.username}
@@ -166,7 +167,7 @@ const CommentsDisplay = ({ comments, postId }) => {
           )}
         </Typography>
         <Typography variant="body2">{body}</Typography>
-      </div>
+      </>
     );
   };
 
@@ -190,6 +191,14 @@ const CommentsDisplay = ({ comments, postId }) => {
             </div>
             <div className={classes.commentDetails}>
               {commentDetails(c.commentedBy, c, c.commentBody)}
+              <div>
+                <ReplyInput
+                  isMobile={isMobile}
+                  replyTo={c.commentedBy.username}
+                  commentId={c.id}
+                  postId={postId}
+                />
+              </div>
             </div>
           </div>
           {c.replies.map((r) => (

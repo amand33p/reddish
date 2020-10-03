@@ -177,12 +177,17 @@ router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
     c._id.toString() !== commentId ? c : targetComment
   );
   post.commentCount = numOfComments(post.comments);
-  await post.save();
+  const savedPost = await post.save();
+  const populatedPost = await savedPost
+    .populate('comments.replies.repliedBy', 'username')
+    .execPopulate();
 
   user.karmaPoints.commentKarma++;
   await user.save();
 
-  const addedReply = targetComment.replies[targetComment.replies.length - 1];
+  const comment = populatedPost.comments.find((c) => c.id === commentId);
+
+  const addedReply = comment.replies[comment.replies.length - 1];
   res.status(201).json(addedReply);
 });
 

@@ -367,6 +367,7 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     padding: '1em',
     paddingTop: '0.7em',
+    width: '100%',
   },
   replyWrapper: {
     marginBottom: '0.2em',
@@ -387,5 +388,19 @@ export const useCommentInputStyles = makeStyles((theme) => ({
   commentBtn: {
     alignSelf: 'flex-end',
     marginTop: '0.1em',
+  },
+}));
+
+export const useReplyInputStyles = makeStyles((theme) => ({
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  replyBtn: {
+    alignSelf: 'flex-end',
+    marginTop: '0.1em',
+  },
+  openBtn: {
+    textTransform: 'capitalize',
   },
 }));
