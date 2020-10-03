@@ -6,7 +6,7 @@ import {
   toggleUpvote,
   toggleDownvote,
 } from '../reducers/postCommentsReducer';
-import AuthFormModal from './AuthFormModal';
+import { UpvoteButton, DownvoteButton } from './VoteButtons';
 import EditDeleteMenu from './EditDeleteMenu';
 import CommentsDisplay from './CommentsDisplay';
 import ReactTimeAgo from 'react-time-ago';
@@ -16,7 +16,6 @@ import ReactHtmlParser from 'react-html-parser';
 import {
   Container,
   Paper,
-  Checkbox,
   useMediaQuery,
   Typography,
   Link,
@@ -25,8 +24,6 @@ import {
 } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import CommentIcon from '@material-ui/icons/Comment';
 
@@ -111,20 +108,14 @@ const PostCommentsPage = () => {
       <Paper variant="outlined" className={classes.mainPaper}>
         <div className={classes.topPortion}>
           <div className={classes.votesWrapper}>
-            {user ? (
-              <Checkbox
-                checked={isUpvoted}
-                icon={<ArrowUpwardIcon style={{ color: '#b2b2b2' }} />}
-                checkedIcon={<ArrowUpwardIcon style={{ color: '#FF8b60' }} />}
-                onChange={handleUpvoteToggle}
-                size={isMobile ? 'small' : 'medium'}
-              />
-            ) : (
-              <AuthFormModal type="upvote" />
-            )}
+            <UpvoteButton
+              user={user}
+              body={post}
+              handleUpvote={handleUpvoteToggle}
+              size={isMobile ? 'small' : 'medium'}
+            />
             <Typography
               variant="body1"
-              className={classes.points}
               style={{
                 color: isUpvoted ? '#FF8b60' : isDownvoted ? '#9494FF' : '#333',
                 fontWeight: 600,
@@ -132,17 +123,12 @@ const PostCommentsPage = () => {
             >
               {pointsCount}
             </Typography>
-            {user ? (
-              <Checkbox
-                checked={isDownvoted}
-                icon={<ArrowDownwardIcon style={{ color: '#b2b2b2' }} />}
-                checkedIcon={<ArrowDownwardIcon style={{ color: '#9494FF' }} />}
-                onChange={handleDownvoteToggle}
-                size={isMobile ? 'small' : 'medium'}
-              />
-            ) : (
-              <AuthFormModal type="downvote" />
-            )}
+            <DownvoteButton
+              user={user}
+              body={post}
+              handleDownvote={handleDownvoteToggle}
+              size={isMobile ? 'small' : 'medium'}
+            />
           </div>
           <div className={classes.postDetails} elevation={0}>
             <Typography variant="subtitle2">

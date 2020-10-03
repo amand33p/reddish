@@ -1,53 +1,27 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import AuthFormModal from './AuthFormModal';
+import { UpvoteButton, DownvoteButton } from './VoteButtons';
 import ReactTimeAgo from 'react-time-ago';
 
-import { Divider, Typography, Checkbox, Link } from '@material-ui/core';
+import { Divider, Typography, Link } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 const CommentsDisplay = ({ comments }) => {
   const user = useSelector((state) => state.user);
   const classes = usePostCommentsStyles();
 
-  const handleUpvoteToggle = () => {};
+  const handleCommentUpvote = () => {};
 
-  const handleDownvoteToggle = () => {};
+  const handleCommentDownvote = () => {};
 
-  const upvoteButton = (comment) => {
-    return user ? (
-      <Checkbox
-        checked={comment.upvotedBy.includes(user.id)}
-        icon={<ArrowUpwardIcon style={{ color: '#b2b2b2' }} />}
-        checkedIcon={<ArrowUpwardIcon style={{ color: '#FF8b60' }} />}
-        onChange={handleUpvoteToggle}
-        size="small"
-      />
-    ) : (
-      <AuthFormModal type="upvote" />
-    );
-  };
+  const handleReplyUpvote = () => {};
 
-  const downvoteButton = (comment) => {
-    return user ? (
-      <Checkbox
-        checked={comment.downvotedBy.includes(user.id)}
-        icon={<ArrowDownwardIcon style={{ color: '#b2b2b2' }} />}
-        checkedIcon={<ArrowDownwardIcon style={{ color: '#9494FF' }} />}
-        onChange={handleDownvoteToggle}
-        size="small"
-      />
-    ) : (
-      <AuthFormModal type="downvote" />
-    );
-  };
+  const handleReplyDownvote = () => {};
 
   const commentDetails = (by, comment, body) => {
     return (
-      <>
+      <div>
         <Typography variant="caption">
           <Link component={RouterLink} to={`/u/${by.username}`}>
             {by.username}
@@ -64,7 +38,7 @@ const CommentsDisplay = ({ comments }) => {
           )}
         </Typography>
         <Typography variant="body2">{body}</Typography>
-      </>
+      </div>
     );
   };
 
@@ -75,8 +49,16 @@ const CommentsDisplay = ({ comments }) => {
         <div key={c.id} className={classes.wholeComment}>
           <div className={classes.commentWrapper}>
             <div className={classes.commentVotesWrapper}>
-              {upvoteButton(c)}
-              {downvoteButton(c)}
+              <UpvoteButton
+                user={user}
+                body={c}
+                handleUpvote={handleCommentUpvote}
+              />
+              <DownvoteButton
+                user={user}
+                body={c}
+                handleDownvote={handleCommentDownvote}
+              />
             </div>
             <div className={classes.commentDetails}>
               {commentDetails(c.commentedBy, c, c.commentBody)}
@@ -85,8 +67,16 @@ const CommentsDisplay = ({ comments }) => {
           {c.replies.map((r) => (
             <div key={r.id} className={classes.replyWrapper}>
               <div className={classes.commentVotesWrapper}>
-                {upvoteButton(r)}
-                {downvoteButton(r)}
+                <UpvoteButton
+                  user={user}
+                  body={r}
+                  handleUpvote={handleReplyUpvote}
+                />
+                <DownvoteButton
+                  user={user}
+                  body={r}
+                  handleDownvote={handleReplyDownvote}
+                />
               </div>
               <div className={classes.commentDetails}>
                 {commentDetails(r.repliedBy, r, r.replyBody)}

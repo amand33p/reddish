@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import 'draft-js/dist/Draft.css';
 
 import { TextInput } from './FormikMuiFields';
 import generateBase64Encode from '../utils/genBase64Encode';

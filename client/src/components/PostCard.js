@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { toggleUpvote, toggleDownvote } from '../reducers/postReducer';
-import AuthFormModal from './AuthFormModal';
+import { UpvoteButton, DownvoteButton } from './VoteButtons';
 import EditDeleteMenu from './EditDeleteMenu';
 import getEditedThumbail from '../utils/cloudinaryTransform';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
@@ -10,7 +10,6 @@ import ReactTimeAgo from 'react-time-ago';
 
 import {
   Paper,
-  Checkbox,
   Typography,
   useMediaQuery,
   CardMedia,
@@ -19,8 +18,6 @@ import {
 } from '@material-ui/core';
 import { useCardStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MessageIcon from '@material-ui/icons/Message';
 import LinkIcon from '@material-ui/icons/Link';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
@@ -95,31 +92,27 @@ const PostCard = ({ post }) => {
   return (
     <Paper className={classes.root} variant="outlined">
       <div className={classes.votesWrapper}>
-        {user ? (
-          <Checkbox
-            checked={isUpvoted}
-            icon={<ArrowUpwardIcon style={{ color: '#b2b2b2' }} />}
-            checkedIcon={<ArrowUpwardIcon style={{ color: '#FF8b60' }} />}
-            onChange={handleUpvoteToggle}
-            size={isMobile ? 'small' : 'medium'}
-          />
-        ) : (
-          <AuthFormModal type="upvote" />
-        )}
-        <Typography variant="body1" className={classes.points}>
+        <UpvoteButton
+          user={user}
+          body={post}
+          handleUpvote={handleUpvoteToggle}
+          size={isMobile ? 'small' : 'medium'}
+        />
+        <Typography
+          variant="body1"
+          style={{
+            color: isUpvoted ? '#FF8b60' : isDownvoted ? '#9494FF' : '#333',
+            fontWeight: 600,
+          }}
+        >
           {pointsCount}
         </Typography>
-        {user ? (
-          <Checkbox
-            checked={isDownvoted}
-            icon={<ArrowDownwardIcon style={{ color: '#b2b2b2' }} />}
-            checkedIcon={<ArrowDownwardIcon style={{ color: '#9494FF' }} />}
-            onChange={handleDownvoteToggle}
-            size={isMobile ? 'small' : 'medium'}
-          />
-        ) : (
-          <AuthFormModal type="downvote" />
-        )}
+        <DownvoteButton
+          user={user}
+          body={post}
+          handleDownvote={handleDownvoteToggle}
+          size={isMobile ? 'small' : 'medium'}
+        />
       </div>
       <div className={classes.thumbnailWrapper}>
         {postType === 'Text' ? (

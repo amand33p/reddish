@@ -169,10 +169,7 @@ export const useCardStyles = (isUpvoted, isDownvoted) => {
       alignItems: 'center',
       backgroundColor: '#f7f5f3',
     },
-    points: {
-      color: isUpvoted ? '#FF8b60' : isDownvoted ? '#9494FF' : '#333',
-      fontWeight: 600,
-    },
+    points: {},
     thumbnailWrapper: {
       alignSelf: 'center',
       marginLeft: 5,
@@ -344,7 +341,12 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
   commentIcon: {
     marginRight: 10,
   },
-  commentsContainer: {},
+  commentsContainer: {
+    marginLeft: '0.7em',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '0.3em',
+    },
+  },
   divider: {
     marginBottom: '1em',
   },
