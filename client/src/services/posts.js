@@ -89,6 +89,15 @@ const downvoteReply = async (postId, commentId, replyId) => {
   return response.data;
 };
 
+const postComment = async (postId, commentObj) => {
+  const response = await axios.post(
+    `${baseUrl}/${postId}/comment`,
+    commentObj,
+    setConfig()
+  );
+  return response.data;
+};
+
 export default {
   getNewPosts,
   addNew,
@@ -101,4 +110,5 @@ export default {
   downvoteComment,
   upvoteReply,
   downvoteReply,
+  postComment,
 };

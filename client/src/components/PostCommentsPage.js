@@ -6,6 +6,7 @@ import {
   toggleUpvote,
   toggleDownvote,
 } from '../reducers/postCommentsReducer';
+import CommentInput from './CommentInput';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
 import EditDeleteMenu from './EditDeleteMenu';
 import CommentsDisplay from './CommentsDisplay';
@@ -194,6 +195,7 @@ const PostCommentsPage = () => {
                 />
               )}
             </div>
+            <CommentInput user={user} postId={id} isMobile={isMobile} />
           </div>
         </div>
         <CommentsDisplay comments={comments} postId={id} />

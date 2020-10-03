@@ -17,23 +17,9 @@ code {
     monospace;
 }
 
-.ck-editor__editable_inline {
-  min-height: 250px;
-  max-width: 870px;
-}
-
-.ck-editor__editable_inline * {
-  word-wrap: break-word;
-}
-
 @media only screen and (max-width: 768px) {
   body {
     width: 100vw;
     overflow-x: hidden;
-  }
-
-  .ck-editor__editable_inline {
-    min-height: 200px;
-    max-width: auto;
   }
 }

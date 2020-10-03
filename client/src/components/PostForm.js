@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form } from 'formik';
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import { TextInput } from './FormikMuiFields';
 import generateBase64Encode from '../utils/genBase64Encode';
@@ -28,6 +26,7 @@ import LinkIcon from '@material-ui/icons/Link';
 import PublishIcon from '@material-ui/icons/Publish';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
+import ChatIcon from '@material-ui/icons/Chat';
 
 const validationSchema = yup.object({
   title: yup.string().required('Required'),
@@ -202,12 +201,17 @@ const AddPostForm = ({
             </div>
             {values.postType === 'Text' && (
               <div className={classes.textInput}>
-                <CKEditor
-                  editor={ClassicEditor}
-                  data={values.textSubmission}
-                  onChange={(e, editor) =>
-                    setFieldValue('textSubmission', editor.getData())
-                  }
+                <ChatIcon className={classes.inputIcon} color="primary" />
+                <TextInput
+                  name="textSubmission"
+                  placeholder={`Enter text (HTML supported. For ex, "<h1>Like this?</h1>")`}
+                  multiline
+                  label="Text"
+                  required={values.postType === 'Text'}
+                  fullWidth
+                  variant="outlined"
+                  rows={4}
+                  maxRows={Infinity}
                 />
               </div>
             )}

@@ -35,6 +35,11 @@ const postPageReducer = (state = null, action) => {
               }
         ),
       };
+    case 'ADD_COMMENT':
+      return {
+        ...state,
+        comments: [...state.comments, action.payload],
+      };
     default:
       return state;
   }
@@ -186,6 +191,17 @@ export const toggleReplyDownvote = (
     });
 
     await postService.downvoteReply(postId, commentId, replyId);
+  };
+};
+
+export const addComment = (postId, comment) => {
+  return async (dispatch) => {
+    const addedComment = await postService.postComment(postId, { comment });
+
+    dispatch({
+      type: 'ADD_COMMENT',
+      payload: addedComment,
+    });
   };
 };
 

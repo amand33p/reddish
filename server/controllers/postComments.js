@@ -35,11 +35,14 @@ router.post('/:id/comment', auth, async (req, res) => {
   });
   post.commentCount = numOfComments(post.comments);
   const savedPost = await post.save();
+  const populatedPost = await savedPost
+    .populate('comments.commentedBy', 'username')
+    .execPopulate();
 
   user.karmaPoints.commentKarma++;
   await user.save();
 
-  const addedComment = savedPost.comments[savedPost.comments.length - 1];
+  const addedComment = populatedPost.comments[savedPost.comments.length - 1];
   res.status(201).json(addedComment);
 });
 

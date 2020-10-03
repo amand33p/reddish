@@ -168,7 +168,6 @@ export const useCardStyles = makeStyles((theme) => ({
     alignItems: 'center',
     backgroundColor: '#f7f5f3',
   },
-  points: {},
   thumbnailWrapper: {
     alignSelf: 'center',
     marginLeft: 5,
@@ -277,6 +276,8 @@ export const usePostFormStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
   },
   textInput: {
+    display: 'flex',
+    alignItems: 'flex-end',
     marginTop: '1.5em',
   },
 }));
@@ -371,5 +372,20 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
     marginBottom: '0.2em',
     display: 'flex',
     marginLeft: '2em',
+  },
+}));
+
+export const useCommentInputStyles = makeStyles((theme) => ({
+  wrapper: {
+    marginTop: '0.5em',
+    margin: '0.4em',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  commentBtn: {
+    alignSelf: 'flex-end',
+    marginTop: '0.1em',
   },
 }));

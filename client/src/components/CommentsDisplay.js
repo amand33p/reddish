@@ -10,7 +10,7 @@ import {
 } from '../reducers/postCommentsReducer';
 import ReactTimeAgo from 'react-time-ago';
 
-import { Divider, Typography, Link, isWidthUp } from '@material-ui/core';
+import { Divider, Typography, Link } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
 
 const CommentsDisplay = ({ comments, postId }) => {
