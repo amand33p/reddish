@@ -8,10 +8,33 @@ const postPageReducer = (state = null, action) => {
       return action.payload;
     case 'UPDATE_POST':
       return action.payload;
-    case 'TOGGLE_UPVOTE':
+    case 'TOGGLE_VOTE':
       return { ...state, ...action.payload };
-    case 'TOGGLE_DOWNVOTE':
-      return { ...state, ...action.payload };
+    case 'VOTE_COMMENT':
+      return {
+        ...state,
+        comments: state.comments.map((c) =>
+          c.id !== action.payload.commentId
+            ? c
+            : { ...c, ...action.payload.data }
+        ),
+      };
+    case 'VOTE_REPLY':
+      return {
+        ...state,
+        comments: state.comments.map((c) =>
+          c.id !== action.payload.commentId
+            ? c
+            : {
+                ...c,
+                replies: c.replies.map((r) =>
+                  r.id !== action.payload.replyId
+                    ? r
+                    : { ...r, ...action.payload.data }
+                ),
+              }
+        ),
+      };
     default:
       return state;
   }
@@ -60,7 +83,7 @@ export const toggleUpvote = (id, upvotedBy, downvotedBy) => {
     }
 
     dispatch({
-      type: 'TOGGLE_UPVOTE',
+      type: 'TOGGLE_VOTE',
       payload: { upvotedBy, pointsCount, downvotedBy },
     });
 
@@ -76,11 +99,93 @@ export const toggleDownvote = (id, downvotedBy, upvotedBy) => {
     }
 
     dispatch({
-      type: 'TOGGLE_DOWNVOTE',
+      type: 'TOGGLE_VOTE',
       payload: { upvotedBy, pointsCount, downvotedBy },
     });
 
     await postService.downvotePost(id);
+  };
+};
+
+export const toggleCommentUpvote = (
+  postId,
+  commentId,
+  upvotedBy,
+  downvotedBy
+) => {
+  return async (dispatch) => {
+    const pointsCount = upvotedBy.length - downvotedBy.length;
+
+    dispatch({
+      type: 'VOTE_COMMENT',
+      payload: { commentId, data: { upvotedBy, pointsCount, downvotedBy } },
+    });
+
+    await postService.upvoteComment(postId, commentId);
+  };
+};
+
+export const toggleCommentDownvote = (
+  postId,
+  commentId,
+  downvotedBy,
+  upvotedBy
+) => {
+  return async (dispatch) => {
+    const pointsCount = upvotedBy.length - downvotedBy.length;
+
+    dispatch({
+      type: 'VOTE_COMMENT',
+      payload: { commentId, data: { upvotedBy, pointsCount, downvotedBy } },
+    });
+
+    await postService.downvoteComment(postId, commentId);
+  };
+};
+
+export const toggleReplyUpvote = (
+  postId,
+  commentId,
+  replyId,
+  upvotedBy,
+  downvotedBy
+) => {
+  return async (dispatch) => {
+    const pointsCount = upvotedBy.length - downvotedBy.length;
+
+    dispatch({
+      type: 'VOTE_REPLY',
+      payload: {
+        commentId,
+        replyId,
+        data: { upvotedBy, pointsCount, downvotedBy },
+      },
+    });
+
+    await postService.upvoteReply(postId, commentId, replyId);
+  };
+};
+
+export const toggleReplyDownvote = (
+  postId,
+  commentId,
+  replyId,
+  downvotedBy,
+  upvotedBy
+) => {
+  return async (dispatch) => {
+    const pointsCount = upvotedBy.length - downvotedBy.length;
+
+    dispatch({
+      type: 'VOTE_REPLY',
+      payload: {
+        commentId,
+        replyId,
+        data: { upvotedBy, pointsCount, downvotedBy },
+      },
+    });
+
+    await postService.downvoteReply(postId, commentId, replyId);
   };
 };
 

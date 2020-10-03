@@ -49,7 +49,7 @@ const PostCard = ({ post }) => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
-  const classes = useCardStyles(isUpvoted, isDownvoted)();
+  const classes = useCardStyles();
 
   const handleUpvoteToggle = async () => {
     try {

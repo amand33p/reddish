@@ -155,63 +155,61 @@ export const usePostListStyles = makeStyles((theme) => ({
   },
 }));
 
-export const useCardStyles = (isUpvoted, isDownvoted) => {
-  return makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      width: 'auto',
-      borderRadius: 0,
+export const useCardStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    width: 'auto',
+    borderRadius: 0,
+  },
+  votesWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: 30,
+    alignItems: 'center',
+    backgroundColor: '#f7f5f3',
+  },
+  points: {},
+  thumbnailWrapper: {
+    alignSelf: 'center',
+    marginLeft: 5,
+  },
+  thumbnail: {
+    fontSize: '2em',
+    width: 70,
+    height: 90,
+    textAlign: 'center',
+    backgroundColor: '#f7f5f3',
+    borderRadius: 8,
+    [theme.breakpoints.down('xs')]: {
+      width: 60,
+      height: 80,
     },
-    votesWrapper: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: 30,
-      alignItems: 'center',
-      backgroundColor: '#f7f5f3',
+  },
+  thumbnailIcon: {
+    marginTop: 30,
+  },
+  postInfoWrapper: {
+    paddingTop: 8,
+    paddingLeft: 8,
+  },
+  userAndDate: {
+    marginLeft: 10,
+  },
+  commentsBtn: {
+    textTransform: 'capitalize',
+    color: '#787878',
+  },
+  title: {
+    marginRight: 5,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '1em',
+      margin: 0,
     },
-    points: {},
-    thumbnailWrapper: {
-      alignSelf: 'center',
-      marginLeft: 5,
-    },
-    thumbnail: {
-      fontSize: '2em',
-      width: 70,
-      height: 90,
-      textAlign: 'center',
-      backgroundColor: '#f7f5f3',
-      borderRadius: 8,
-      [theme.breakpoints.down('xs')]: {
-        width: 60,
-        height: 80,
-      },
-    },
-    thumbnailIcon: {
-      marginTop: 30,
-    },
-    postInfoWrapper: {
-      paddingTop: 8,
-      paddingLeft: 8,
-    },
-    userAndDate: {
-      marginLeft: 10,
-    },
-    commentsBtn: {
-      textTransform: 'capitalize',
-      color: '#787878',
-    },
-    title: {
-      marginRight: 5,
-      [theme.breakpoints.down('xs')]: {
-        fontSize: '1em',
-        margin: 0,
-      },
-    },
-    bottomBtns: {
-      display: 'flex',
-    },
-  }));
-};
+  },
+  bottomBtns: {
+    display: 'flex',
+  },
+}));
 
 export const usePostFormStyles = makeStyles((theme) => ({
   root: {

@@ -196,7 +196,7 @@ const PostCommentsPage = () => {
             </div>
           </div>
         </div>
-        <CommentsDisplay comments={comments} />
+        <CommentsDisplay comments={comments} postId={id} />
       </Paper>
     </Container>
   );

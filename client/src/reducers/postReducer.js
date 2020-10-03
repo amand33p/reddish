@@ -4,11 +4,7 @@ const postReducer = (state = [], action) => {
   switch (action.type) {
     case 'INIT_POSTS':
       return action.payload;
-    case 'TOGGLE_UPVOTE':
-      return state.map((s) =>
-        s.id !== action.payload.id ? s : { ...s, ...action.payload.data }
-      );
-    case 'TOGGLE_DOWNVOTE':
+    case 'TOGGLE_VOTE':
       return state.map((s) =>
         s.id !== action.payload.id ? s : { ...s, ...action.payload.data }
       );
@@ -37,7 +33,7 @@ export const toggleUpvote = (id, upvotedBy, downvotedBy) => {
     }
 
     dispatch({
-      type: 'TOGGLE_UPVOTE',
+      type: 'TOGGLE_VOTE',
       payload: { id, data: { upvotedBy, pointsCount, downvotedBy } },
     });
 
@@ -53,7 +49,7 @@ export const toggleDownvote = (id, downvotedBy, upvotedBy) => {
     }
 
     dispatch({
-      type: 'TOGGLE_DOWNVOTE',
+      type: 'TOGGLE_VOTE',
       payload: { id, data: { upvotedBy, pointsCount, downvotedBy } },
     });
 
