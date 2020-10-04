@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
-import ReplyInput from './ReplyInput';
+import CommentsAndButtons from './CommentAndButtons';
 import {
   toggleCommentUpvote,
   toggleCommentDownvote,
@@ -149,7 +149,7 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
     }
   };
 
-  const commentDetails = (by, comment, body) => {
+  const commentDetails = (by, comment) => {
     return (
       <>
         <Typography variant="caption">
@@ -166,7 +166,6 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
             </em>
           )}
         </Typography>
-        <Typography variant="body2">{body}</Typography>
       </>
     );
   };
@@ -190,15 +189,13 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
               />
             </div>
             <div className={classes.commentDetails}>
-              {commentDetails(c.commentedBy, c, c.commentBody)}
-              <div>
-                <ReplyInput
-                  isMobile={isMobile}
-                  replyTo={c.commentedBy.username}
-                  commentId={c.id}
-                  postId={postId}
-                />
-              </div>
+              {commentDetails(c.commentedBy, c)}
+              <CommentsAndButtons
+                isMobile={isMobile}
+                comment={c}
+                postId={postId}
+                user={user}
+              />
             </div>
           </div>
           {c.replies.map((r) => (
@@ -216,7 +213,8 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
                 />
               </div>
               <div className={classes.commentDetails}>
-                {commentDetails(r.repliedBy, r, r.replyBody)}
+                {commentDetails(r.repliedBy, r)}
+                <Typography variant="body2">{r.replyBody}</Typography>
               </div>
             </div>
           ))}

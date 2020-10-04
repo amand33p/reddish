@@ -49,6 +49,20 @@ const postPageReducer = (state = null, action) => {
             : { ...c, replies: [...c.replies, action.payload.addedReply] }
         ),
       };
+    case 'EDIT_COMMENT':
+      return {
+        ...state,
+        comments: state.comments.map((c) =>
+          c.id !== action.payload.commentId
+            ? c
+            : { ...c, ...action.payload.data }
+        ),
+      };
+    case 'DELETE_COMMENT':
+      return {
+        ...state,
+        comments: state.comments.filter((c) => c.id !== action.payload),
+      };
     default:
       return state;
   }
@@ -223,6 +237,29 @@ export const addReply = (postId, commentId, reply) => {
     dispatch({
       type: 'ADD_REPLY',
       payload: { commentId, addedReply },
+    });
+  };
+};
+
+export const editComment = (postId, commentId, comment) => {
+  return async (dispatch) => {
+    await postService.updateComment(postId, commentId, { comment });
+    const updatedAt = Date.now();
+
+    dispatch({
+      type: 'EDIT_COMMENT',
+      payload: { commentId, data: { updatedAt, commentBody: comment } },
+    });
+  };
+};
+
+export const deleteComment = (postId, commentId) => {
+  return async (dispatch) => {
+    await postService.removeComment(postId, commentId);
+
+    dispatch({
+      type: 'DELETE_COMMENT',
+      payload: commentId,
     });
   };
 };

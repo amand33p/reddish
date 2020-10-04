@@ -13,12 +13,14 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const DeleteDialog = ({ title, handleDelete, handleMenuClose }) => {
+const DeleteDialog = ({ title, handleDelete, handleMenuClose, type }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
-    handleMenuClose();
+    if (type !== 'comment') {
+      handleMenuClose();
+    }
   };
 
   const handleClose = () => {
@@ -27,18 +29,34 @@ const DeleteDialog = ({ title, handleDelete, handleMenuClose }) => {
 
   return (
     <div>
-      <MenuItem onClick={handleClickOpen}>
-        <ListItemIcon>
-          <DeleteIcon style={{ marginRight: 5 }} />
-          <Typography variant="subtitle2">Delete</Typography>
-        </ListItemIcon>
-      </MenuItem>
+      {type !== 'comment' ? (
+        <MenuItem onClick={handleClickOpen}>
+          <ListItemIcon>
+            <DeleteIcon style={{ marginRight: 5 }} />
+            <Typography variant="subtitle2">Delete</Typography>
+          </ListItemIcon>
+        </MenuItem>
+      ) : (
+        <Button
+          onClick={handleClickOpen}
+          size="small"
+          color="inherit"
+          startIcon={<DeleteIcon />}
+          style={{ textTransform: 'capitalize' }}
+        >
+          Delete
+        </Button>
+      )}
       <Dialog open={open} keepMounted onClose={handleClose}>
-        <DialogTitle>Delete Post?</DialogTitle>
+        <DialogTitle>
+          {type !== 'comment' ? 'Delete Post?' : 'Delete Comment?'}
+        </DialogTitle>
         <DialogContent dividers>
           <DialogContentText>
-            Are you sure you want to delete your post titled '{title}'? You
-            can't undo this.
+            {type !== 'comment'
+              ? `Are you sure you want to delete your post titled '${title}'? You
+            can't undo this.`
+              : `Are you sure want to delete your comment?`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -56,7 +74,7 @@ const DeleteDialog = ({ title, handleDelete, handleMenuClose }) => {
             variant="contained"
             size="small"
           >
-            Delete Post
+            {type !== 'comment' ? 'Delete Post' : 'Delete Comment'}
           </Button>
         </DialogActions>
       </Dialog>
