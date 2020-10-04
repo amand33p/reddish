@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 import { logoutUser } from '../reducers/userReducer';
 import MobileUserMenu from './MobileUserMenu';
 import AuthFormModal from './AuthFormModal';
@@ -55,10 +56,15 @@ const NavBar = () => {
         <Toolbar>
           <div className={classes.topLeftButton}>
             <div className={classes.logoWrapper}>
-              <Typography variant="h6" className={classes.logo} color="primary">
-                <RedditIcon className={classes.logoIcon} color="primary" />
+              <Button
+                className={classes.logo}
+                color="primary"
+                component={RouterLink}
+                to="/"
+                startIcon={<RedditIcon fontSize="large" />}
+              >
                 readify
-              </Typography>
+              </Button>
               <Typography variant="caption" color="secondary">
                 Made with <FavoriteIcon style={{ fontSize: 12 }} /> by
                 <Link

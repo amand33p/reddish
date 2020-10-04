@@ -27,12 +27,9 @@ export const useNavStyles = makeStyles((theme) => ({
     },
   },
   logo: {
-    display: 'flex',
-    alignItems: 'center',
     fontFamily: 'Varela Round',
-  },
-  logoIcon: {
-    marginRight: 5,
+    textTransform: 'lowercase',
+    fontSize: '1.3em',
   },
   user: {
     marginRight: 10,
