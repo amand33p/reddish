@@ -56,7 +56,7 @@ const DeleteDialog = ({ title, handleDelete, handleMenuClose, type }) => {
             {type !== 'comment'
               ? `Are you sure you want to delete your post titled '${title}'? You
             can't undo this.`
-              : `Are you sure want to delete your comment?`}
+              : `Are you sure you want to delete your comment?`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

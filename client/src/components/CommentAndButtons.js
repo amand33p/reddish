@@ -16,14 +16,14 @@ import EditIcon from '@material-ui/icons/Edit';
 const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
   const [replyOpen, setReplyOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [reply, setReply] = useState('');
-  const [edit, setEdit] = useState(comment.commentBody);
+  const [replyInput, setReplyInput] = useState('');
+  const [editInput, setEditInput] = useState(comment.commentBody);
   const dispatch = useDispatch();
   const classes = useCommentAndBtnsStyles();
 
   const handlePostReply = async () => {
     try {
-      dispatch(addReply(postId, comment.id, reply));
+      dispatch(addReply(postId, comment.id, replyInput));
       setReplyOpen(false);
     } catch (err) {
       console.log(err.message);
@@ -32,7 +32,7 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
 
   const handleEditComment = () => {
     try {
-      dispatch(editComment(postId, comment.id, edit));
+      dispatch(editComment(postId, comment.id, editInput));
       setEditOpen(false);
     } catch (err) {
       console.log(err.message);
@@ -59,8 +59,8 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
             fullWidth
             rows={2}
             rowsMax={Infinity}
-            value={edit}
-            onChange={(e) => setEdit(e.target.value)}
+            value={editInput}
+            onChange={(e) => setEditInput(e.target.value)}
             variant="outlined"
             size={isMobile ? 'small' : 'medium'}
           />
@@ -122,8 +122,8 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
             fullWidth
             rows={4}
             rowsMax={Infinity}
-            value={reply}
-            onChange={(e) => setReply(e.target.value)}
+            value={replyInput}
+            onChange={(e) => setReplyInput(e.target.value)}
             variant="outlined"
             size={isMobile ? 'small' : 'medium'}
           />

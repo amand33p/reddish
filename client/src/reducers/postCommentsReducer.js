@@ -63,6 +63,36 @@ const postPageReducer = (state = null, action) => {
         ...state,
         comments: state.comments.filter((c) => c.id !== action.payload),
       };
+    case 'EDIT_REPLY':
+      return {
+        ...state,
+        comments: state.comments.map((c) =>
+          c.id !== action.payload.commentId
+            ? c
+            : {
+                ...c,
+                replies: c.replies.map((r) =>
+                  r.id !== action.payload.replyId
+                    ? r
+                    : { ...r, ...action.payload.data }
+                ),
+              }
+        ),
+      };
+    case 'DELETE_REPLY':
+      return {
+        ...state,
+        comments: state.comments.map((c) =>
+          c.id !== action.payload.commentId
+            ? c
+            : {
+                ...c,
+                replies: c.replies.filter(
+                  (r) => r.id !== action.payload.replyId
+                ),
+              }
+        ),
+      };
     default:
       return state;
   }
@@ -260,6 +290,29 @@ export const deleteComment = (postId, commentId) => {
     dispatch({
       type: 'DELETE_COMMENT',
       payload: commentId,
+    });
+  };
+};
+
+export const editReply = (postId, commentId, replyId, reply) => {
+  return async (dispatch) => {
+    await postService.updateReply(postId, commentId, replyId, { reply });
+    const updatedAt = Date.now();
+
+    dispatch({
+      type: 'EDIT_REPLY',
+      payload: { commentId, replyId, data: { updatedAt, replyBody: reply } },
+    });
+  };
+};
+
+export const deleteReply = (postId, commentId, replyId) => {
+  return async (dispatch) => {
+    await postService.removeReply(postId, commentId, replyId);
+
+    dispatch({
+      type: 'DELETE_REPLY',
+      payload: { commentId, replyId },
     });
   };
 };

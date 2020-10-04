@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
 import CommentsAndButtons from './CommentAndButtons';
+import ReplyAndButtons from './ReplyAndButtons';
 import {
   toggleCommentUpvote,
   toggleCommentDownvote,
@@ -214,7 +215,13 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
               </div>
               <div className={classes.commentDetails}>
                 {commentDetails(r.repliedBy, r)}
-                <Typography variant="body2">{r.replyBody}</Typography>
+                <ReplyAndButtons
+                  isMobile={isMobile}
+                  reply={r}
+                  postId={postId}
+                  commentId={c.id}
+                  user={user}
+                />
               </div>
             </div>
           ))}

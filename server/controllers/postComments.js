@@ -185,7 +185,9 @@ router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
   user.karmaPoints.commentKarma++;
   await user.save();
 
-  const commentToReply = populatedPost.comments.find((c) => c.id === commentId);
+  const commentToReply = populatedPost.comments.find(
+    (c) => c._id.toString() === commentId
+  );
 
   const addedReply = commentToReply.replies[commentToReply.replies.length - 1];
   res.status(201).json(addedReply);
@@ -312,7 +314,7 @@ router.patch(
     );
 
     await post.save();
-    res.status(202).json(targetReply);
+    res.status(202).end();
   }
 );
 
