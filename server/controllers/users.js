@@ -8,13 +8,11 @@ router.get('/:username', async (req, res) => {
 
   const user = await User.findOne({
     username: { $regex: new RegExp('^' + username + '$', 'i') },
-  })
-    .populate({
-      path: 'posts',
-      select: '-upvotedBy -downvotedBy',
-      populate: { path: 'subreddit', select: 'subredditName' },
-    })
-    .populate('comments');
+  }).populate({
+    path: 'posts',
+    select: '-upvotedBy -downvotedBy',
+    populate: { path: 'subreddit', select: 'subredditName' },
+  });
 
   if (!user) {
     return res
@@ -22,7 +20,7 @@ router.get('/:username', async (req, res) => {
       .send({ message: `Username '${username}' does not exist on server.` });
   }
 
-  res.json(user);
+  res.status(200).json(user);
 });
 
 router.post('/avatar', auth, async (req, res) => {

@@ -54,6 +54,10 @@ const userSchema = new mongoose.Schema(
         ref: 'Subreddit',
       },
     ],
+    totalComments: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

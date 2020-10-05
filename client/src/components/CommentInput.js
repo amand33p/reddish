@@ -21,6 +21,7 @@ const CommentInput = ({ user, postId, isMobile }) => {
 
     try {
       dispatch(addComment(postId, comment));
+      setComment('');
     } catch (err) {
       console.log(err.message);
     }

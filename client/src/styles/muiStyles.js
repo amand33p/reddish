@@ -281,10 +281,11 @@ export const usePostFormStyles = makeStyles((theme) => ({
 
 export const usePostCommentsStyles = makeStyles((theme) => ({
   mainPaper: {
-    marginTop: '1em',
+    marginTop: '0.5em',
     display: 'flex',
     flexDirection: 'column',
     borderRadius: 0,
+    minHeight: '90vH',
   },
   topPortion: {
     display: 'flex',
@@ -406,5 +407,50 @@ export const useCommentAndBtnsStyles = makeStyles((theme) => ({
   cancelBtn: {
     marginRight: '0.2em',
     marginTop: '0.1em',
+  },
+}));
+
+export const useUserPageStyles = makeStyles((theme) => ({
+  mainPaper: {
+    marginTop: '0.5em',
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: 0,
+    minHeight: '90vH',
+  },
+  itemWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  avatarWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  twoItemsDiv: {
+    textAlign: 'center',
+  },
+  userInfo: {
+    margin: '0.5em',
+    padding: '0.8em',
+    display: 'flex',
+    justifyContent: 'space-around',
+    [theme.breakpoints.down('xs')]: {
+      flexWrap: 'nowrap',
+    },
+  },
+  avatar: {
+    width: '5em',
+    height: '5em',
+    [theme.breakpoints.down('xs')]: {
+      width: '3em',
+      height: '3em',
+    },
+  },
+  cakeDay: {
+    display: 'flex',
+    alignItems: 'center',
   },
 }));

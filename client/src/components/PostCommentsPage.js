@@ -36,13 +36,19 @@ const PostCommentsPage = () => {
 
   useEffect(() => {
     if (!post || post.id !== postId) {
-      dispatch(fetchPostComments(postId));
+      const getComments = async () => {
+        try {
+          dispatch(fetchPostComments(postId));
+        } catch (err) {
+          console.log(err.message);
+        }
+      };
+      getComments();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post]);
 
   const classes = usePostCommentsStyles();
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 

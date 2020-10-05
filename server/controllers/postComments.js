@@ -40,6 +40,7 @@ router.post('/:id/comment', auth, async (req, res) => {
     .execPopulate();
 
   user.karmaPoints.commentKarma++;
+  user.totalComments++;
   await user.save();
 
   const addedComment = populatedPost.comments[savedPost.comments.length - 1];
@@ -183,6 +184,7 @@ router.post('/:id/comment/:commentId/reply', auth, async (req, res) => {
     .execPopulate();
 
   user.karmaPoints.commentKarma++;
+  user.totalComments++;
   await user.save();
 
   const commentToReply = populatedPost.comments.find(
