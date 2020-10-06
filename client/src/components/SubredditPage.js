@@ -106,16 +106,17 @@ const SubredditPage = () => {
             </Typography>
           </div>
           <div className={classes.flexItem}>
-            <Button
-              color="primary"
-              variant="contained"
-              size="large"
-              startIcon={isSubscribed ? <CheckIcon /> : <AddIcon />}
-              className={classes.joinBtn}
-              onClick={handleSubJoin}
-            >
-              {isSubscribed ? 'Subscribed' : 'Subscribe'}
-            </Button>
+            {user && (
+              <Button
+                color="primary"
+                variant="contained"
+                startIcon={isSubscribed ? <CheckIcon /> : <AddIcon />}
+                className={classes.joinBtn}
+                onClick={handleSubJoin}
+              >
+                {isSubscribed ? 'Subscribed' : 'Subscribe'}
+              </Button>
+            )}
             <Typography
               variant="body1"
               color="primary"
