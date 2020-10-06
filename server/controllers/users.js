@@ -8,11 +8,15 @@ router.get('/:username', async (req, res) => {
 
   const user = await User.findOne({
     username: { $regex: new RegExp('^' + username + '$', 'i') },
-  }).populate({
-    path: 'posts',
-    select: '-upvotedBy -downvotedBy',
-    populate: { path: 'subreddit', select: 'subredditName' },
-  });
+  })
+    .populate({
+      path: 'posts',
+      populate: { path: 'subreddit', select: 'subredditName' },
+    })
+    .populate({
+      path: 'posts',
+      populate: { path: 'author', select: 'username' },
+    });
 
   if (!user) {
     return res

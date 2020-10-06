@@ -137,7 +137,7 @@ const PostCommentsPage = () => {
               size={isMobile ? 'small' : 'medium'}
             />
           </div>
-          <div className={classes.postDetails} elevation={0}>
+          <div className={classes.postDetails}>
             <Typography variant="subtitle2">
               <Link component={RouterLink} to={`/r/${subreddit.subredditName}`}>
                 {`r/${subreddit.subredditName} `}

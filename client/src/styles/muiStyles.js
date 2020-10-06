@@ -30,6 +30,8 @@ export const useNavStyles = makeStyles((theme) => ({
     fontFamily: 'Varela Round',
     textTransform: 'lowercase',
     fontSize: '1.3em',
+    padding: '0.1em',
+    marginRight: '0.3em',
   },
   user: {
     marginRight: 10,
@@ -418,6 +420,15 @@ export const useUserPageStyles = makeStyles((theme) => ({
     borderRadius: 0,
     minHeight: '90vH',
   },
+  userInfoWrapper: {
+    margin: '0.5em',
+    padding: '0.8em',
+    display: 'flex',
+    justifyContent: 'space-around',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+    },
+  },
   itemWrapper: {
     display: 'flex',
     flexDirection: 'column',
@@ -429,17 +440,13 @@ export const useUserPageStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  rightWrapper: {
+    flexGrow: 0.3,
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   twoItemsDiv: {
     textAlign: 'center',
-  },
-  userInfo: {
-    margin: '0.5em',
-    padding: '0.8em',
-    display: 'flex',
-    justifyContent: 'space-around',
-    [theme.breakpoints.down('xs')]: {
-      flexWrap: 'nowrap',
-    },
   },
   avatar: {
     width: '5em',
@@ -452,5 +459,54 @@ export const useUserPageStyles = makeStyles((theme) => ({
   cakeDay: {
     display: 'flex',
     alignItems: 'center',
+  },
+  postsPaper: {
+    margin: '0.5em',
+  },
+}));
+
+export const useUserPostCardStyles = makeStyles((theme) => ({
+  mainPaper: {
+    display: 'flex',
+    marginBottom: '1em',
+    textDecoration: 'none',
+    '&:hover': {
+      border: `1px solid ${theme.palette.primary.main}`,
+    },
+  },
+  votesWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: 50,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    [theme.breakpoints.down('xs')]: {
+      width: 35,
+    },
+  },
+  title: {
+    fontWeight: 500,
+    marginBottom: '0.7em',
+  },
+  imagePost: {
+    textAlign: 'center',
+  },
+  image: {
+    width: '30%',
+    [theme.breakpoints.down('xs')]: {
+      width: '40%',
+    },
+    border: '1px solid #e9e3d8',
+    borderRadius: 8,
+  },
+  postInfo: {
+    paddingTop: '0.5em',
+    padding: '0.2em',
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+  },
+  commentsBtn: {
+    marginTop: '0.5em',
   },
 }));
