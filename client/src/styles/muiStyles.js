@@ -510,3 +510,32 @@ export const useUserPostCardStyles = makeStyles((theme) => ({
     marginTop: '0.5em',
   },
 }));
+
+export const useSubredditPageStyles = makeStyles((theme) => ({
+  mainPaper: {
+    marginTop: '0.5em',
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: 0,
+    minHeight: '90vH',
+  },
+  subInfoWrapper: {
+    margin: '0.5em',
+    padding: '0.8em',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  iconText: {
+    display: 'flex',
+    alignItems: 'flex-end',
+  },
+  flexItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  joinBtn: {
+    marginBottom: '0.4em',
+  },
+}));

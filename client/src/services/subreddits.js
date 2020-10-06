@@ -16,4 +16,9 @@ const getAllSubreddits = async () => {
   return response.data;
 };
 
-export default { getAllSubreddits };
+const getSubreddit = async (subredditName) => {
+  const response = await axios.get(`${baseUrl}/${subredditName}`);
+  return response.data;
+};
+
+export default { getAllSubreddits, getSubreddit };

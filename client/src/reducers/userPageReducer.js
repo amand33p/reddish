@@ -5,7 +5,7 @@ const userPageReducer = (state = null, action) => {
   switch (action.type) {
     case 'FETCH_USER':
       return action.payload;
-    case 'TOGGLE_VOTE':
+    case 'TOGGLE_USERPAGE_VOTE':
       return {
         ...state,
         posts: state.posts.map((p) =>
@@ -36,7 +36,7 @@ export const toggleUpvote = (id, upvotedBy, downvotedBy) => {
     }
 
     dispatch({
-      type: 'TOGGLE_VOTE',
+      type: 'TOGGLE_USERPAGE_VOTE',
       payload: { id, data: { upvotedBy, pointsCount, downvotedBy } },
     });
 
@@ -52,7 +52,7 @@ export const toggleDownvote = (id, downvotedBy, upvotedBy) => {
     }
 
     dispatch({
-      type: 'TOGGLE_VOTE',
+      type: 'TOGGLE_USERPAGE_VOTE',
       payload: { id, data: { upvotedBy, pointsCount, downvotedBy } },
     });
 

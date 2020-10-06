@@ -13,7 +13,16 @@ router.get('/:subredditName', async (req, res) => {
 
   const subreddit = await Subreddit.findOne({
     subredditName: { $regex: new RegExp('^' + subredditName + '$', 'i') },
-  }).populate('admin', 'username');
+  })
+    .populate('admin', 'username')
+    .populate({
+      path: 'posts',
+      populate: { path: 'subreddit', select: 'subredditName' },
+    })
+    .populate({
+      path: 'posts',
+      populate: { path: 'author', select: 'username' },
+    });
 
   if (!subreddit) {
     return res.status(404).send({

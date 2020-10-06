@@ -4,6 +4,7 @@ import PostFormModal from './PostFormModal';
 import PostList from './PostList';
 import PostCommentsPage from './PostCommentsPage';
 import UserPage from './UserPage';
+import SubredditPage from './SubredditPage';
 
 import { Container } from '@material-ui/core/';
 import { useMainPaperStyles } from '../styles/muiStyles';
@@ -24,6 +25,9 @@ const Routes = () => {
       </Route>
       <Route exact path="/u/:username">
         <UserPage />
+      </Route>
+      <Route exact path="/r/:subreddit">
+        <SubredditPage />
       </Route>
     </Switch>
   );
