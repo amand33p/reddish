@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import { toggleUpvote, toggleDownvote } from '../reducers/postReducer';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
 import EditDeleteMenu from './EditDeleteMenu';
 import getEditedThumbail from '../utils/cloudinaryTransform';
@@ -23,7 +22,7 @@ import LinkIcon from '@material-ui/icons/Link';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import CommentIcon from '@material-ui/icons/Comment';
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, toggleUpvote, toggleDownvote }) => {
   const {
     id,
     title,

@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSubreddit } from '../reducers/subredditPageReducer';
+import {
+  fetchSubreddit,
+  toggleUpvote,
+  toggleDownvote,
+} from '../reducers/subredditPageReducer';
 import PostCard from './PostCard';
 import PostFormModal from './PostFormModal';
 
@@ -14,6 +18,7 @@ import GroupIcon from '@material-ui/icons/Group';
 
 const SubredditPage = () => {
   const subredditInfo = useSelector((state) => state.subredditPage);
+  const user = useSelector((state) => state.user);
   const { subreddit } = useParams();
   const dispatch = useDispatch();
   const classes = useSubredditPageStyles();
@@ -46,10 +51,6 @@ const SubredditPage = () => {
     posts,
     id,
   } = subredditInfo;
-
-  const toggleUpvote = () => {};
-
-  const toggleDownvote = () => {};
 
   return (
     <Container disableGutters>
