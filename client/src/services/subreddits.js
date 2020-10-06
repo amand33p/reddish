@@ -1,9 +1,8 @@
 import axios from 'axios';
 import backendUrl from '../backendUrl';
-import authService from './auth';
+import { token } from './auth';
 
 const baseUrl = `${backendUrl}/api/subreddits`;
-const token = authService.token;
 
 const setConfig = () => {
   return {
@@ -21,4 +20,13 @@ const getSubreddit = async (subredditName) => {
   return response.data;
 };
 
-export default { getAllSubreddits, getSubreddit };
+const subscribeSub = async (id) => {
+  const response = await axios.post(
+    `${baseUrl}/${id}/subscribe`,
+    null,
+    setConfig()
+  );
+  return response.data;
+};
+
+export default { getAllSubreddits, getSubreddit, subscribeSub };

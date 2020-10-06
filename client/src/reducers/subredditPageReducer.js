@@ -12,6 +12,11 @@ const subredditPageReducer = (state = null, action) => {
           p.id !== action.payload.id ? p : { ...p, ...action.payload.data }
         ),
       };
+    case 'SUBSCRIBE_SUBREDDIT':
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
       return state;
   }
@@ -57,6 +62,19 @@ export const toggleDownvote = (id, downvotedBy, upvotedBy) => {
     });
 
     await postService.downvotePost(id);
+  };
+};
+
+export const toggleSubscribe = (id, subscribedBy) => {
+  return async (dispatch) => {
+    const subscriberCount = subscribedBy.length;
+
+    dispatch({
+      type: 'SUBSCRIBE_SUBREDDIT',
+      payload: { subscribedBy, subscriberCount },
+    });
+
+    await subredditService.subscribeSub(id);
   };
 };
 

@@ -5,6 +5,7 @@ import {
   fetchSubreddit,
   toggleUpvote,
   toggleDownvote,
+  toggleSubscribe,
 } from '../reducers/subredditPageReducer';
 import PostCard from './PostCard';
 import PostFormModal from './PostFormModal';
@@ -13,8 +14,9 @@ import { Container, Paper, Typography, Button, Link } from '@material-ui/core';
 import { useSubredditPageStyles } from '../styles/muiStyles';
 import CakeIcon from '@material-ui/icons/Cake';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import AddIcon from '@material-ui/icons/Add';
+import CheckIcon from '@material-ui/icons/Check';
 import GroupIcon from '@material-ui/icons/Group';
+import AddIcon from '@material-ui/icons/Add';
 
 const SubredditPage = () => {
   const subredditInfo = useSelector((state) => state.subredditPage);
@@ -51,6 +53,23 @@ const SubredditPage = () => {
     posts,
     id,
   } = subredditInfo;
+
+  const isSubscribed = user && subscribedBy.includes(user.id);
+
+  const handleSubJoin = async () => {
+    try {
+      let updatedSubscribedBy = [];
+
+      if (isSubscribed) {
+        updatedSubscribedBy = subscribedBy.filter((s) => s !== user.id);
+      } else {
+        updatedSubscribedBy = [...subscribedBy, user.id];
+      }
+      dispatch(toggleSubscribe(id, updatedSubscribedBy));
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <Container disableGutters>
@@ -91,10 +110,11 @@ const SubredditPage = () => {
               color="primary"
               variant="contained"
               size="large"
-              startIcon={<AddIcon />}
+              startIcon={isSubscribed ? <CheckIcon /> : <AddIcon />}
               className={classes.joinBtn}
+              onClick={handleSubJoin}
             >
-              Join
+              {isSubscribed ? 'Subscribed' : 'Subscribe'}
             </Button>
             <Typography
               variant="body1"
