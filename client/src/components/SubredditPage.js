@@ -3,6 +3,7 @@ import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubreddit } from '../reducers/subredditPageReducer';
 import PostCard from './PostCard';
+import PostFormModal from './PostFormModal';
 
 import { Container, Paper, Typography, Button, Link } from '@material-ui/core';
 import { useSubredditPageStyles } from '../styles/muiStyles';
@@ -43,6 +44,7 @@ const SubredditPage = () => {
     admin,
     createdAt,
     posts,
+    id,
   } = subredditInfo;
 
   const toggleUpvote = () => {};
@@ -103,6 +105,7 @@ const SubredditPage = () => {
             </Typography>
           </div>
         </Paper>
+        <PostFormModal fromSubreddit={{ subredditName, id }} />
         <div>
           {posts.map((p) => (
             <PostCard

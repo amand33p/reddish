@@ -33,6 +33,7 @@ const AddPostModal = ({
   postToEditId,
   textSubmission,
   linkSubmission,
+  fromSubreddit,
 }) => {
   const [open, setOpen] = useState(false);
   const [postType, setPostType] = useState('Text');
@@ -149,6 +150,7 @@ const AddPostModal = ({
             postToEditId={postToEditId}
             textSubmission={textSubmission}
             linkSubmission={linkSubmission}
+            fromSubreddit={fromSubreddit}
           />
         </DialogContent>
       </Dialog>

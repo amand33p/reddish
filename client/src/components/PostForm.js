@@ -50,6 +50,7 @@ const AddPostForm = ({
   postToEditId,
   textSubmission,
   linkSubmission,
+  fromSubreddit,
 }) => {
   const [fileName, setFileName] = useState('');
   const subreddits = useSelector((state) => state.subreddits);
@@ -101,6 +102,8 @@ const AddPostForm = ({
     }
   };
 
+  console.log(postToEditSub, fromSubreddit);
+
   return (
     <div className={classes.root}>
       <Formik
@@ -110,7 +113,12 @@ const AddPostForm = ({
           textSubmission: actionType === 'edit' ? textSubmission : '',
           linkSubmission: actionType === 'edit' ? linkSubmission : '',
           imageSubmission: '',
-          subreddit: actionType === 'edit' ? postToEditSub.id : '',
+          subreddit:
+            actionType === 'edit'
+              ? postToEditSub.id
+              : !fromSubreddit
+              ? ''
+              : fromSubreddit.id,
         }}
         onSubmit={actionType === 'edit' ? handleUpdatePost : handleAddPost}
         validationSchema={validationSchema}
@@ -168,7 +176,7 @@ const AddPostForm = ({
                 }
                 fullWidth
                 options={subreddits}
-                disabled={actionType === 'edit'}
+                disabled={actionType === 'edit' || !!fromSubreddit}
                 getOptionLabel={(option) => option.subredditName}
                 getOptionSelected={(option, value) => option.id === value.id}
                 renderInput={(params) => (
@@ -177,11 +185,13 @@ const AddPostForm = ({
                     label={
                       actionType === 'edit'
                         ? postToEditSub.subredditName
-                        : 'Choose a subreddit'
+                        : !fromSubreddit
+                        ? 'Choose a subreddit'
+                        : fromSubreddit.subredditName
                     }
                     placeholder="Search by subreddit name"
                     required
-                    disabled={actionType === 'edit'}
+                    disabled={actionType === 'edit' || !!fromSubreddit}
                   />
                 )}
               />
@@ -294,7 +304,6 @@ const AddPostForm = ({
             >
               Submit
             </Button>
-            {/*JSON.stringify(values, null, 2)*/}
           </Form>
         )}
       </Formik>
