@@ -12,10 +12,7 @@ router.get('/', async (req, res) => {
   const limit = Number(req.query.limit);
   const sortBy = req.query.sortby;
 
-  const postsCount = await Post.countDocuments();
-  const paginated = paginateResults(page, limit, postsCount);
   let sortQuery;
-
   switch (sortBy) {
     case 'new':
       sortQuery = { createdAt: -1 };
@@ -36,6 +33,8 @@ router.get('/', async (req, res) => {
       sortQuery = {};
   }
 
+  const postsCount = await Post.countDocuments();
+  const paginated = paginateResults(page, limit, postsCount);
   const allPosts = await Post.find({})
     .sort(sortQuery)
     .select('-comments')
