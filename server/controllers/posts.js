@@ -7,15 +7,37 @@ const { auth } = require('../utils/middleware');
 const { cloudinary } = require('../utils/config');
 const paginateResults = require('../utils/paginateResults');
 
-router.get('/new', async (req, res) => {
+router.get('/', async (req, res) => {
   const page = Number(req.query.page);
   const limit = Number(req.query.limit);
+  const sortBy = req.query.sortby;
 
   const postsCount = await Post.countDocuments();
   const paginated = paginateResults(page, limit, postsCount);
+  let sortQuery;
+
+  switch (sortBy) {
+    case 'new':
+      sortQuery = { createdAt: -1 };
+      break;
+    case 'top':
+      sortQuery = { pointsCount: -1 };
+      break;
+    case 'best':
+      sortQuery = { voteRatio: -1 };
+      break;
+    case 'hot':
+      sortQuery = { hotAlgo: -1 };
+      break;
+    case 'controversial':
+      sortQuery = { controversialAlgo: -1 };
+      break;
+    default:
+      sortQuery = {};
+  }
 
   const allPosts = await Post.find({})
-    .sort({ createdAt: -1 })
+    .sort(sortQuery)
     .select('-comments')
     .limit(limit)
     .skip(paginated.startIndex)

@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Post = require('../models/post');
 const User = require('../models/user');
 const { auth } = require('../utils/middleware');
+const pointsCalculator = require('../utils/pointsCalculator');
 
 router.post('/:id/upvote', auth, async (req, res) => {
   const { id } = req.params;
@@ -44,13 +45,16 @@ router.post('/:id/upvote', auth, async (req, res) => {
     author.karmaPoints.postKarma++;
   }
 
-  const calculatedPoints = post.upvotedBy.length - post.downvotedBy.length;
+  const calcluatedData = pointsCalculator(
+    post.upvotedBy.length,
+    post.downvotedBy.length,
+    post.createdAt
+  );
 
-  if (calculatedPoints <= 0) {
-    post.pointsCount = 0;
-  } else {
-    post.pointsCount = calculatedPoints;
-  }
+  post.pointsCount = calcluatedData.pointsCount;
+  post.voteRatio = calcluatedData.voteRatio;
+  post.hotAlgo = calcluatedData.hotAlgo;
+  post.controversialAlgo = calcluatedData.controversialAlgo;
 
   await post.save();
   await author.save();
@@ -99,13 +103,16 @@ router.post('/:id/downvote', auth, async (req, res) => {
     author.karmaPoints.postKarma--;
   }
 
-  const calculatedPoints = post.upvotedBy.length - post.downvotedBy.length;
+  const calcluatedData = pointsCalculator(
+    post.upvotedBy.length,
+    post.downvotedBy.length,
+    post.createdAt
+  );
 
-  if (calculatedPoints <= 0) {
-    post.pointsCount = 0;
-  } else {
-    post.pointsCount = calculatedPoints;
-  }
+  post.pointsCount = calcluatedData.pointsCount;
+  post.voteRatio = calcluatedData.voteRatio;
+  post.hotAlgo = calcluatedData.hotAlgo;
+  post.controversialAlgo = calcluatedData.controversialAlgo;
 
   await post.save();
   await author.save();

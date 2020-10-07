@@ -11,7 +11,7 @@ const setConfig = () => {
 };
 
 const getNewPosts = async () => {
-  const response = await axios.get(`${baseUrl}/new`);
+  const response = await axios.get(`${baseUrl}`);
   return response.data;
 };
 

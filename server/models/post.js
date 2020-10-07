@@ -111,8 +111,19 @@ const postSchema = new mongoose.Schema({
   ],
   pointsCount: {
     type: Number,
-    required: true,
     default: 1,
+  },
+  voteRatio: {
+    type: Number,
+    default: 0,
+  },
+  hotAlgo: {
+    type: Number,
+    default: 0,
+  },
+  controversialAlgo: {
+    type: Number,
+    default: 0,
   },
   comments: [commentSchema],
   commentCount: {
