@@ -100,7 +100,7 @@ router.patch('/:id', auth, async (req, res) => {
   subreddit.description = description;
 
   await subreddit.save();
-  res.status(202).json(subreddit);
+  res.status(202).end();
 });
 
 router.post('/:id/subscribe', auth, async (req, res) => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -6,21 +6,32 @@ import {
   toggleUpvote,
   toggleDownvote,
   toggleSubscribe,
+  editDescription,
 } from '../reducers/subredditPageReducer';
 import PostCard from './PostCard';
 import PostFormModal from './PostFormModal';
 
-import { Container, Paper, Typography, Button, Link } from '@material-ui/core';
+import {
+  Container,
+  Paper,
+  Typography,
+  Button,
+  Link,
+  TextField,
+} from '@material-ui/core';
 import { useSubredditPageStyles } from '../styles/muiStyles';
 import CakeIcon from '@material-ui/icons/Cake';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import CheckIcon from '@material-ui/icons/Check';
 import GroupIcon from '@material-ui/icons/Group';
 import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 
 const SubredditPage = () => {
   const subredditInfo = useSelector((state) => state.subredditPage);
   const user = useSelector((state) => state.user);
+  const [editOpen, setEditOpen] = useState(false);
+  const [descInput, setDescInput] = useState('');
   const { subreddit } = useParams();
   const dispatch = useDispatch();
   const classes = useSubredditPageStyles();
@@ -35,6 +46,10 @@ const SubredditPage = () => {
         }
       };
       getSubreddit();
+    }
+
+    if (subredditInfo) {
+      setDescInput(subredditInfo.description);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subredditInfo]);
@@ -71,15 +86,75 @@ const SubredditPage = () => {
     }
   };
 
+  const handleEditDescription = () => {
+    try {
+      dispatch(editDescription(id, descInput));
+      setEditOpen(false);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <Container disableGutters>
       <Paper variant="outlined" className={classes.mainPaper}>
         <Paper variant="outlined" className={classes.subInfoWrapper}>
-          <div>
+          <div className={classes.firstPanel}>
             <Typography variant="h6" color="secondary">
               r/{subredditName}
             </Typography>
-            <Typography variant="body1">{description}</Typography>
+            <div className={classes.description}>
+              {!editOpen ? (
+                <Typography variant="body1">{description}</Typography>
+              ) : (
+                <div className={classes.inputDiv}>
+                  <TextField
+                    multiline
+                    required
+                    fullWidth
+                    rows={2}
+                    rowsMax={Infinity}
+                    value={descInput}
+                    onChange={(e) => setDescInput(e.target.value)}
+                    variant="outlined"
+                    size="small"
+                  />
+                  <div className={classes.submitBtns}>
+                    <Button
+                      onClick={() => setEditOpen(false)}
+                      color="primary"
+                      variant="outlined"
+                      size="small"
+                      className={classes.cancelBtn}
+                      style={{ padding: '0em' }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleEditDescription}
+                      color="primary"
+                      variant="outlined"
+                      size="small"
+                      style={{ padding: '0em' }}
+                    >
+                      Update
+                    </Button>
+                  </div>
+                </div>
+              )}
+              {user && user.id === admin.id && !editOpen && (
+                <Button
+                  onClick={() => setEditOpen((prevState) => !prevState)}
+                  size="small"
+                  variant="outlined"
+                  color="primary"
+                  style={{ padding: '0em', marginLeft: '0.5em' }}
+                  startIcon={<EditIcon />}
+                >
+                  Edit
+                </Button>
+              )}
+            </div>
             <Typography
               variant="body2"
               className={classes.iconText}
@@ -105,7 +180,7 @@ const SubredditPage = () => {
               </Link>
             </Typography>
           </div>
-          <div className={classes.flexItem}>
+          <div className={classes.secondPanel}>
             {user && (
               <Button
                 color="primary"

@@ -29,4 +29,18 @@ const subscribeSub = async (id) => {
   return response.data;
 };
 
-export default { getAllSubreddits, getSubreddit, subscribeSub };
+const updateDescription = async (id, descriptionObj) => {
+  const response = await axios.patch(
+    `${baseUrl}/${id}`,
+    descriptionObj,
+    setConfig()
+  );
+  return response.data;
+};
+
+export default {
+  getAllSubreddits,
+  getSubreddit,
+  subscribeSub,
+  updateDescription,
+};

@@ -17,6 +17,11 @@ const subredditPageReducer = (state = null, action) => {
         ...state,
         ...action.payload,
       };
+    case 'EDIT_DESCRIPTION':
+      return {
+        ...state,
+        description: action.payload,
+      };
     default:
       return state;
   }
@@ -75,6 +80,17 @@ export const toggleSubscribe = (id, subscribedBy) => {
     });
 
     await subredditService.subscribeSub(id);
+  };
+};
+
+export const editDescription = (id, description) => {
+  return async (dispatch) => {
+    await subredditService.updateDescription(id, { description });
+
+    dispatch({
+      type: 'EDIT_DESCRIPTION',
+      payload: description,
+    });
   };
 };
 

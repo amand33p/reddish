@@ -525,17 +525,45 @@ export const useSubredditPageStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    [theme.breakpoints.down('xs')]: {
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+    },
   },
   iconText: {
     display: 'flex',
     alignItems: 'flex-end',
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'center',
+    },
   },
-  flexItem: {
+  secondPanel: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '1em',
+    },
   },
   joinBtn: {
     marginBottom: '0.4em',
+  },
+  description: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    flexWrap: 'wrap',
+  },
+  inputDiv: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  submitBtns: {
+    alignSelf: 'flex-end',
+    marginTop: '0.1em',
+  },
+  firstPanel: {
+    [theme.breakpoints.down('xs')]: {
+      textAlign: 'center',
+    },
   },
 }));
