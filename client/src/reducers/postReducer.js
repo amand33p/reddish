@@ -15,9 +15,9 @@ const postReducer = (state = [], action) => {
   }
 };
 
-export const initPosts = () => {
+export const fetchPosts = (sortBy) => {
   return async (dispatch) => {
-    const posts = await postService.getNewPosts();
+    const posts = await postService.getPosts(sortBy);
     dispatch({
       type: 'INIT_POSTS',
       payload: posts.results,

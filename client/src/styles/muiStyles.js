@@ -10,7 +10,7 @@ export const useMainPaperStyles = makeStyles(() => ({
   },
   container: {
     minWidth: '98%',
-    marginTop: '1em',
+    marginTop: '0.5em',
   },
 }));
 
@@ -564,6 +564,16 @@ export const useSubredditPageStyles = makeStyles((theme) => ({
   firstPanel: {
     [theme.breakpoints.down('xs')]: {
       textAlign: 'center',
+    },
+  },
+}));
+
+export const useSortTabStyles = makeStyles((theme) => ({
+  mainPaper: {
+    borderRadius: 0,
+    marginBottom: '0.6em',
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '0em',
     },
   },
 }));

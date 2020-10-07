@@ -10,8 +10,8 @@ const setConfig = () => {
   };
 };
 
-const getNewPosts = async () => {
-  const response = await axios.get(`${baseUrl}`);
+const getPosts = async (sortBy) => {
+  const response = await axios.get(`${baseUrl}/?sortby=${sortBy}`);
   return response.data;
 };
 
@@ -142,7 +142,7 @@ const removeReply = async (postId, commentId, replyId) => {
 };
 
 export default {
-  getNewPosts,
+  getPosts,
   addNew,
   editPost,
   getPostComments,

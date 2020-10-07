@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PostCard from './PostCard';
+import SortTabBar from './SortTabBar';
 import { toggleUpvote, toggleDownvote } from '../reducers/postReducer';
 
 import { usePostListStyles } from '../styles/muiStyles';
@@ -12,6 +13,7 @@ const PostList = () => {
 
   return (
     <div>
+      <SortTabBar />
       {posts.map((post) => (
         <PostCard
           post={post}
