@@ -175,7 +175,7 @@ const AddPostForm = ({
                   setFieldValue('subreddit', value ? value.id : '')
                 }
                 fullWidth
-                options={subreddits}
+                options={subreddits && subreddits.allSubs}
                 disabled={actionType === 'edit' || !!fromSubreddit}
                 getOptionLabel={(option) => option.subredditName}
                 getOptionSelected={(option, value) => option.id === value.id}

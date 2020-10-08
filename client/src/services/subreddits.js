@@ -16,7 +16,7 @@ const getAllSubreddits = async () => {
 };
 
 const getSubreddit = async (subredditName) => {
-  const response = await axios.get(`${baseUrl}/${subredditName}`);
+  const response = await axios.get(`${baseUrl}/r/${subredditName}`);
   return response.data;
 };
 
@@ -38,9 +38,15 @@ const updateDescription = async (id, descriptionObj) => {
   return response.data;
 };
 
+const getTopSubreddits = async () => {
+  const response = await axios.get(`${baseUrl}/top10`);
+  return response.data;
+};
+
 export default {
   getAllSubreddits,
   getSubreddit,
   subscribeSub,
   updateDescription,
+  getTopSubreddits,
 };

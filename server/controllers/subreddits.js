@@ -8,7 +8,7 @@ router.get('/', async (_req, res) => {
   res.status(200).json(allSubreddits);
 });
 
-router.get('/:subredditName', async (req, res) => {
+router.get('/r/:subredditName', async (req, res) => {
   const { subredditName } = req.params;
 
   const subreddit = await Subreddit.findOne({
@@ -31,6 +31,15 @@ router.get('/:subredditName', async (req, res) => {
   }
 
   res.status(200).json(subreddit);
+});
+
+router.get('/top10', async (_req, res) => {
+  const top10Subreddits = await Subreddit.find({})
+    .sort({ subscriberCount: -1 })
+    .limit(10)
+    .select('-description -posts -admin ');
+
+  res.status(200).json(top10Subreddits);
 });
 
 router.post('/', auth, async (req, res) => {

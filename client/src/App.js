@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './reducers/userReducer';
 import { fetchPosts } from './reducers/postReducer';
-import { setSubredditList } from './reducers/subredditReducer';
+import { setSubredditList, setTopSubsList } from './reducers/subredditReducer';
 import { clearNotif } from './reducers/notificationReducer';
 import NavBar from './components/NavBar';
 import ToastNotif from './components/ToastNotif';
@@ -23,6 +23,7 @@ const App = () => {
       try {
         dispatch(fetchPosts('hot'));
         dispatch(setSubredditList());
+        dispatch(setTopSubsList());
       } catch (err) {
         console.log(err.message);
       }
