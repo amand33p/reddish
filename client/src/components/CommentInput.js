@@ -12,10 +12,6 @@ const CommentInput = ({ user, postId, isMobile }) => {
   const dispatch = useDispatch();
   const classes = useCommentInputStyles();
 
-  if (!user) {
-    return null;
-  }
-
   const handlePostComment = async (e) => {
     e.preventDefault();
 
@@ -29,12 +25,18 @@ const CommentInput = ({ user, postId, isMobile }) => {
 
   return (
     <div className={classes.wrapper}>
-      <Typography variant="body2">
-        Comment as{' '}
-        <Link component={RouterLink} to={`/u/${user.username}`}>
-          {user.username}
-        </Link>
-      </Typography>
+      {user ? (
+        <Typography variant="body2">
+          Comment as{' '}
+          <Link component={RouterLink} to={`/u/${user.username}`}>
+            {user.username}
+          </Link>
+        </Typography>
+      ) : (
+        <Typography variant="body1">
+          Log in or sign up to leave a comment
+        </Typography>
+      )}
       <form className={classes.form} onSubmit={handlePostComment}>
         <TextField
           placeholder={`What are your thoughts?`}
@@ -55,8 +57,9 @@ const CommentInput = ({ user, postId, isMobile }) => {
           className={classes.commentBtn}
           startIcon={<SendIcon />}
           size={isMobile ? 'small' : 'medium'}
+          disabled={!user}
         >
-          Comment
+          {user ? 'Comment' : 'Login to comment'}
         </Button>
       </form>
     </div>

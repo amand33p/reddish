@@ -133,7 +133,9 @@ const AuthForm = ({ closeModal }) => {
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton onClick={() => setShowPass(!showPass)}>
+                        <IconButton
+                          onClick={() => setShowPass((prevState) => !prevState)}
+                        >
                           {showPass ? (
                             <VisibilityOffIcon color="primary" />
                           ) : (

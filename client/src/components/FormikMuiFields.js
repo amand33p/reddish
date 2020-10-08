@@ -29,7 +29,7 @@ export const TextInput = ({
       InputProps={InputProps}
       required={required}
       fullWidth
-      multiline={required}
+      multiline={multiline}
       rows={rows}
       rowsMax={rowsMax}
       variant={variant}
