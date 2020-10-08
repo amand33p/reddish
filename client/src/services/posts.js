@@ -10,8 +10,10 @@ const setConfig = () => {
   };
 };
 
-const getPosts = async (sortBy) => {
-  const response = await axios.get(`${baseUrl}/?sortby=${sortBy}`);
+const getPosts = async (sortBy, limit, page) => {
+  const response = await axios.get(
+    `${baseUrl}/?sortby=${sortBy}&limit=${limit}&page=${page}`
+  );
   return response.data;
 };
 

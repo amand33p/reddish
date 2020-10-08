@@ -1,27 +1,72 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchPosts, loadMorePosts } from '../reducers/postReducer';
 import PostCard from './PostCard';
 import SortTabBar from './SortTabBar';
 import { toggleUpvote, toggleDownvote } from '../reducers/postReducer';
 
+import { Button } from '@material-ui/core';
 import { usePostListStyles } from '../styles/muiStyles';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 const PostList = () => {
+  const [sortBy, setSortBy] = useState('hot');
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
   const posts = useSelector((state) => state.posts);
-
+  const dispatch = useDispatch();
   const classes = usePostListStyles();
 
+  const handleSortChange = async (e, newValue) => {
+    try {
+      await dispatch(fetchPosts(newValue));
+      setSortBy(newValue);
+      if (page !== 1) {
+        setPage(1);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const handleLoadPosts = async () => {
+    try {
+      setLoadingMore(true);
+      await dispatch(loadMorePosts(sortBy, page + 1));
+      setPage((prevState) => prevState + 1);
+      setLoadingMore(false);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
-    <div>
-      <SortTabBar />
-      {posts.map((post) => (
-        <PostCard
-          post={post}
-          key={post.id}
-          toggleUpvote={toggleUpvote}
-          toggleDownvote={toggleDownvote}
-        />
-      ))}
+    <div className={classes.root}>
+      <SortTabBar sortBy={sortBy} handleSortChange={handleSortChange} />
+      {posts &&
+        posts.results &&
+        posts.results.map((post) => (
+          <PostCard
+            post={post}
+            key={post.id}
+            toggleUpvote={toggleUpvote}
+            toggleDownvote={toggleDownvote}
+          />
+        ))}
+      {posts && 'next' in posts && (
+        <div className={classes.loadBtnWrapper}>
+          <Button
+            color="primary"
+            variant="outlined"
+            size="large"
+            onClick={handleLoadPosts}
+            startIcon={<AutorenewIcon />}
+            className={classes.loadBtn}
+          >
+            {loadingMore ? 'Loading more posts...' : 'Load more'}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

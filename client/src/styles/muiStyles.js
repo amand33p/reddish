@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useMainPaperStyles = makeStyles(() => ({
+export const useMainPaperStyles = makeStyles((theme) => ({
   root: {
     width: '100vW',
     display: 'flex',
@@ -11,6 +11,9 @@ export const useMainPaperStyles = makeStyles(() => ({
   container: {
     minWidth: '98%',
     marginTop: '0.5em',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '0',
+    },
   },
 }));
 
@@ -151,6 +154,15 @@ export const useAlertStyles = makeStyles((theme) => ({
 export const usePostListStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    marginBottom: '1em',
+  },
+  loadBtnWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  loadBtn: {
+    marginTop: '0.8em',
+    width: '50%',
   },
 }));
 
