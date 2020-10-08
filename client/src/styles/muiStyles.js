@@ -8,7 +8,7 @@ export const useMainPaperStyles = makeStyles((theme) => ({
     flex: 1,
     minHeight: '100vH',
   },
-  container: {
+  homepage: {
     minWidth: '98%',
     marginTop: '0.5em',
     [theme.breakpoints.down('xs')]: {
@@ -588,4 +588,8 @@ export const useSortTabStyles = makeStyles((theme) => ({
       marginBottom: '0em',
     },
   },
+}));
+
+export const useSubPanelStyles = makeStyles((theme) => ({
+  root: {},
 }));

@@ -29,6 +29,9 @@ router.get('/', async (req, res) => {
     case 'controversial':
       sortQuery = { controversialAlgo: -1 };
       break;
+    case 'old':
+      sortQuery = { createdAt: 1 };
+      break;
     default:
       sortQuery = {};
   }

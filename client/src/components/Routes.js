@@ -5,6 +5,7 @@ import PostList from './PostList';
 import PostCommentsPage from './PostCommentsPage';
 import UserPage from './UserPage';
 import SubredditPage from './SubredditPage';
+import SubInfoPanel from './SubInfoPanel';
 
 import { Container } from '@material-ui/core/';
 import { useMainPaperStyles } from '../styles/muiStyles';
@@ -15,9 +16,12 @@ const Routes = () => {
   return (
     <Switch>
       <Route exact path="/">
-        <Container disableGutters maxWidth="lg" className={classes.container}>
-          <PostFormModal />
-          <PostList />
+        <Container disableGutters maxWidth="lg" className={classes.homepage}>
+          <div>
+            <PostFormModal />
+            <PostList />
+          </div>
+          <SubInfoPanel />
         </Container>
       </Route>
       <Route exact path="/comments/:id">

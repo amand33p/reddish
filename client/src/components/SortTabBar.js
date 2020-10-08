@@ -4,6 +4,7 @@ import { ReactComponent as Hot } from '../svg/hot.svg';
 import { ReactComponent as New } from '../svg/new.svg';
 import { ReactComponent as Top } from '../svg/top.svg';
 import { ReactComponent as Controversial } from '../svg/controversial.svg';
+import { ReactComponent as Old } from '../svg/old.svg';
 
 import { Paper, Tabs, Tab, SvgIcon } from '@material-ui/core';
 import { useSortTabStyles } from '../styles/muiStyles';
@@ -64,6 +65,15 @@ const SortTabBar = ({ sortBy, handleSortChange }) => {
           }
           label="Controversial"
           value="controversial"
+        />
+        <Tab
+          icon={
+            <SvgIcon fontSize="small">
+              <Old />
+            </SvgIcon>
+          }
+          label="Old"
+          value="old"
         />
       </Tabs>
     </Paper>
