@@ -11,9 +11,14 @@ export const useMainPaperStyles = makeStyles((theme) => ({
   homepage: {
     minWidth: '98%',
     marginTop: '0.5em',
-    [theme.breakpoints.down('xs')]: {
+    display: 'flex',
+    [theme.breakpoints.down('md')]: {
       marginTop: '0',
+      display: 'block',
     },
+  },
+  postsPanel: {
+    flexGrow: 1,
   },
 }));
 
@@ -138,6 +143,9 @@ export const useDialogStyles = makeStyles((theme) => ({
   },
   dialogTitle: {
     fontSize: '1.2em',
+  },
+  createSubBtn: {
+    marginTop: '1em',
   },
 }));
 
@@ -591,5 +599,72 @@ export const useSortTabStyles = makeStyles((theme) => ({
 }));
 
 export const useSubPanelStyles = makeStyles((theme) => ({
-  root: {},
+  mainPaper: {
+    minWidth: '25%',
+    borderRadius: 0,
+    marginLeft: '0.5em',
+    padding: '0.5em',
+  },
+  listPaper: {
+    padding: '1em',
+  },
+  title: {
+    textAlign: 'center',
+    marginBottom: '1em',
+  },
+  listItem: {
+    fontSize: '1.1em',
+  },
+  listWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: '1em',
+  },
+}));
+
+export const useSubredditFormStyles = makeStyles((theme) => ({
+  formWrapper: {
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 10,
+    },
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 20,
+    [theme.breakpoints.down('xs')]: {
+      padding: '0 0 0 0',
+    },
+  },
+  formTitle: {
+    textAlign: 'center',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '1.5em',
+    },
+  },
+  submitButton: {
+    marginTop: '1.8em',
+  },
+  input: {
+    display: 'flex',
+    alignItems: 'flex-end',
+  },
+  inputIcon: {
+    marginRight: 8,
+  },
+  inputIconText: {
+    padding: 2,
+    paddingBottom: 0,
+    marginRight: 9,
+    fontWeight: 700,
+  },
+  descInput: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    marginTop: '1.5em',
+  },
 }));

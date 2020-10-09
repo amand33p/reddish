@@ -14,7 +14,6 @@ import {
   Button,
   useMediaQuery,
 } from '@material-ui/core';
-
 import { useNavStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
 import RedditIcon from '@material-ui/icons/Reddit';
@@ -23,10 +22,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 const NavBar = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const classes = useNavStyles();
+
   const userLoggedIn = storageService.loadUser() || user;
 
   const handleLogout = () => {

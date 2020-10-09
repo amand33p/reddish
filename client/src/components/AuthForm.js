@@ -47,7 +47,6 @@ const validationSchemaLogin = yup.object({
 const AuthForm = ({ closeModal }) => {
   const [authType, setAuthType] = useState('login');
   const [showPass, setShowPass] = useState(false);
-
   const dispatch = useDispatch();
   const classes = useAuthStyles(authType)();
 

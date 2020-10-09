@@ -20,6 +20,11 @@ const getSubreddit = async (subredditName) => {
   return response.data;
 };
 
+const createSubreddit = async (subredditObj) => {
+  const response = await axios.post(`${baseUrl}`, subredditObj, setConfig());
+  return response.data;
+};
+
 const subscribeSub = async (id) => {
   const response = await axios.post(
     `${baseUrl}/${id}/subscribe`,
@@ -45,6 +50,7 @@ const getTopSubreddits = async () => {
 
 export default {
   getAllSubreddits,
+  createSubreddit,
   getSubreddit,
   subscribeSub,
   updateDescription,

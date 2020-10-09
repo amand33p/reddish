@@ -20,6 +20,7 @@ const SortTabBar = ({ sortBy, handleSortChange }) => {
         indicatorColor="primary"
         textColor="primary"
         variant="scrollable"
+        scrollButtons="auto"
       >
         <Tab
           icon={

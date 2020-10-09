@@ -56,7 +56,6 @@ const AddPostForm = ({
   const subreddits = useSelector((state) => state.subreddits);
   const dispatch = useDispatch();
   const history = useHistory();
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const classes = usePostFormStyles();

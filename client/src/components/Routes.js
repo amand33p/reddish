@@ -17,7 +17,7 @@ const Routes = () => {
     <Switch>
       <Route exact path="/">
         <Container disableGutters maxWidth="lg" className={classes.homepage}>
-          <div>
+          <div className={classes.postsPanel}>
             <PostFormModal />
             <PostList />
           </div>
