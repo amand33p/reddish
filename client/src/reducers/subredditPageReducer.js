@@ -5,34 +5,66 @@ const subredditPageReducer = (state = null, action) => {
   switch (action.type) {
     case 'FETCH_SUBREDDIT':
       return action.payload;
+    case 'LOAD_SUB_POSTS':
+      return {
+        ...state,
+        posts: {
+          ...action.payload.posts,
+          results: [...state.posts.results, ...action.payload.posts.results],
+        },
+      };
     case 'TOGGLE_SUBPAGE_VOTE':
       return {
         ...state,
-        posts: state.posts.map((p) =>
-          p.id !== action.payload.id ? p : { ...p, ...action.payload.data }
-        ),
+        posts: {
+          ...state.posts,
+          results: state.posts.results.map((p) =>
+            p.id !== action.payload.id ? p : { ...p, ...action.payload.data }
+          ),
+        },
       };
     case 'SUBSCRIBE_SUBREDDIT':
       return {
         ...state,
-        ...action.payload,
+        subDetails: { ...state.subDetails, ...action.payload },
       };
     case 'EDIT_DESCRIPTION':
       return {
         ...state,
-        description: action.payload,
+        subDetails: { ...state.subDetails, description: action.payload },
       };
     default:
       return state;
   }
 };
 
-export const fetchSubreddit = (subredditName) => {
+export const fetchSubreddit = (subredditName, sortBy) => {
   return async (dispatch) => {
-    const subreddit = await subredditService.getSubreddit(subredditName);
+    const subreddit = await subredditService.getSubreddit(
+      subredditName,
+      sortBy,
+      10,
+      1
+    );
 
     dispatch({
       type: 'FETCH_SUBREDDIT',
+      payload: subreddit,
+    });
+  };
+};
+
+export const loadSubPosts = (subredditName, sortBy, page) => {
+  return async (dispatch) => {
+    const subreddit = await subredditService.getSubreddit(
+      subredditName,
+      sortBy,
+      10,
+      page
+    );
+
+    dispatch({
+      type: 'LOAD_SUB_POSTS',
       payload: subreddit,
     });
   };

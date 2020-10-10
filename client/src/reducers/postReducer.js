@@ -2,7 +2,7 @@ import postService from '../services/posts';
 
 const postReducer = (state = null, action) => {
   switch (action.type) {
-    case 'INIT_POSTS':
+    case 'SET_POSTS':
       return action.payload;
     case 'LOAD_MORE_POSTS':
       return {
@@ -31,7 +31,7 @@ export const fetchPosts = (sortBy) => {
     const posts = await postService.getPosts(sortBy, 10, 1);
 
     dispatch({
-      type: 'INIT_POSTS',
+      type: 'SET_POSTS',
       payload: posts,
     });
   };

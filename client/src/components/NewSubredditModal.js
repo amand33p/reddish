@@ -35,8 +35,9 @@ const NewSubredditModal = () => {
       <Dialog
         open={open}
         onClose={handleClose}
-        maxWidth="md"
+        maxWidth="sm"
         classes={{ paper: classes.dialogWrapper }}
+        fullWidth
       >
         <DialogTitle onClose={handleClose}></DialogTitle>
         <DialogContent>

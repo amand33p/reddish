@@ -538,6 +538,7 @@ export const useSubredditPageStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     borderRadius: 0,
     minHeight: '90vH',
+    paddingBottom: '1em',
   },
   subInfoWrapper: {
     margin: '0.5em',
@@ -585,6 +586,14 @@ export const useSubredditPageStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       textAlign: 'center',
     },
+  },
+  loadBtnWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  loadBtn: {
+    marginTop: '0.8em',
+    width: '50%',
   },
 }));
 

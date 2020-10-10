@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const Subreddit = require('../models/subreddit');
 const User = require('../models/user');
+const Post = require('../models/post');
 const { auth } = require('../utils/middleware');
+const paginateResults = require('../utils/paginateResults');
 
 router.get('/', async (_req, res) => {
   const allSubreddits = await Subreddit.find({}).select('id subredditName');
@@ -10,19 +12,37 @@ router.get('/', async (_req, res) => {
 
 router.get('/r/:subredditName', async (req, res) => {
   const { subredditName } = req.params;
+  const page = Number(req.query.page);
+  const limit = Number(req.query.limit);
+  const sortBy = req.query.sortby;
+
+  let sortQuery;
+  switch (sortBy) {
+    case 'new':
+      sortQuery = { createdAt: -1 };
+      break;
+    case 'top':
+      sortQuery = { pointsCount: -1 };
+      break;
+    case 'best':
+      sortQuery = { voteRatio: -1 };
+      break;
+    case 'hot':
+      sortQuery = { hotAlgo: -1 };
+      break;
+    case 'controversial':
+      sortQuery = { controversialAlgo: -1 };
+      break;
+    case 'old':
+      sortQuery = { createdAt: 1 };
+      break;
+    default:
+      sortQuery = {};
+  }
 
   const subreddit = await Subreddit.findOne({
     subredditName: { $regex: new RegExp('^' + subredditName + '$', 'i') },
-  })
-    .populate('admin', 'username')
-    .populate({
-      path: 'posts',
-      populate: { path: 'subreddit', select: 'subredditName' },
-    })
-    .populate({
-      path: 'posts',
-      populate: { path: 'author', select: 'username' },
-    });
+  }).populate('admin', 'username');
 
   if (!subreddit) {
     return res.status(404).send({
@@ -30,7 +50,23 @@ router.get('/r/:subredditName', async (req, res) => {
     });
   }
 
-  res.status(200).json(subreddit);
+  const postsCount = subreddit.posts.length;
+  const paginated = paginateResults(page, limit, postsCount);
+  const subredditPosts = await Post.find({ subreddit: subreddit.id })
+    .sort(sortQuery)
+    .select('-comments')
+    .limit(limit)
+    .skip(paginated.startIndex)
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName');
+
+  const paginatedPosts = {
+    previous: paginated.results.previous,
+    results: subredditPosts,
+    next: paginated.results.next,
+  };
+
+  res.status(200).json({ subDetails: subreddit, posts: paginatedPosts });
 });
 
 router.get('/top10', async (_req, res) => {

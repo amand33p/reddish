@@ -7,7 +7,9 @@ import {
   toggleDownvote,
   toggleSubscribe,
   editDescription,
+  loadSubPosts,
 } from '../reducers/subredditPageReducer';
+import SortTabBar from './SortTabBar';
 import PostCard from './PostCard';
 import PostFormModal from './PostFormModal';
 
@@ -26,21 +28,25 @@ import CheckIcon from '@material-ui/icons/Check';
 import GroupIcon from '@material-ui/icons/Group';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 const SubredditPage = () => {
-  const subredditInfo = useSelector((state) => state.subredditPage);
+  const sub = useSelector((state) => state.subredditPage);
   const user = useSelector((state) => state.user);
   const [editOpen, setEditOpen] = useState(false);
   const [descInput, setDescInput] = useState('');
+  const [sortBy, setSortBy] = useState('hot');
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
   const { subreddit } = useParams();
   const dispatch = useDispatch();
   const classes = useSubredditPageStyles();
 
   useEffect(() => {
-    if (!subredditInfo || subredditInfo.subredditName !== subreddit) {
+    if (!sub || sub.subDetails.subredditName !== subreddit) {
       const getSubreddit = async () => {
         try {
-          dispatch(fetchSubreddit(subreddit));
+          dispatch(fetchSubreddit(subreddit, 'hot'));
         } catch (err) {
           console.log(err.message);
         }
@@ -48,13 +54,13 @@ const SubredditPage = () => {
       getSubreddit();
     }
 
-    if (subredditInfo) {
-      setDescInput(subredditInfo.description);
+    if (sub) {
+      setDescInput(sub.subDetails.description);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subredditInfo]);
+  }, [sub]);
 
-  if (!subredditInfo) {
+  if (!sub) {
     return null;
   }
 
@@ -65,9 +71,8 @@ const SubredditPage = () => {
     description,
     admin,
     createdAt,
-    posts,
     id,
-  } = subredditInfo;
+  } = sub.subDetails;
 
   const isSubscribed = user && subscribedBy.includes(user.id);
 
@@ -90,6 +95,29 @@ const SubredditPage = () => {
     try {
       dispatch(editDescription(id, descInput));
       setEditOpen(false);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const handleSortChange = async (e, newValue) => {
+    try {
+      await dispatch(fetchSubreddit(subreddit, newValue));
+      setSortBy(newValue);
+      if (page !== 1) {
+        setPage(1);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const handleLoadPosts = async () => {
+    try {
+      setLoadingMore(true);
+      await dispatch(loadSubPosts(subreddit, sortBy, page + 1));
+      setPage((prevState) => prevState + 1);
+      setLoadingMore(false);
     } catch (err) {
       console.log(err.message);
     }
@@ -203,8 +231,9 @@ const SubredditPage = () => {
           </div>
         </Paper>
         <PostFormModal fromSubreddit={{ subredditName, id }} />
+        <SortTabBar sortBy={sortBy} handleSortChange={handleSortChange} />
         <div>
-          {posts.map((p) => (
+          {sub.posts.results.map((p) => (
             <PostCard
               key={p.id}
               post={p}
@@ -213,6 +242,20 @@ const SubredditPage = () => {
             />
           ))}
         </div>
+        {sub && sub.posts && 'next' in sub.posts && (
+          <div className={classes.loadBtnWrapper}>
+            <Button
+              color="primary"
+              variant="outlined"
+              size="large"
+              onClick={handleLoadPosts}
+              startIcon={<AutorenewIcon />}
+              className={classes.loadBtn}
+            >
+              {loadingMore ? 'Loading more posts...' : 'Load more'}
+            </Button>
+          </div>
+        )}
       </Paper>
     </Container>
   );
