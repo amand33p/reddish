@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../reducers/userPageReducer';
+import { fetchUser, loadUserPosts } from '../reducers/userPageReducer';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
 import UserPostCard from './UserPostCard';
 
@@ -11,19 +11,23 @@ import {
   useMediaQuery,
   Typography,
   Avatar,
+  Button,
 } from '@material-ui/core';
 import { useUserPageStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
 import CakeIcon from '@material-ui/icons/Cake';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 const UserPage = () => {
   const userInfo = useSelector((state) => state.userPage);
   const user = useSelector((state) => state.user);
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
   const dispatch = useDispatch();
   const { username } = useParams();
 
   useEffect(() => {
-    if (!userInfo || userInfo.username !== username) {
+    if (!userInfo || userInfo.userDetails.username !== username) {
       const getUser = async () => {
         try {
           dispatch(fetchUser(username));
@@ -44,15 +48,35 @@ const UserPage = () => {
     return null;
   }
 
+  const {
+    avatar,
+    username: userName,
+    createdAt,
+    posts,
+    totalComments,
+    karmaPoints,
+  } = userInfo.userDetails;
+
+  const handleLoadPosts = async () => {
+    try {
+      setLoadingMore(true);
+      await dispatch(loadUserPosts(username, page + 1));
+      setPage((prevState) => prevState + 1);
+      setLoadingMore(false);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <Container disableGutters>
       <Paper variant="outlined" className={classes.mainPaper}>
         <Paper className={classes.userInfoWrapper} variant="outlined">
           <div className={classes.avatarWrapper}>
-            {userInfo.avatar && userInfo.avatar.exists ? (
+            {avatar && avatar.exists ? (
               <Avatar
-                alt={userInfo.username}
-                src={getCircularAvatar(userInfo.avatar.imageLink)}
+                alt={userName}
+                src={getCircularAvatar(avatar.imageLink)}
                 className={classes.avatar}
               />
             ) : (
@@ -60,11 +84,11 @@ const UserPage = () => {
                 style={{ backgroundColor: '#941a1c' }}
                 className={classes.avatar}
               >
-                <h1>{userInfo.username[0]}</h1>
+                <h1>{userName[0]}</h1>
               </Avatar>
             )}
             <Typography variant="h6" color="secondary">
-              u/{userInfo.username}
+              u/{userName}
             </Typography>
           </div>
           <div className={classes.rightWrapper}>
@@ -79,18 +103,15 @@ const UserPage = () => {
                   className={classes.cakeDay}
                 >
                   <CakeIcon />
-                  {String(new Date(userInfo.createdAt))
-                    .split(' ')
-                    .slice(1, 4)
-                    .join(' ')}
+                  {String(new Date(createdAt)).split(' ').slice(1, 4).join(' ')}
                 </Typography>
               </div>
               <div className={classes.twoItemsDiv}>
                 <Typography variant="body1" color="secondary">
-                  <strong>{userInfo.posts.length}</strong> Posts
+                  <strong>{posts.length}</strong> Posts
                 </Typography>
                 <Typography variant="body1" color="secondary">
-                  <strong>{userInfo.totalComments}</strong> Comments
+                  <strong>{totalComments}</strong> Comments
                 </Typography>
               </div>
             </div>
@@ -100,27 +121,40 @@ const UserPage = () => {
                   Karma
                 </Typography>
                 <Typography variant="h6" color="secondary">
-                  {userInfo.karmaPoints.commentKarma +
-                    userInfo.karmaPoints.postKarma}
+                  {karmaPoints.commentKarma + karmaPoints.postKarma}
                 </Typography>
               </div>
               <div className={classes.twoItemsDiv}>
                 <Typography variant="body1" color="secondary">
-                  Post Karma <strong>{userInfo.karmaPoints.postKarma}</strong>
+                  Post Karma <strong>{karmaPoints.postKarma}</strong>
                 </Typography>
                 <Typography variant="body1" color="secondary">
-                  Comment Karma{' '}
-                  <strong>{userInfo.karmaPoints.commentKarma}</strong>
+                  Comment Karma <strong>{karmaPoints.commentKarma}</strong>
                 </Typography>
               </div>
             </div>
           </div>
         </Paper>
         <div className={classes.postsPaper}>
-          {userInfo.posts.map((p) => (
+          {userInfo.posts.results.map((p) => (
             <UserPostCard key={p.id} post={p} user={user} isMobile={isMobile} />
           ))}
         </div>
+        {console.log('next' in userInfo.posts)}
+        {'next' in userInfo.posts && (
+          <div className={classes.loadBtnWrapper}>
+            <Button
+              color="primary"
+              variant="outlined"
+              size="large"
+              onClick={handleLoadPosts}
+              startIcon={<AutorenewIcon />}
+              className={classes.loadBtn}
+            >
+              {loadingMore ? 'Loading more posts...' : 'Load more'}
+            </Button>
+          </div>
+        )}
       </Paper>
     </Container>
   );

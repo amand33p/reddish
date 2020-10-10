@@ -1,22 +1,18 @@
 const router = require('express').Router();
 const User = require('../models/user');
+const Post = require('../models/post');
 const { auth } = require('../utils/middleware');
 const { cloudinary } = require('../utils/config');
+const paginateResults = require('../utils/paginateResults');
 
 router.get('/:username', async (req, res) => {
   const { username } = req.params;
+  const page = Number(req.query.page);
+  const limit = Number(req.query.limit);
 
   const user = await User.findOne({
     username: { $regex: new RegExp('^' + username + '$', 'i') },
-  })
-    .populate({
-      path: 'posts',
-      populate: { path: 'subreddit', select: 'subredditName' },
-    })
-    .populate({
-      path: 'posts',
-      populate: { path: 'author', select: 'username' },
-    });
+  });
 
   if (!user) {
     return res
@@ -24,7 +20,23 @@ router.get('/:username', async (req, res) => {
       .send({ message: `Username '${username}' does not exist on server.` });
   }
 
-  res.status(200).json(user);
+  const postsCount = user.posts.length;
+  const paginated = paginateResults(page, limit, postsCount);
+  const userPosts = await Post.find({ author: user.id })
+    .sort({ createdAt: -1 })
+    .select('-comments')
+    .limit(limit)
+    .skip(paginated.startIndex)
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName');
+
+  const paginatedPosts = {
+    previous: paginated.results.previous,
+    results: userPosts,
+    next: paginated.results.next,
+  };
+
+  res.status(200).json({ userDetails: user, posts: paginatedPosts });
 });
 
 router.post('/avatar', auth, async (req, res) => {

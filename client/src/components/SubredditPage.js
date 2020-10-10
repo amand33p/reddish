@@ -242,7 +242,7 @@ const SubredditPage = () => {
             />
           ))}
         </div>
-        {sub && sub.posts && 'next' in sub.posts && (
+        {'next' in sub.posts && (
           <div className={classes.loadBtnWrapper}>
             <Button
               color="primary"

@@ -8,9 +8,20 @@ const userPageReducer = (state = null, action) => {
     case 'TOGGLE_USERPAGE_VOTE':
       return {
         ...state,
-        posts: state.posts.map((p) =>
-          p.id !== action.payload.id ? p : { ...p, ...action.payload.data }
-        ),
+        posts: {
+          ...state.posts,
+          results: state.posts.results.map((r) =>
+            r.id !== action.payload.id ? r : { ...r, ...action.payload.data }
+          ),
+        },
+      };
+    case 'LOAD_USER_POSTS':
+      return {
+        ...state,
+        posts: {
+          ...action.payload.posts,
+          results: [...state.posts.results, ...action.payload.posts.results],
+        },
       };
     default:
       return state;
@@ -19,10 +30,21 @@ const userPageReducer = (state = null, action) => {
 
 export const fetchUser = (username) => {
   return async (dispatch) => {
-    const user = await userService.getUser(username);
+    const user = await userService.getUser(username, 5, 1);
 
     dispatch({
       type: 'FETCH_USER',
+      payload: user,
+    });
+  };
+};
+
+export const loadUserPosts = (username, page) => {
+  return async (dispatch) => {
+    const user = await userService.getUser(username, 5, page);
+
+    dispatch({
+      type: 'LOAD_USER_POSTS',
       payload: user,
     });
   };

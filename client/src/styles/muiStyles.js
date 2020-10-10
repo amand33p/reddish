@@ -439,6 +439,7 @@ export const useUserPageStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     borderRadius: 0,
     minHeight: '90vH',
+    paddingBottom: '1em',
   },
   userInfoWrapper: {
     margin: '0.5em',
@@ -482,6 +483,13 @@ export const useUserPageStyles = makeStyles((theme) => ({
   },
   postsPaper: {
     margin: '0.5em',
+  },
+  loadBtnWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  loadBtn: {
+    width: '50%',
   },
 }));
 

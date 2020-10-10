@@ -10,8 +10,10 @@ const setConfig = () => {
   };
 };
 
-const getUser = async (username) => {
-  const response = await axios.get(`${baseUrl}/${username}`);
+const getUser = async (username, limit, page) => {
+  const response = await axios.get(
+    `${baseUrl}/${username}/?limit=${limit}&page=${page}`
+  );
   return response.data;
 };
 
