@@ -14,10 +14,11 @@ const PostList = () => {
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const posts = useSelector((state) => state.posts);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const classes = usePostListStyles();
 
-  const handleSortChange = async (e, newValue) => {
+  const handleTabChange = async (e, newValue) => {
     try {
       await dispatch(fetchPosts(newValue));
       setSortBy(newValue);
@@ -42,7 +43,12 @@ const PostList = () => {
 
   return (
     <div className={classes.root}>
-      <SortTabBar sortBy={sortBy} handleSortChange={handleSortChange} />
+      <SortTabBar
+        sortBy={sortBy}
+        handleTabChange={handleTabChange}
+        subscribedTab={true}
+        user={user}
+      />
       {posts &&
         posts.results &&
         posts.results.map((post) => (

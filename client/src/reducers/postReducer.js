@@ -28,7 +28,12 @@ const postReducer = (state = null, action) => {
 
 export const fetchPosts = (sortBy) => {
   return async (dispatch) => {
-    const posts = await postService.getPosts(sortBy, 10, 1);
+    let posts;
+    if (sortBy !== 'subscribed') {
+      posts = await postService.getPosts(sortBy, 10, 1);
+    } else {
+      posts = await postService.getSubPosts(10, 1);
+    }
 
     dispatch({
       type: 'SET_POSTS',
@@ -39,7 +44,12 @@ export const fetchPosts = (sortBy) => {
 
 export const loadMorePosts = (sortBy, page) => {
   return async (dispatch) => {
-    const posts = await postService.getPosts(sortBy, 10, page);
+    let posts;
+    if (sortBy !== 'subscribed') {
+      posts = await postService.getPosts(sortBy, 10, page);
+    } else {
+      posts = await postService.getSubPosts(10, page);
+    }
 
     dispatch({
       type: 'LOAD_MORE_POSTS',
