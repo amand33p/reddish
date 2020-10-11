@@ -29,14 +29,13 @@ router.post('/', async (req, res) => {
 
   const token = jwt.sign(payloadForToken, SECRET);
 
-  res
-    .status(200)
-    .json({
-      token,
-      username: user.username,
-      id: user._id,
-      avatar: user.avatar,
-    });
+  res.status(200).json({
+    token,
+    username: user.username,
+    id: user._id,
+    avatar: user.avatar,
+    karma: user.karmaPoints.postKarma + user.karmaPoints.commentKarma,
+  });
 });
 
 module.exports = router;

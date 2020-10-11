@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { logoutUser } from '../reducers/userReducer';
 import MobileUserMenu from './MobileUserMenu';
-import AuthFormModal from './AuthFormModal';
-import storageService from '../utils/localStorage';
+import DesktopUserMenu from './DesktopUserMenu';
 
 import {
   AppBar,
@@ -26,27 +25,8 @@ const NavBar = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const classes = useNavStyles();
 
-  const userLoggedIn = storageService.loadUser() || user;
-
   const handleLogout = () => {
     dispatch(logoutUser());
-  };
-
-  const desktopMenu = () => {
-    return userLoggedIn ? (
-      <>
-        <Typography color="primary">
-          Welcome, {user && user.username}
-        </Typography>
-        <Button color="primary" onClick={handleLogout}>
-          Logout
-        </Button>
-      </>
-    ) : (
-      <>
-        <AuthFormModal />
-      </>
-    );
   };
 
   return (
@@ -80,7 +60,7 @@ const NavBar = () => {
           {isMobile ? (
             <MobileUserMenu user={user} handleLogout={handleLogout} />
           ) : (
-            <>{desktopMenu()}</>
+            <DesktopUserMenu user={user} handleLogout={handleLogout} />
           )}
         </Toolbar>
       </AppBar>

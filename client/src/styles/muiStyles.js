@@ -685,3 +685,18 @@ export const useSubredditFormStyles = makeStyles((theme) => ({
     marginTop: '1.5em',
   },
 }));
+
+export const useUserMenuStyles = makeStyles((theme) => ({
+  userBtn: {
+    textTransform: 'none',
+    display: 'flex',
+  },
+  avatar: {
+    width: theme.spacing(4),
+    height: theme.spacing(4),
+    marginRight: '0.2em',
+  },
+  userBtnMob: {
+    padding: '0.1em',
+  },
+}));

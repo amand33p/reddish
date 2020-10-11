@@ -5,22 +5,20 @@ import { getCircularAvatar } from '../utils/cloudinaryTransform';
 import storageService from '../utils/localStorage';
 
 import {
-  IconButton,
+  Button,
   Menu,
   MenuItem,
-  Button,
   Avatar,
   Typography,
   ListItemIcon,
 } from '@material-ui/core';
 import { useUserMenuStyles } from '../styles/muiStyles';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FilterVintageIcon from '@material-ui/icons/FilterVintage';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import FaceIcon from '@material-ui/icons/Face';
 
-const MobileUserMenu = ({ user, handleLogout }) => {
+const DesktopUserMenu = ({ user, handleLogout }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const classes = useUserMenuStyles();
 
@@ -40,44 +38,50 @@ const MobileUserMenu = ({ user, handleLogout }) => {
   return (
     <div>
       {(storageService.loadUser() || user) && user ? (
-        <IconButton onClick={handleMenu} className={classes.userBtnMob}>
-          {user.avatar && user.avatar.exists ? (
-            <Avatar
-              alt={user.username}
-              src={getCircularAvatar(user.avatar.imageLink)}
-              className={classes.avatar}
-            />
-          ) : (
-            <Avatar
-              style={{ backgroundColor: '#941a1c' }}
-              className={classes.avatar}
-            >
-              {user.username[0]}
-            </Avatar>
-          )}
-          <MoreVertIcon color="primary" />
-        </IconButton>
-      ) : (
-        <IconButton onClick={handleMenu} color="primary">
-          <MoreVertIcon color="primary" />
-        </IconButton>
-      )}
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        keepMounted
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        {(storageService.loadUser() || user) && user ? (
-          <div>
+        <>
+          <Button onClick={handleMenu} className={classes.userBtn}>
+            {user.avatar && user.avatar.exists ? (
+              <Avatar
+                alt={user.username}
+                src={getCircularAvatar(user.avatar.imageLink)}
+                variant="rounded"
+                className={classes.avatar}
+              />
+            ) : (
+              <Avatar
+                style={{ backgroundColor: '#941a1c' }}
+                variant="rounded"
+                className={classes.avatar}
+              >
+                {user.username[0]}
+              </Avatar>
+            )}
+            <div>
+              <Typography color="secondary">{user.username}</Typography>
+              <Typography variant="caption">
+                <FilterVintageIcon
+                  fontSize="inherit"
+                  style={{ marginRight: '0.2em' }}
+                  color="secondary"
+                />
+                {user.karma} karma
+              </Typography>
+            </div>
+          </Button>
+          <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
             <MenuItem
               component={RouterLink}
               to={`/u/${user.username}`}
@@ -97,15 +101,13 @@ const MobileUserMenu = ({ user, handleLogout }) => {
                 <PowerSettingsNewIcon style={{ marginRight: 7 }} /> Logout
               </ListItemIcon>
             </MenuItem>
-          </div>
-        ) : (
-          <div>
-            <AuthFormModal closeMobileMenu={handleClose} />
-          </div>
-        )}
-      </Menu>
+          </Menu>
+        </>
+      ) : (
+        <AuthFormModal />
+      )}
     </div>
   );
 };
 
-export default MobileUserMenu;
+export default DesktopUserMenu;
