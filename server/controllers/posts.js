@@ -55,11 +55,49 @@ router.get('/', async (req, res) => {
   res.status(200).json(paginatedPosts);
 });
 
+router.get('/subscribed', auth, async (req, res) => {
+  const page = Number(req.query.page);
+  const limit = Number(req.query.limit);
+
+  const user = await User.findById(req.user);
+  if (!user) {
+    return res
+      .status(404)
+      .send({ message: 'User does not exist in database.' });
+  }
+
+  const subscribedSubs = await Subreddit.find({
+    _id: { $in: user.subscribedSubs },
+  });
+
+  const postsCount = subscribedSubs
+    .map((s) => s.posts.length)
+    .reduce((sum, s) => s + sum, 0);
+
+  const paginated = paginateResults(page, limit, postsCount);
+  const subscribedPosts = await Post.find({
+    subreddit: { $in: user.subscribedSubs },
+  })
+    .sort({ hotAlgo: -1 })
+    .select('-comments')
+    .limit(limit)
+    .skip(paginated.startIndex)
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName');
+
+  const paginatedPosts = {
+    previous: paginated.results.previous,
+    results: subscribedPosts,
+    next: paginated.results.next,
+  };
+
+  res.status(200).json(paginatedPosts);
+});
+
 router.get('/:id/comments', async (req, res) => {
   const { id } = req.params;
 
   const post = await Post.findById(id);
-
   if (!post) {
     return res
       .status(404)
