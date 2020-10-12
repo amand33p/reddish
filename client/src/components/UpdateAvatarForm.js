@@ -39,6 +39,7 @@ const UpdateAvatarForm = () => {
   };
 
   const handleAvatarUpload = async () => {
+    if (avatarInput === '') return;
     try {
       setIsLoading(true);
       await dispatch(setAvatar(avatarInput));

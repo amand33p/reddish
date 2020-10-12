@@ -94,6 +94,47 @@ router.get('/subscribed', auth, async (req, res) => {
   res.status(200).json(paginatedPosts);
 });
 
+router.get('/search', async (req, res) => {
+  const page = Number(req.query.page);
+  const limit = Number(req.query.limit);
+  const query = req.query.query;
+
+  const findQuery = {
+    $or: [
+      {
+        title: {
+          $regex: query,
+          $options: 'i',
+        },
+      },
+      {
+        textSubmission: {
+          $regex: query,
+          $options: 'i',
+        },
+      },
+    ],
+  };
+
+  const postsCount = await Post.find(findQuery).countDocuments();
+  const paginated = paginateResults(page, limit, postsCount);
+  const searchedPosts = await Post.find(findQuery)
+    .sort({ hotAlgo: -1 })
+    .select('-comments')
+    .limit(limit)
+    .skip(paginated.startIndex)
+    .populate('author', 'username')
+    .populate('subreddit', 'subredditName');
+
+  const paginatedPosts = {
+    previous: paginated.results.previous,
+    results: searchedPosts,
+    next: paginated.results.next,
+  };
+
+  res.status(200).json(paginatedPosts);
+});
+
 router.get('/:id/comments', async (req, res) => {
   const { id } = req.params;
 
