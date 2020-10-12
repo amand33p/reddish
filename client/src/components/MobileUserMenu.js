@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import AuthFormModal from './AuthFormModal';
+import NewSubredditModal from './NewSubredditModal';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
 import storageService from '../utils/localStorage';
 
@@ -8,14 +9,11 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Button,
   Avatar,
-  Typography,
   ListItemIcon,
 } from '@material-ui/core';
 import { useUserMenuStyles } from '../styles/muiStyles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import FilterVintageIcon from '@material-ui/icons/FilterVintage';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import FaceIcon from '@material-ui/icons/Face';
@@ -87,6 +85,7 @@ const MobileUserMenu = ({ user, handleLogout }) => {
                 <AccountCircleIcon style={{ marginRight: 7 }} /> My Profile
               </ListItemIcon>
             </MenuItem>
+            <NewSubredditModal type="menu" />
             <MenuItem>
               <ListItemIcon>
                 <FaceIcon style={{ marginRight: 7 }} /> Change Avatar

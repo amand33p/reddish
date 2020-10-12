@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import AuthFormModal from './AuthFormModal';
+import NewSubredditModal from './NewSubredditModal';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
 import storageService from '../utils/localStorage';
 
@@ -91,6 +92,7 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
                 <AccountCircleIcon style={{ marginRight: 7 }} /> My Profile
               </ListItemIcon>
             </MenuItem>
+            <NewSubredditModal type="menu" />
             <MenuItem>
               <ListItemIcon>
                 <FaceIcon style={{ marginRight: 7 }} /> Change Avatar

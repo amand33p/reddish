@@ -665,6 +665,7 @@ export const useSubredditFormStyles = makeStyles((theme) => ({
   },
   submitButton: {
     marginTop: '1.8em',
+    marginBottom: '0.5em',
   },
   input: {
     display: 'flex',

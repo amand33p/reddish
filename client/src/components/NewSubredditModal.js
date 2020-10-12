@@ -2,11 +2,17 @@ import React, { useState } from 'react';
 import SubredditForm from './SubredditForm';
 
 import { DialogTitle } from './CustomDialogTitle';
-import { Dialog, DialogContent, Button } from '@material-ui/core';
+import {
+  Dialog,
+  DialogContent,
+  Button,
+  MenuItem,
+  ListItemIcon,
+} from '@material-ui/core';
 import { useDialogStyles } from '../styles/muiStyles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-const NewSubredditModal = () => {
+const NewSubredditModal = ({ type }) => {
   const [open, setOpen] = useState(false);
 
   const classes = useDialogStyles();
@@ -21,17 +27,26 @@ const NewSubredditModal = () => {
 
   return (
     <div>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={handleClickOpen}
-        fullWidth
-        className={classes.createSubBtn}
-        size="large"
-        startIcon={<AddCircleIcon />}
-      >
-        Create New Subreddit
-      </Button>
+      {type !== 'menu' ? (
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={handleClickOpen}
+          fullWidth
+          className={classes.createSubBtn}
+          size="large"
+          startIcon={<AddCircleIcon />}
+        >
+          Create New Subreddit
+        </Button>
+      ) : (
+        <MenuItem onClick={handleClickOpen}>
+          <ListItemIcon>
+            <AddCircleIcon style={{ marginRight: 7 }} />
+            Create Subreddit
+          </ListItemIcon>
+        </MenuItem>
+      )}
       <Dialog
         open={open}
         onClose={handleClose}
