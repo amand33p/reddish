@@ -26,4 +26,9 @@ const uploadAvatar = async (avatarObj) => {
   return response.data;
 };
 
-export default { getUser, uploadAvatar };
+const removeAvatar = async () => {
+  const response = await axios.delete(`${baseUrl}/avatar`, setConfig());
+  return response.data;
+};
+
+export default { getUser, uploadAvatar, removeAvatar };

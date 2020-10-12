@@ -728,4 +728,12 @@ export const useAvatarFormStyles = makeStyles((theme) => ({
   submitButton: {
     marginTop: '1.4em',
   },
+  currentAvatar: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '0.5em',
+  },
+  currentAvatarText: {
+    marginRight: '0.5em',
+  },
 }));

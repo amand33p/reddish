@@ -14,6 +14,8 @@ const userReducer = (state = null, action) => {
       return action.payload;
     case 'SET_AVATAR':
       return { ...state, ...action.payload };
+    case 'REMOVE_AVATAR':
+      return { ...state, avatar: { exists: false } };
     default:
       return state;
   }
@@ -80,6 +82,18 @@ export const setAvatar = (avatarImage) => {
     dispatch({
       type: 'SET_AVATAR',
       payload: uploadedAvatar,
+    });
+  };
+};
+
+export const deleteAvatar = () => {
+  return async (dispatch) => {
+    await userService.removeAvatar();
+    const prevUserData = storageService.loadUser();
+    storageService.saveUser({ ...prevUserData, avatar: { exists: false } });
+
+    dispatch({
+      type: 'REMOVE_AVATAR',
     });
   };
 };

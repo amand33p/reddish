@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setAvatar } from '../reducers/userReducer';
+import { setAvatar, deleteAvatar } from '../reducers/userReducer';
+import DeleteDialog from './DeleteDialog';
 import generateBase64Encode from '../utils/genBase64Encode';
 
 import {
@@ -50,6 +51,14 @@ const UpdateAvatarForm = () => {
     }
   };
 
+  const handleRemoveAvatar = async () => {
+    try {
+      dispatch(deleteAvatar());
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <div>
       <Typography color="secondary" variant="h4" className={classes.title}>
@@ -64,9 +73,16 @@ const UpdateAvatarForm = () => {
               width={150}
             />
           </div>
-          <Typography variant="h6" color="secondary" className={classes.title}>
-            Current Avatar
-          </Typography>
+          <div className={classes.currentAvatar}>
+            <Typography
+              variant="h6"
+              color="secondary"
+              className={classes.currentAvatarText}
+            >
+              Current Avatar
+            </Typography>
+            <DeleteDialog type="avatar" handleDelete={handleRemoveAvatar} />
+          </div>
         </div>
       )}
       <div className={classes.imageBtnsWrapper}>
