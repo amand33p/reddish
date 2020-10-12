@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import AuthFormModal from './AuthFormModal';
 import NewSubredditModal from './NewSubredditModal';
+import UpdateAvatarModal from './UpdateAvatarModal';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
 import storageService from '../utils/localStorage';
 
@@ -85,12 +86,8 @@ const MobileUserMenu = ({ user, handleLogout }) => {
                 <AccountCircleIcon style={{ marginRight: 7 }} /> My Profile
               </ListItemIcon>
             </MenuItem>
-            <NewSubredditModal type="menu" />
-            <MenuItem>
-              <ListItemIcon>
-                <FaceIcon style={{ marginRight: 7 }} /> Change Avatar
-              </ListItemIcon>
-            </MenuItem>
+            <NewSubredditModal type="menu" handleCloseMenu={handleClose} />
+            <UpdateAvatarModal handleCloseMenu={handleClose} />
             <MenuItem onClick={handleLogoutClick}>
               <ListItemIcon>
                 <PowerSettingsNewIcon style={{ marginRight: 7 }} /> Logout

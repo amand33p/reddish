@@ -51,6 +51,7 @@ router.post('/', async (req, res) => {
     username: savedUser.username,
     id: savedUser._id,
     avatar: savedUser.avatar,
+    karma: 0,
   });
 });
 

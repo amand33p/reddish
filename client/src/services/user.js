@@ -17,4 +17,13 @@ const getUser = async (username, limit, page) => {
   return response.data;
 };
 
-export default { getUser };
+const uploadAvatar = async (avatarObj) => {
+  const response = await axios.post(
+    `${baseUrl}/avatar`,
+    avatarObj,
+    setConfig()
+  );
+  return response.data;
+};
+
+export default { getUser, uploadAvatar };

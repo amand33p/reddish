@@ -101,8 +101,6 @@ const AddPostForm = ({
     }
   };
 
-  console.log(postToEditSub, fromSubreddit);
-
   return (
     <div className={classes.root}>
       <Formik

@@ -701,3 +701,31 @@ export const useUserMenuStyles = makeStyles((theme) => ({
     padding: '0.1em',
   },
 }));
+
+export const useAvatarFormStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: '1em',
+  },
+  title: {
+    textAlign: 'center',
+  },
+  selectBtn: {
+    textTransform: 'none',
+  },
+  clearSelectionBtn: {
+    padding: '0.25em',
+  },
+  imageBtnsWrapper: {
+    display: 'flex',
+    alignItems: 'flex-end',
+    marginTop: '1em',
+  },
+  imagePreview: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '0.7em',
+  },
+  submitButton: {
+    marginTop: '1.4em',
+  },
+}));

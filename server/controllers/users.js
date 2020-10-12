@@ -73,15 +73,7 @@ router.post('/avatar', auth, async (req, res) => {
   };
 
   const savedUser = await user.save();
-  const populatedUser = await savedUser
-    .populate({
-      path: 'posts',
-      select: '-upvotedBy -downvotedBy',
-      populate: { path: 'subreddit', select: 'subredditName' },
-    })
-    .execPopulate();
-
-  res.status(201).json(populatedUser);
+  res.status(201).json({ avatar: savedUser.avatar });
 });
 
 router.delete('/avatar', auth, async (req, res) => {

@@ -1,0 +1,132 @@
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setAvatar } from '../reducers/userReducer';
+import generateBase64Encode from '../utils/genBase64Encode';
+
+import {
+  Button,
+  useMediaQuery,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
+import { useAvatarFormStyles } from '../styles/muiStyles';
+import { useTheme } from '@material-ui/core/styles';
+import PublishIcon from '@material-ui/icons/Publish';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
+import FaceIcon from '@material-ui/icons/Face';
+
+const UpdateAvatarForm = () => {
+  const [avatarInput, setAvatarInput] = useState('');
+  const [fileName, setFileName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const classes = useAvatarFormStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    setFileName(file.name);
+    generateBase64Encode(file, setAvatarInput, true);
+  };
+
+  const clearfileSelection = () => {
+    setAvatarInput('');
+    setFileName('');
+  };
+
+  const handleAvatarUpload = async () => {
+    try {
+      setIsLoading(true);
+      await dispatch(setAvatar(avatarInput));
+      setIsLoading(false);
+      setAvatarInput('');
+      setFileName('');
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err.message);
+    }
+  };
+
+  return (
+    <div>
+      <Typography color="secondary" variant="h4" className={classes.title}>
+        {user.avatar.exists ? 'Update your avatar' : 'Add an avatar'}
+      </Typography>
+      {user.avatar.exists && (
+        <div>
+          <div className={classes.imagePreview}>
+            <img
+              alt={user.username + '-avatar'}
+              src={user.avatar.imageLink}
+              width={150}
+            />
+          </div>
+          <Typography variant="h6" color="secondary" className={classes.title}>
+            Current Avatar
+          </Typography>
+        </div>
+      )}
+      <div className={classes.imageBtnsWrapper}>
+        <input
+          type="file"
+          id="image-upload"
+          accept="image/*"
+          hidden
+          onChange={handleFileInputChange}
+        />
+        <Button
+          component="label"
+          htmlFor="image-upload"
+          variant="outlined"
+          color="primary"
+          fullWidth={!isMobile}
+          startIcon={avatarInput ? <CheckCircleIcon /> : <PublishIcon />}
+          size={isMobile ? 'small' : 'medium'}
+          className={classes.selectBtn}
+        >
+          {avatarInput
+            ? `${isMobile ? '' : 'Selected '}"${fileName}"`
+            : `Select Image`}
+        </Button>
+        {avatarInput && (
+          <IconButton
+            onClick={clearfileSelection}
+            color="secondary"
+            size={isMobile ? 'small' : 'medium'}
+            className={classes.clearSelectionBtn}
+          >
+            <CancelIcon />
+          </IconButton>
+        )}
+      </div>
+      {avatarInput && (
+        <div className={classes.imagePreview}>
+          <img alt={fileName} src={avatarInput} width={isMobile ? 250 : 350} />
+        </div>
+      )}
+      <Button
+        size={isMobile ? 'small' : 'large'}
+        variant="contained"
+        color="secondary"
+        className={classes.submitButton}
+        fullWidth
+        startIcon={<FaceIcon />}
+        onClick={handleAvatarUpload}
+        disabled={isLoading}
+      >
+        {user.avatar.exists
+          ? isLoading
+            ? 'Updating'
+            : 'Update avatar'
+          : isLoading
+          ? 'Adding'
+          : 'Add avatar'}
+      </Button>
+    </div>
+  );
+};
+
+export default UpdateAvatarForm;
