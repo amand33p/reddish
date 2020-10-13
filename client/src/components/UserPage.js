@@ -140,7 +140,6 @@ const UserPage = () => {
             <UserPostCard key={p.id} post={p} user={user} isMobile={isMobile} />
           ))}
         </div>
-        {console.log('next' in userInfo.posts)}
         {'next' in userInfo.posts && (
           <div className={classes.loadBtnWrapper}>
             <Button

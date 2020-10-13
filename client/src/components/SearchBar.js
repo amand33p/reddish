@@ -8,8 +8,8 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState('');
-  const classes = useNavStyles();
   const history = useHistory();
+  const classes = useNavStyles();
 
   const handleSearch = (e) => {
     e.preventDefault();

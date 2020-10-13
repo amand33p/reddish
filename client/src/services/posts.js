@@ -25,8 +25,10 @@ const getSubPosts = async (limit, page) => {
   return response.data;
 };
 
-const getSearchResults = async (query) => {
-  const response = await axios.get(`${baseUrl}/search/?query=${query}`);
+const getSearchResults = async (query, limit, page) => {
+  const response = await axios.get(
+    `${baseUrl}/search/?query=${query}&limit=${limit}&page=${page}`
+  );
   return response.data;
 };
 

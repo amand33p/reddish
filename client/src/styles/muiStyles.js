@@ -743,3 +743,40 @@ export const useAvatarFormStyles = makeStyles((theme) => ({
     marginRight: '0.5em',
   },
 }));
+
+export const useSearchPageStyles = makeStyles((theme) => ({
+  mainPaper: {
+    marginTop: '0.5em',
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: 0,
+    minHeight: '90vH',
+    paddingBottom: '1em',
+  },
+  infoPaper: {
+    padding: '0.8em',
+    display: 'flex',
+    alignItems: 'flex-start',
+  },
+  noResults: {
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '1em',
+  },
+  sorryIcon: {
+    marginRight: '7px',
+    fontSize: '4em',
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  loadBtnWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  loadBtn: {
+    marginTop: '0.8em',
+    width: '50%',
+  },
+}));
