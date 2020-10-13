@@ -25,6 +25,11 @@ const getSubPosts = async (limit, page) => {
   return response.data;
 };
 
+const getSearchResults = async (query) => {
+  const response = await axios.get(`${baseUrl}/search/?query=${query}`);
+  return response.data;
+};
+
 const addNew = async (postObj) => {
   const response = await axios.post(`${baseUrl}`, postObj, setConfig());
   return response.data;
@@ -154,6 +159,7 @@ const removeReply = async (postId, commentId, replyId) => {
 export default {
   getPosts,
   getSubPosts,
+  getSearchResults,
   addNew,
   editPost,
   getPostComments,

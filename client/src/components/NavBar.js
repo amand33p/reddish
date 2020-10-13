@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { logoutUser } from '../reducers/userReducer';
 import MobileUserMenu from './MobileUserMenu';
 import DesktopUserMenu from './DesktopUserMenu';
+import SearchBar from './SearchBar';
 
 import {
   AppBar,
@@ -33,7 +34,7 @@ const NavBar = () => {
     <div>
       <AppBar position="static" color="inherit">
         <Toolbar>
-          <div className={classes.topLeftButton}>
+          <div className={classes.leftPortion}>
             <div className={classes.logoWrapper}>
               <Button
                 className={classes.logo}
@@ -56,6 +57,7 @@ const NavBar = () => {
                 </Link>
               </Typography>
             </div>
+            <SearchBar />
           </div>
           {isMobile ? (
             <MobileUserMenu user={user} handleLogout={handleLogout} />

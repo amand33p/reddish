@@ -11,7 +11,7 @@ import {
 import { useDialogStyles } from '../styles/muiStyles';
 import FaceIcon from '@material-ui/icons/Face';
 
-const UpdateAvatarModal = ({ handleCloseMenu }) => {
+const UpdateAvatarModal = ({ handleCloseMenu, user }) => {
   const [open, setOpen] = useState(false);
 
   const classes = useDialogStyles();
@@ -29,7 +29,8 @@ const UpdateAvatarModal = ({ handleCloseMenu }) => {
     <div>
       <MenuItem onClick={handleClickOpen}>
         <ListItemIcon>
-          <FaceIcon style={{ marginRight: 7 }} /> Change Avatar
+          <FaceIcon style={{ marginRight: 7 }} />
+          {user.avatar.exists ? 'Change Avatar' : 'Add Avatar'}
         </ListItemIcon>
       </MenuItem>
       <Dialog

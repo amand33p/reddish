@@ -18,7 +18,6 @@ import { useUserMenuStyles } from '../styles/muiStyles';
 import FilterVintageIcon from '@material-ui/icons/FilterVintage';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import FaceIcon from '@material-ui/icons/Face';
 
 const DesktopUserMenu = ({ user, handleLogout }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -94,7 +93,7 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
               </ListItemIcon>
             </MenuItem>
             <NewSubredditModal type="menu" handleCloseMenu={handleClose} />
-            <UpdateAvatarModal handleCloseMenu={handleClose} />
+            <UpdateAvatarModal handleCloseMenu={handleClose} user={user} />
             <MenuItem onClick={handleLogoutClick}>
               <ListItemIcon>
                 <PowerSettingsNewIcon style={{ marginRight: 7 }} /> Logout

@@ -23,10 +23,13 @@ export const useMainPaperStyles = makeStyles((theme) => ({
 }));
 
 export const useNavStyles = makeStyles((theme) => ({
-  topLeftButton: {
+  leftPortion: {
     flexGrow: 1,
+    display: 'flex',
+    alignItems: 'center',
   },
   logoWrapper: {
+    marginRight: theme.spacing(10),
     [theme.breakpoints.down('xs')]: {
       display: 'flex',
       flexDirection: 'column',
@@ -53,6 +56,9 @@ export const useNavStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#ffe5d8',
     },
+  },
+  search: {
+    flexGrow: 0.7,
   },
 }));
 

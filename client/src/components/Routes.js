@@ -6,6 +6,7 @@ import PostCommentsPage from './PostCommentsPage';
 import UserPage from './UserPage';
 import SubredditPage from './SubredditPage';
 import SubInfoPanel from './SubInfoPanel';
+import SearchResults from './SearchResults';
 
 import { Container } from '@material-ui/core/';
 import { useMainPaperStyles } from '../styles/muiStyles';
@@ -32,6 +33,9 @@ const Routes = () => {
       </Route>
       <Route exact path="/r/:subreddit">
         <SubredditPage />
+      </Route>
+      <Route exact path="/search/:query">
+        <SearchResults />
       </Route>
     </Switch>
   );
