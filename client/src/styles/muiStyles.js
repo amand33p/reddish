@@ -803,3 +803,15 @@ export const useSearchPageStyles = makeStyles((theme) => ({
     width: '50%',
   },
 }));
+
+export const useSortCommentsStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  label: {
+    marginRight: 10,
+    display: 'flex',
+    alignItems: 'center',
+  },
+}));

@@ -93,6 +93,26 @@ const postPageReducer = (state = null, action) => {
               }
         ),
       };
+    case 'SORT_COMMENTS':
+      return {
+        ...state,
+        comments: state.comments.sort((a, b) => {
+          switch (action.payload) {
+            case 'old':
+              return new Date(a.createdAt) - new Date(b.createdAt);
+            case 'new':
+              return new Date(b.createdAt) - new Date(a.createdAt);
+            case 'upvoted':
+              return b.pointsCount - a.pointsCount;
+            case 'downvoted':
+              return a.pointsCount - b.pointsCount;
+            case 'replied':
+              return b.replies.length - a.replies.length;
+            default:
+              return null;
+          }
+        }),
+      };
     default:
       return state;
   }
@@ -313,6 +333,15 @@ export const deleteReply = (postId, commentId, replyId) => {
     dispatch({
       type: 'DELETE_REPLY',
       payload: { commentId, replyId },
+    });
+  };
+};
+
+export const sortComments = (sortBy) => {
+  return (dispatch) => {
+    dispatch({
+      type: 'SORT_COMMENTS',
+      payload: sortBy,
     });
   };
 };

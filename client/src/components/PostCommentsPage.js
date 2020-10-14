@@ -10,6 +10,7 @@ import CommentInput from './CommentInput';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
 import EditDeleteMenu from './EditDeleteMenu';
 import CommentsDisplay from './CommentsDisplay';
+import SortCommentsMenu from './SortCommentsMenu';
 import ReactTimeAgo from 'react-time-ago';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 import ReactHtmlParser from 'react-html-parser';
@@ -22,6 +23,7 @@ import {
   Link,
   MenuItem,
   ListItemIcon,
+  Divider,
 } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
@@ -159,9 +161,7 @@ const PostCommentsPage = () => {
               {title}
             </Typography>
             {postType === 'Text' ? (
-              <Typography variant="body1">
-                {ReactHtmlParser(textSubmission)}
-              </Typography>
+              <div>{ReactHtmlParser(textSubmission)}</div>
             ) : postType === 'Image' ? (
               <a
                 href={imageSubmission.imageLink}
@@ -202,8 +202,11 @@ const PostCommentsPage = () => {
               )}
             </div>
             <CommentInput user={user} postId={id} isMobile={isMobile} />
+            <SortCommentsMenu />
           </div>
         </div>
+
+        <Divider className={classes.divider} />
         <CommentsDisplay comments={comments} postId={id} isMobile={isMobile} />
       </Paper>
     </Container>

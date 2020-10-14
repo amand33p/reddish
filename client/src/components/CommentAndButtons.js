@@ -25,6 +25,7 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
     try {
       dispatch(addReply(postId, comment.id, replyInput));
       setReplyOpen(false);
+      setReplyInput('');
     } catch (err) {
       console.log(err.message);
     }

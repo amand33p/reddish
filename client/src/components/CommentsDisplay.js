@@ -12,7 +12,7 @@ import {
 } from '../reducers/postCommentsReducer';
 import ReactTimeAgo from 'react-time-ago';
 
-import { Divider, Typography, Link } from '@material-ui/core';
+import { Typography, Link } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
 import ForumIcon from '@material-ui/icons/Forum';
 
@@ -174,7 +174,6 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
 
   return (
     <div className={classes.commentsContainer}>
-      <Divider className={classes.divider} />
       {comments.length !== 0 ? (
         comments.map((c) => (
           <div key={c.id} className={classes.wholeComment}>
