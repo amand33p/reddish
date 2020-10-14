@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { logoutUser } from '../reducers/userReducer';
@@ -13,13 +13,16 @@ import {
   Link,
   Button,
   useMediaQuery,
+  IconButton,
 } from '@material-ui/core';
 import { useNavStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
 import RedditIcon from '@material-ui/icons/Reddit';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import SearchIcon from '@material-ui/icons/Search';
 
 const NavBar = () => {
+  const [searchOpen, setSearchOpen] = useState(false);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -34,35 +37,52 @@ const NavBar = () => {
     <div>
       <AppBar position="static" color="inherit">
         <Toolbar>
-          <div className={classes.leftPortion}>
-            <div className={classes.logoWrapper}>
-              <Button
-                className={classes.logo}
-                color="primary"
-                component={RouterLink}
-                to="/"
-                startIcon={<RedditIcon fontSize="large" />}
-              >
-                readify
-              </Button>
-              <Typography variant="caption" color="secondary">
-                Made with <FavoriteIcon style={{ fontSize: 12 }} /> by
-                <Link
-                  href={'https://github.com/amand33p'}
-                  color="inherit"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <strong>{` amand33p`}</strong>
-                </Link>
-              </Typography>
-            </div>
-            <SearchBar />
-          </div>
-          {isMobile ? (
-            <MobileUserMenu user={user} handleLogout={handleLogout} />
-          ) : (
-            <DesktopUserMenu user={user} handleLogout={handleLogout} />
+          {!searchOpen && (
+            <>
+              <div className={classes.leftPortion}>
+                <div className={classes.logoWrapper}>
+                  <Button
+                    className={classes.logo}
+                    color="primary"
+                    component={RouterLink}
+                    to="/"
+                    startIcon={<RedditIcon fontSize="large" />}
+                    size="large"
+                  >
+                    readify
+                  </Button>
+                  <Typography variant="caption" color="secondary">
+                    Made with <FavoriteIcon style={{ fontSize: 12 }} /> by
+                    <Link
+                      href={'https://github.com/amand33p'}
+                      color="inherit"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      <strong>{` amand33p`}</strong>
+                    </Link>
+                  </Typography>
+                </div>
+                {!isMobile && <SearchBar />}
+              </div>
+              {isMobile ? (
+                <>
+                  <IconButton
+                    color="primary"
+                    className={classes.searchBtn}
+                    onClick={() => setSearchOpen((prevState) => !prevState)}
+                  >
+                    <SearchIcon />
+                  </IconButton>
+                  <MobileUserMenu user={user} handleLogout={handleLogout} />
+                </>
+              ) : (
+                <DesktopUserMenu user={user} handleLogout={handleLogout} />
+              )}
+            </>
+          )}
+          {searchOpen && isMobile && (
+            <SearchBar isMobile={true} setSearchOpen={setSearchOpen} />
           )}
         </Toolbar>
       </AppBar>

@@ -31,6 +31,7 @@ export const useNavStyles = makeStyles((theme) => ({
   logoWrapper: {
     marginRight: theme.spacing(10),
     [theme.breakpoints.down('xs')]: {
+      marginRight: 0,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
@@ -58,7 +59,13 @@ export const useNavStyles = makeStyles((theme) => ({
     },
   },
   search: {
-    flexGrow: 0.7,
+    flexGrow: 0.75,
+    [theme.breakpoints.down('xs')]: {
+      flexGrow: 1,
+    },
+  },
+  searchBtn: {
+    padding: '0.2em',
   },
 }));
 

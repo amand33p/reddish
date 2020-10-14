@@ -6,7 +6,7 @@ import { useNavStyles } from '../styles/muiStyles';
 import SearchIcon from '@material-ui/icons/Search';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
-const SearchBar = () => {
+const SearchBar = ({ isMobile, setSearchOpen }) => {
   const [searchInput, setSearchInput] = useState('');
   const history = useHistory();
   const classes = useNavStyles();
@@ -18,15 +18,18 @@ const SearchBar = () => {
   };
 
   const clearSearch = () => {
+    if (isMobile) {
+      setSearchOpen(false);
+    }
     setSearchInput('');
-    history.push('/');
   };
 
   return (
     <div className={classes.search}>
       <form onSubmit={handleSearch}>
         <TextField
-          placeholder="Search…"
+          type="search"
+          placeholder="Search for posts…"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           className={classes.inputField}
@@ -39,17 +42,11 @@ const SearchBar = () => {
                 <SearchIcon color="primary" />
               </InputAdornment>
             ),
-            endAdornment: (
+            endAdornment: (searchInput || isMobile) && (
               <InputAdornment position="end">
-                {searchInput && (
-                  <IconButton
-                    color="primary"
-                    size="small"
-                    onClick={clearSearch}
-                  >
-                    <HighlightOffIcon />
-                  </IconButton>
-                )}
+                <IconButton color="primary" size="small" onClick={clearSearch}>
+                  <HighlightOffIcon />
+                </IconButton>
               </InputAdornment>
             ),
           }}
