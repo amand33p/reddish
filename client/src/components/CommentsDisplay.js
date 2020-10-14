@@ -14,6 +14,7 @@ import ReactTimeAgo from 'react-time-ago';
 
 import { Divider, Typography, Link } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
+import ForumIcon from '@material-ui/icons/Forum';
 
 const CommentsDisplay = ({ comments, postId, isMobile }) => {
   const user = useSelector((state) => state.user);
@@ -174,59 +175,71 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
   return (
     <div className={classes.commentsContainer}>
       <Divider className={classes.divider} />
-      {comments.map((c) => (
-        <div key={c.id} className={classes.wholeComment}>
-          <div className={classes.commentWrapper}>
-            <div className={classes.commentVotesWrapper}>
-              <UpvoteButton
-                user={user}
-                body={c}
-                handleUpvote={() => handleCommentUpvote(c.id)}
-              />
-              <DownvoteButton
-                user={user}
-                body={c}
-                handleDownvote={() => handleCommentDownvote(c.id)}
-              />
-            </div>
-            <div className={classes.commentDetails}>
-              {commentDetails(c.commentedBy, c)}
-              <CommentsAndButtons
-                isMobile={isMobile}
-                comment={c}
-                postId={postId}
-                user={user}
-              />
-            </div>
-          </div>
-          {c.replies.map((r) => (
-            <div key={r.id} className={classes.replyWrapper}>
+      {comments.length !== 0 ? (
+        comments.map((c) => (
+          <div key={c.id} className={classes.wholeComment}>
+            <div className={classes.commentWrapper}>
               <div className={classes.commentVotesWrapper}>
                 <UpvoteButton
                   user={user}
-                  body={r}
-                  handleUpvote={() => handleReplyUpvote(c.id, r.id)}
+                  body={c}
+                  handleUpvote={() => handleCommentUpvote(c.id)}
                 />
                 <DownvoteButton
                   user={user}
-                  body={r}
-                  handleDownvote={() => handleReplyDownvote(c.id, r.id)}
+                  body={c}
+                  handleDownvote={() => handleCommentDownvote(c.id)}
                 />
               </div>
               <div className={classes.commentDetails}>
-                {commentDetails(r.repliedBy, r)}
-                <ReplyAndButtons
+                {commentDetails(c.commentedBy, c)}
+                <CommentsAndButtons
                   isMobile={isMobile}
-                  reply={r}
+                  comment={c}
                   postId={postId}
-                  commentId={c.id}
                   user={user}
                 />
               </div>
             </div>
-          ))}
+            {c.replies.map((r) => (
+              <div key={r.id} className={classes.replyWrapper}>
+                <div className={classes.commentVotesWrapper}>
+                  <UpvoteButton
+                    user={user}
+                    body={r}
+                    handleUpvote={() => handleReplyUpvote(c.id, r.id)}
+                  />
+                  <DownvoteButton
+                    user={user}
+                    body={r}
+                    handleDownvote={() => handleReplyDownvote(c.id, r.id)}
+                  />
+                </div>
+                <div className={classes.commentDetails}>
+                  {commentDetails(r.repliedBy, r)}
+                  <ReplyAndButtons
+                    isMobile={isMobile}
+                    reply={r}
+                    postId={postId}
+                    commentId={c.id}
+                    user={user}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        ))
+      ) : (
+        <div className={classes.noCommentsBanner}>
+          <ForumIcon color="primary" fontSize="large" />
+          <Typography variant="h5" color="secondary">
+            No Comments Yet
+          </Typography>
+          <Typography variant="h6" color="secondary">
+            Be the first to share what you think!
+          </Typography>
         </div>
-      ))}
+      )}
     </div>
   );
 };

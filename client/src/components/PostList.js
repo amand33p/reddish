@@ -5,7 +5,7 @@ import PostCard from './PostCard';
 import SortTabBar from './SortTabBar';
 import { toggleUpvote, toggleDownvote } from '../reducers/postReducer';
 
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { usePostListStyles } from '../styles/muiStyles';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 
@@ -59,6 +59,16 @@ const PostList = () => {
             toggleDownvote={toggleDownvote}
           />
         ))}
+      {sortBy === 'subscribed' && posts.results.length === 0 && (
+        <div className={classes.noSubscribedPosts}>
+          <Typography variant="h5" color="secondary">
+            No Posts Found
+          </Typography>
+          <Typography variant="h6" color="secondary">
+            Subscribe to more subs if you haven't!
+          </Typography>
+        </div>
+      )}
       {posts && 'next' in posts && (
         <div className={classes.loadBtnWrapper}>
           <Button

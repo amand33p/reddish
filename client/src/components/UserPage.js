@@ -17,6 +17,7 @@ import { useUserPageStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
 import CakeIcon from '@material-ui/icons/Cake';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import PersonIcon from '@material-ui/icons/Person';
 
 const UserPage = () => {
   const userInfo = useSelector((state) => state.userPage);
@@ -27,16 +28,14 @@ const UserPage = () => {
   const { username } = useParams();
 
   useEffect(() => {
-    if (!userInfo || userInfo.userDetails.username !== username) {
-      const getUser = async () => {
-        try {
-          dispatch(fetchUser(username));
-        } catch (err) {
-          console.log(err.response.data.message);
-        }
-      };
-      getUser();
-    }
+    const getUser = async () => {
+      try {
+        dispatch(fetchUser(username));
+      } catch (err) {
+        console.log(err.response.data.message);
+      }
+    };
+    getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
@@ -136,9 +135,23 @@ const UserPage = () => {
           </div>
         </Paper>
         <div className={classes.postsPaper}>
-          {userInfo.posts.results.map((p) => (
-            <UserPostCard key={p.id} post={p} user={user} isMobile={isMobile} />
-          ))}
+          {userInfo.posts.results.length !== 0 ? (
+            userInfo.posts.results.map((p) => (
+              <UserPostCard
+                key={p.id}
+                post={p}
+                user={user}
+                isMobile={isMobile}
+              />
+            ))
+          ) : (
+            <div className={classes.noPosts}>
+              <PersonIcon color="primary" fontSize="large" />
+              <Typography variant="h5" color="secondary">
+                <strong>u/{userName}</strong> has not made any posts yet
+              </Typography>
+            </div>
+          )}
         </div>
         {'next' in userInfo.posts && (
           <div className={classes.loadBtnWrapper}>

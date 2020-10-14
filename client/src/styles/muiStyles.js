@@ -185,6 +185,10 @@ export const usePostListStyles = makeStyles((theme) => ({
     marginTop: '0.8em',
     width: '50%',
   },
+  noSubscribedPosts: {
+    textAlign: 'center',
+    marginTop: '5em',
+  },
 }));
 
 export const useCardStyles = makeStyles((theme) => ({
@@ -407,6 +411,10 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
     display: 'flex',
     marginLeft: '2em',
   },
+  noCommentsBanner: {
+    textAlign: 'center',
+    marginTop: '5em',
+  },
 }));
 
 export const useCommentInputStyles = makeStyles((theme) => ({
@@ -503,6 +511,10 @@ export const useUserPageStyles = makeStyles((theme) => ({
   },
   loadBtn: {
     width: '50%',
+  },
+  noPosts: {
+    textAlign: 'center',
+    marginTop: '5em',
   },
 }));
 
@@ -615,6 +627,10 @@ export const useSubredditPageStyles = makeStyles((theme) => ({
   loadBtn: {
     marginTop: '0.8em',
     width: '50%',
+  },
+  noPosts: {
+    textAlign: 'center',
+    marginTop: '5em',
   },
 }));
 

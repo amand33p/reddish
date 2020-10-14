@@ -29,6 +29,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 
 const SubredditPage = () => {
   const sub = useSelector((state) => state.subredditPage);
@@ -43,16 +44,14 @@ const SubredditPage = () => {
   const classes = useSubredditPageStyles();
 
   useEffect(() => {
-    if (!sub || sub.subDetails.subredditName !== subreddit) {
-      const getSubreddit = async () => {
-        try {
-          dispatch(fetchSubreddit(subreddit, 'hot'));
-        } catch (err) {
-          console.log(err.message);
-        }
-      };
-      getSubreddit();
-    }
+    const getSubreddit = async () => {
+      try {
+        dispatch(fetchSubreddit(subreddit, 'hot'));
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    getSubreddit();
 
     if (sub) {
       setDescInput(sub.subDetails.description);
@@ -233,14 +232,26 @@ const SubredditPage = () => {
         <PostFormModal fromSubreddit={{ subredditName, id }} />
         <SortTabBar sortBy={sortBy} handleSortChange={handleSortChange} />
         <div>
-          {sub.posts.results.map((p) => (
-            <PostCard
-              key={p.id}
-              post={p}
-              toggleUpvote={toggleUpvote}
-              toggleDownvote={toggleDownvote}
-            />
-          ))}
+          {sub.posts.results.length !== 0 ? (
+            sub.posts.results.map((p) => (
+              <PostCard
+                key={p.id}
+                post={p}
+                toggleUpvote={toggleUpvote}
+                toggleDownvote={toggleDownvote}
+              />
+            ))
+          ) : (
+            <div className={classes.noPosts}>
+              <PostAddIcon color="primary" fontSize="large" />
+              <Typography variant="h5" color="secondary">
+                No Posts Yet
+              </Typography>
+              <Typography variant="h6" color="secondary">
+                Be the first one to post in r/{subredditName}!
+              </Typography>
+            </div>
+          )}
         </div>
         {'next' in sub.posts && (
           <div className={classes.loadBtnWrapper}>
