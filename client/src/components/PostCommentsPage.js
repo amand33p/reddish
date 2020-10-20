@@ -49,7 +49,6 @@ const PostCommentsPage = () => {
       }
     };
     getComments();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post]);
 
@@ -64,7 +63,7 @@ const PostCommentsPage = () => {
           <div className={classes.loadSpinner}>
             <CircularProgress size="8em" disableShrink />
             <Typography color="primary" variant="body1">
-              {`Fetching post & comments...`}
+              {`Fetching post comments...`}
             </Typography>
           </div>
         </Paper>

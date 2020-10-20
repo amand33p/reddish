@@ -20,6 +20,7 @@ import {
   Button,
   Link,
   TextField,
+  CircularProgress,
 } from '@material-ui/core';
 import { useSubredditPageStyles } from '../styles/muiStyles';
 import CakeIcon from '@material-ui/icons/Cake';
@@ -39,6 +40,7 @@ const SubredditPage = () => {
   const [sortBy, setSortBy] = useState('hot');
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
   const { subreddit } = useParams();
   const dispatch = useDispatch();
   const classes = useSubredditPageStyles();
@@ -46,8 +48,10 @@ const SubredditPage = () => {
   useEffect(() => {
     const getSubreddit = async () => {
       try {
-        dispatch(fetchSubreddit(subreddit, 'hot'));
+        await dispatch(fetchSubreddit(subreddit, 'hot'));
+        setPageLoading(false);
       } catch (err) {
+        setPageLoading(false);
         console.log(err.message);
       }
     };
@@ -59,8 +63,19 @@ const SubredditPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sub]);
 
-  if (!sub) {
-    return null;
+  if (!sub || pageLoading) {
+    return (
+      <Container disableGutters>
+        <Paper variant="outlined" className={classes.mainPaper}>
+          <div className={classes.loadSpinner}>
+            <CircularProgress size="8em" disableShrink />
+            <Typography color="primary" variant="body1">
+              {`Fetching subreddit posts...`}
+            </Typography>
+          </div>
+        </Paper>
+      </Container>
+    );
   }
 
   const {
@@ -101,12 +116,16 @@ const SubredditPage = () => {
 
   const handleTabChange = async (e, newValue) => {
     try {
+      setPageLoading(true);
       await dispatch(fetchSubreddit(subreddit, newValue));
       setSortBy(newValue);
+      setPageLoading(false);
+
       if (page !== 1) {
         setPage(1);
       }
     } catch (err) {
+      setPageLoading(false);
       console.log(err.message);
     }
   };
