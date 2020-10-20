@@ -50,7 +50,7 @@ const PostCommentsPage = () => {
     };
     getComments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [post]);
+  }, [postId]);
 
   const classes = usePostCommentsStyles();
   const theme = useTheme();

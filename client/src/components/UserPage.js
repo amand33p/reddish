@@ -21,13 +21,13 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 import PersonIcon from '@material-ui/icons/Person';
 
 const UserPage = () => {
+  const { username } = useParams();
   const userInfo = useSelector((state) => state.userPage);
   const user = useSelector((state) => state.user);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const dispatch = useDispatch();
-  const { username } = useParams();
 
   useEffect(() => {
     const getUser = async () => {
@@ -41,7 +41,7 @@ const UserPage = () => {
     };
     getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo]);
+  }, [username]);
 
   const classes = useUserPageStyles();
   const theme = useTheme();

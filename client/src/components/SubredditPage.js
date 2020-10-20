@@ -33,6 +33,7 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 
 const SubredditPage = () => {
+  const { subreddit } = useParams();
   const sub = useSelector((state) => state.subredditPage);
   const user = useSelector((state) => state.user);
   const [editOpen, setEditOpen] = useState(false);
@@ -42,7 +43,6 @@ const SubredditPage = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [postsLoading, setPostsLoading] = useState(false);
-  const { subreddit } = useParams();
   const dispatch = useDispatch();
   const classes = useSubredditPageStyles();
 
@@ -62,7 +62,7 @@ const SubredditPage = () => {
       setDescInput(sub.subDetails.description);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sub]);
+  }, [subreddit]);
 
   if (!sub || pageLoading) {
     return (
