@@ -41,6 +41,7 @@ const SubredditPage = () => {
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
+  const [postsLoading, setPostsLoading] = useState(false);
   const { subreddit } = useParams();
   const dispatch = useDispatch();
   const classes = useSubredditPageStyles();
@@ -70,7 +71,7 @@ const SubredditPage = () => {
           <div className={classes.loadSpinner}>
             <CircularProgress size="8em" disableShrink />
             <Typography color="primary" variant="body1">
-              {`Fetching subreddit posts...`}
+              {`Fetching subreddit data...`}
             </Typography>
           </div>
         </Paper>
@@ -116,16 +117,16 @@ const SubredditPage = () => {
 
   const handleTabChange = async (e, newValue) => {
     try {
-      setPageLoading(true);
+      setPostsLoading(true);
       await dispatch(fetchSubreddit(subreddit, newValue));
       setSortBy(newValue);
-      setPageLoading(false);
+      setPostsLoading(false);
 
       if (page !== 1) {
         setPage(1);
       }
     } catch (err) {
-      setPageLoading(false);
+      setPostsLoading(false);
       console.log(err.message);
     }
   };
@@ -250,41 +251,52 @@ const SubredditPage = () => {
         </Paper>
         <PostFormModal fromSubreddit={{ subredditName, id }} />
         <SortTabBar sortBy={sortBy} handleTabChange={handleTabChange} />
-        <div>
-          {sub.posts.results.length !== 0 ? (
-            sub.posts.results.map((p) => (
-              <PostCard
-                key={p.id}
-                post={p}
-                toggleUpvote={toggleUpvote}
-                toggleDownvote={toggleDownvote}
-              />
-            ))
-          ) : (
-            <div className={classes.noPosts}>
-              <PostAddIcon color="primary" fontSize="large" />
-              <Typography variant="h5" color="secondary">
-                No Posts Yet
-              </Typography>
-              <Typography variant="h6" color="secondary">
-                Be the first one to post in r/{subredditName}!
-              </Typography>
-            </div>
-          )}
-        </div>
-        {'next' in sub.posts && (
-          <div className={classes.loadBtnWrapper}>
-            <Button
-              color="primary"
-              variant="outlined"
-              size="large"
-              onClick={handleLoadPosts}
-              startIcon={<AutorenewIcon />}
-              className={classes.loadBtn}
-            >
-              {loadingMore ? 'Loading more posts...' : 'Load more'}
-            </Button>
+        {postsLoading ? (
+          <div className={classes.loadSpinner}>
+            <CircularProgress size="8em" disableShrink />
+            <Typography color="primary" variant="body1">
+              {`Fetching subreddit posts...`}
+            </Typography>
           </div>
+        ) : (
+          <>
+            <div>
+              {sub.posts.results.length !== 0 ? (
+                sub.posts.results.map((p) => (
+                  <PostCard
+                    key={p.id}
+                    post={p}
+                    toggleUpvote={toggleUpvote}
+                    toggleDownvote={toggleDownvote}
+                  />
+                ))
+              ) : (
+                <div className={classes.noPosts}>
+                  <PostAddIcon color="primary" fontSize="large" />
+                  <Typography variant="h5" color="secondary">
+                    No Posts Yet
+                  </Typography>
+                  <Typography variant="h6" color="secondary">
+                    Be the first one to post in r/{subredditName}!
+                  </Typography>
+                </div>
+              )}
+            </div>
+            {'next' in sub.posts && (
+              <div className={classes.loadBtnWrapper}>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  size="large"
+                  onClick={handleLoadPosts}
+                  startIcon={<AutorenewIcon />}
+                  className={classes.loadBtn}
+                >
+                  {loadingMore ? 'Loading more posts...' : 'Load more'}
+                </Button>
+              </div>
+            )}
+          </>
         )}
       </Paper>
     </Container>
