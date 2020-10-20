@@ -415,6 +415,10 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginTop: '5em',
   },
+  loadSpinner: {
+    textAlign: 'center',
+    marginTop: '12em',
+  },
 }));
 
 export const useCommentInputStyles = makeStyles((theme) => ({
@@ -515,6 +519,10 @@ export const useUserPageStyles = makeStyles((theme) => ({
   noPosts: {
     textAlign: 'center',
     marginTop: '5em',
+  },
+  loadSpinner: {
+    textAlign: 'center',
+    marginTop: '12em',
   },
 }));
 

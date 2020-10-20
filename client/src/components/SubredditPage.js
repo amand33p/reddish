@@ -99,7 +99,7 @@ const SubredditPage = () => {
     }
   };
 
-  const handleSortChange = async (e, newValue) => {
+  const handleTabChange = async (e, newValue) => {
     try {
       await dispatch(fetchSubreddit(subreddit, newValue));
       setSortBy(newValue);
@@ -230,7 +230,7 @@ const SubredditPage = () => {
           </div>
         </Paper>
         <PostFormModal fromSubreddit={{ subredditName, id }} />
-        <SortTabBar sortBy={sortBy} handleSortChange={handleSortChange} />
+        <SortTabBar sortBy={sortBy} handleTabChange={handleTabChange} />
         <div>
           {sub.posts.results.length !== 0 ? (
             sub.posts.results.map((p) => (

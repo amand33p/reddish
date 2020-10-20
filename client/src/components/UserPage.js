@@ -12,6 +12,7 @@ import {
   Typography,
   Avatar,
   Button,
+  CircularProgress,
 } from '@material-ui/core';
 import { useUserPageStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
@@ -24,14 +25,17 @@ const UserPage = () => {
   const user = useSelector((state) => state.user);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
   const dispatch = useDispatch();
   const { username } = useParams();
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        dispatch(fetchUser(username));
+        await dispatch(fetchUser(username));
+        setPageLoading(false);
       } catch (err) {
+        setPageLoading(false);
         console.log(err.response.data.message);
       }
     };
@@ -43,8 +47,19 @@ const UserPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
-  if (!userInfo) {
-    return null;
+  if (!userInfo || pageLoading) {
+    return (
+      <Container disableGutters>
+        <Paper variant="outlined" className={classes.mainPaper}>
+          <div className={classes.loadSpinner}>
+            <CircularProgress size="8em" disableShrink />
+            <Typography color="primary" variant="body1">
+              {`Fetching user data...`}
+            </Typography>
+          </div>
+        </Paper>
+      </Container>
+    );
   }
 
   const {

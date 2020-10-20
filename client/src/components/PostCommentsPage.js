@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -24,6 +24,7 @@ import {
   MenuItem,
   ListItemIcon,
   Divider,
+  CircularProgress,
 } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
@@ -34,19 +35,21 @@ const PostCommentsPage = () => {
   const { id: postId } = useParams();
   const post = useSelector((state) => state.postComments);
   const user = useSelector((state) => state.user);
+  const [pageLoading, setPageLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!post || post.id !== postId) {
-      const getComments = async () => {
-        try {
-          dispatch(fetchPostComments(postId));
-        } catch (err) {
-          console.log(err.message);
-        }
-      };
-      getComments();
-    }
+    const getComments = async () => {
+      try {
+        await dispatch(fetchPostComments(postId));
+        setPageLoading(false);
+      } catch (err) {
+        setPageLoading(false);
+        console.log(err.message);
+      }
+    };
+    getComments();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post]);
 
@@ -54,8 +57,19 @@ const PostCommentsPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
-  if (!post) {
-    return null;
+  if (!post || pageLoading) {
+    return (
+      <Container disableGutters>
+        <Paper variant="outlined" className={classes.mainPaper}>
+          <div className={classes.loadSpinner}>
+            <CircularProgress size="8em" disableShrink />
+            <Typography color="primary" variant="body1">
+              {`Fetching post & comments...`}
+            </Typography>
+          </div>
+        </Paper>
+      </Container>
+    );
   }
 
   const {
@@ -205,7 +219,6 @@ const PostCommentsPage = () => {
             <SortCommentsMenu />
           </div>
         </div>
-
         <Divider className={classes.divider} />
         <CommentsDisplay comments={comments} postId={id} isMobile={isMobile} />
       </Paper>
