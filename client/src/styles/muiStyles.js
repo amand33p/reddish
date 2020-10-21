@@ -168,7 +168,8 @@ export const useAlertStyles = makeStyles((theme) => ({
     '& > * + *': {
       marginTop: theme.spacing(2),
     },
-    marginTop: 10,
+    marginTop: '0.8em',
+    marginBottom: '0.8em',
   },
 }));
 
@@ -253,9 +254,7 @@ export const useCardStyles = makeStyles((theme) => ({
 export const usePostFormStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-    },
+    flexDirection: 'column',
   },
   form: {
     display: 'flex',

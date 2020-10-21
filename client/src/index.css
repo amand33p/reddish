@@ -8,10 +8,6 @@ body {
   width: calc(100vw - 34px);
 }
 
-html {
-  overflow-x: hidden;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

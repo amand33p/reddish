@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form } from 'formik';
-
 import { TextInput } from './FormikMuiFields';
 import generateBase64Encode from '../utils/genBase64Encode';
 import { createNewPost, updatePost } from '../reducers/postCommentsReducer';
 import * as yup from 'yup';
+import AlertMessage from './AlertMessage';
 
-import { usePostFormStyles } from '../styles/muiStyles';
 import {
   Button,
   ButtonGroup,
@@ -17,6 +16,7 @@ import {
   useMediaQuery,
   IconButton,
 } from '@material-ui/core';
+import { usePostFormStyles } from '../styles/muiStyles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useTheme } from '@material-ui/core/styles';
 import TitleIcon from '@material-ui/icons/Title';
@@ -53,6 +53,7 @@ const AddPostForm = ({
   fromSubreddit,
 }) => {
   const [fileName, setFileName] = useState('');
+  const [error, setError] = useState(null);
   const subreddits = useSelector((state) => state.subreddits);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -82,7 +83,11 @@ const AddPostForm = ({
       closeModal();
     } catch (err) {
       setSubmitting(false);
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError(err.message);
+      }
     }
   };
 
@@ -97,7 +102,11 @@ const AddPostForm = ({
       closeModal();
     } catch (err) {
       setSubmitting(false);
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError(err.message);
+      }
     }
   };
 
@@ -157,7 +166,6 @@ const AddPostForm = ({
                 </Button>
               </ButtonGroup>
             )}
-
             <div className={classes.input}>
               <Typography
                 className={classes.inputIconText}
@@ -304,6 +312,11 @@ const AddPostForm = ({
           </Form>
         )}
       </Formik>
+      <AlertMessage
+        error={error}
+        severity="error"
+        clearError={() => setError(null)}
+      />
     </div>
   );
 };

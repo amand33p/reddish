@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addNewSubreddit } from '../reducers/subredditReducer';
 import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
+import AlertMessage from './AlertMessage';
 
 import { useSubredditFormStyles } from '../styles/muiStyles';
 import { Button, Typography } from '@material-ui/core';
@@ -11,6 +12,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import AddIcon from '@material-ui/icons/Add';
 
 const SubredditForm = ({ closeModal }) => {
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const classes = useSubredditFormStyles();
   const history = useHistory();
@@ -29,7 +31,11 @@ const SubredditForm = ({ closeModal }) => {
       closeModal();
     } catch (err) {
       setSubmitting(false);
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError(err.message);
+      }
     }
   };
 
@@ -95,6 +101,11 @@ const SubredditForm = ({ closeModal }) => {
           </Form>
         )}
       </Formik>
+      <AlertMessage
+        error={error}
+        severity="error"
+        clearError={() => setError(null)}
+      />
     </div>
   );
 };

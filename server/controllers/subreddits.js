@@ -82,14 +82,15 @@ router.post('/', auth, async (req, res) => {
   const { subredditName, description } = req.body;
 
   const admin = await User.findById(req.user);
-
   if (!admin) {
     return res
       .status(404)
       .send({ message: 'User does not exist in database.' });
   }
 
-  const existingSubName = await Subreddit.findOne({ subredditName });
+  const existingSubName = await Subreddit.findOne({
+    subredditName: { $regex: new RegExp('^' + subredditName + '$', 'i') },
+  });
 
   if (existingSubName) {
     return res.status(403).send({
