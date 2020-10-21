@@ -57,12 +57,14 @@ const SubredditPage = () => {
       }
     };
     getSubreddit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subreddit]);
 
+  useEffect(() => {
     if (sub) {
       setDescInput(sub.subDetails.description);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subreddit]);
+  }, [sub]);
 
   if (!sub || pageLoading) {
     return (
