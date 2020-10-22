@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAvatar, deleteAvatar } from '../reducers/userReducer';
+import { notify } from '../reducers/notificationReducer';
 import DeleteDialog from './DeleteDialog';
 import generateBase64Encode from '../utils/genBase64Encode';
+import AlertMessage from './AlertMessage';
 
 import {
   Button,
@@ -21,6 +23,7 @@ const UpdateAvatarForm = () => {
   const [avatarInput, setAvatarInput] = useState('');
   const [fileName, setFileName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const classes = useAvatarFormStyles();
@@ -39,24 +42,35 @@ const UpdateAvatarForm = () => {
   };
 
   const handleAvatarUpload = async () => {
-    if (avatarInput === '') return;
+    if (avatarInput === '') return setError('Select an image file first.');
     try {
       setIsLoading(true);
       await dispatch(setAvatar(avatarInput));
       setIsLoading(false);
+
+      dispatch(notify('Successfully updated the avatar!', 'success'));
       setAvatarInput('');
       setFileName('');
     } catch (err) {
       setIsLoading(false);
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError(err.message);
+      }
     }
   };
 
   const handleRemoveAvatar = async () => {
     try {
-      dispatch(deleteAvatar());
+      await dispatch(deleteAvatar());
+      dispatch(notify('Removed avatar.', 'success'));
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError(err.message);
+      }
     }
   };
 
@@ -142,6 +156,11 @@ const UpdateAvatarForm = () => {
           ? 'Adding'
           : 'Add avatar'}
       </Button>
+      <AlertMessage
+        error={error}
+        severity="error"
+        clearError={() => setError(null)}
+      />
     </div>
   );
 };

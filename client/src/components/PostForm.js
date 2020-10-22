@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
 import generateBase64Encode from '../utils/genBase64Encode';
 import { createNewPost, updatePost } from '../reducers/postCommentsReducer';
+import { notify } from '../reducers/notificationReducer';
 import * as yup from 'yup';
 import AlertMessage from './AlertMessage';
 
@@ -77,8 +78,9 @@ const AddPostForm = ({
       setSubmitting(true);
       const postId = await dispatch(createNewPost(values));
       setSubmitting(false);
-
       history.push(`/comments/${postId}`);
+
+      dispatch(notify('Added new post!', 'success'));
       resetForm();
       closeModal();
     } catch (err) {
@@ -94,10 +96,11 @@ const AddPostForm = ({
   const handleUpdatePost = async (values, { setSubmitting, resetForm }) => {
     try {
       setSubmitting(true);
-      dispatch(updatePost(postToEditId, values));
+      await dispatch(updatePost(postToEditId, values));
       setSubmitting(false);
-
       history.push(`/comments/${postToEditId}`);
+
+      dispatch(notify('Successfully updated the post!', 'success'));
       resetForm();
       closeModal();
     } catch (err) {
@@ -307,7 +310,7 @@ const AddPostForm = ({
               className={classes.submitButton}
               disabled={isSubmitting}
             >
-              Submit
+              {isSubmitting ? 'Submitting' : 'Submit'}
             </Button>
           </Form>
         )}

@@ -1,31 +1,38 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearNotif } from '../reducers/notificationReducer';
 
 import { Snackbar } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
-const ToastNotif = ({ open, handleClose, severity, message }) => {
+const ToastNotif = () => {
+  const dispatch = useDispatch();
+  const notification = useSelector((state) => state.notification);
+
+  if (!notification) {
+    return null;
+  }
+
+  const { message, severity } = notification;
+  const open = !!notification;
   const duration = 5;
+
+  const handleNotifClose = () => {
+    dispatch(clearNotif());
+  };
 
   return (
     <Snackbar
       open={open}
       autoHideDuration={duration * 1000}
-      onClose={handleClose}
+      onClose={handleNotifClose}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >
-      <Alert onClose={handleClose} severity={severity}>
+      <Alert onClose={handleNotifClose} severity={severity}>
         {message}
       </Alert>
     </Snackbar>
   );
-};
-
-ToastNotif.propTypes = {
-  open: propTypes.bool.isRequired,
-  handleClose: propTypes.func.isRequired,
-  severity: propTypes.string.isRequired,
-  message: propTypes.string.isRequired,
 };
 
 export default ToastNotif;

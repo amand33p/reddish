@@ -10,6 +10,7 @@ import {
   toggleReplyUpvote,
   toggleReplyDownvote,
 } from '../reducers/postCommentsReducer';
+import { notify } from '../reducers/notificationReducer';
 import ReactTimeAgo from 'react-time-ago';
 
 import { Typography, Link } from '@material-ui/core';
@@ -44,7 +45,11 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
         );
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -75,7 +80,11 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
         );
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -111,7 +120,11 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
         );
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -147,7 +160,11 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
         );
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 

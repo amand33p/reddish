@@ -2,6 +2,7 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleSubscribe } from '../reducers/subredditReducer';
+import { notify } from '../reducers/notificationReducer';
 import NewSubredditModal from './NewSubredditModal';
 
 import {
@@ -31,7 +32,7 @@ const SubInfoPanel = () => {
     return subscribedBy.includes(user.id);
   };
 
-  const handleJoinSub = async (id, subscribedBy) => {
+  const handleJoinSub = async (id, subscribedBy, subredditName) => {
     try {
       let updatedSubscribedBy = [];
 
@@ -40,10 +41,18 @@ const SubInfoPanel = () => {
       } else {
         updatedSubscribedBy = [...subscribedBy, user.id];
       }
-
       dispatch(toggleSubscribe(id, updatedSubscribedBy));
+
+      let message = subscribedBy.includes(user.id)
+        ? `Unsubscribed from r/${subredditName}`
+        : `Subscribed to r/${subredditName}!`;
+      dispatch(notify(message, 'success'));
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -78,7 +87,9 @@ const SubInfoPanel = () => {
                     <AddIcon />
                   )
                 }
-                onClick={() => handleJoinSub(s.id, s.subscribedBy)}
+                onClick={() =>
+                  handleJoinSub(s.id, s.subscribedBy, s.subredditName)
+                }
               >
                 {isSubscribed(s.subscribedBy, user) ? 'Joined' : 'Join'}
               </Button>

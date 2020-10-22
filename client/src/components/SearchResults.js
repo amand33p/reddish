@@ -7,6 +7,7 @@ import {
   toggleDownvote,
   loadSearchPosts,
 } from '../reducers/searchReducer';
+import { notify } from '../reducers/notificationReducer';
 import PostCard from './PostCard';
 
 import { Container, Paper, Typography, Button } from '@material-ui/core';
@@ -24,7 +25,19 @@ const SearchResults = () => {
   const classes = useSearchPageStyles();
 
   useEffect(() => {
-    dispatch(setSearchResults(query));
+    const getSearchResults = async () => {
+      try {
+        dispatch(setSearchResults(query));
+      } catch (err) {
+        if (err.response.data && err.response.data.message) {
+          dispatch(notify(`${err.response.data.message}`, 'error'));
+        } else {
+          dispatch(notify(`Something went wrong.`, 'error'));
+        }
+      }
+    };
+
+    getSearchResults();
     setPage(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
@@ -40,7 +53,11 @@ const SearchResults = () => {
       setPage((prevState) => prevState + 1);
       setLoadingMore(false);
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 

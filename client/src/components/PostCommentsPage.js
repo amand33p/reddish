@@ -6,6 +6,7 @@ import {
   toggleUpvote,
   toggleDownvote,
 } from '../reducers/postCommentsReducer';
+import { notify } from '../reducers/notificationReducer';
 import CommentInput from './CommentInput';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
 import EditDeleteMenu from './EditDeleteMenu';
@@ -45,7 +46,11 @@ const PostCommentsPage = () => {
         setPageLoading(false);
       } catch (err) {
         setPageLoading(false);
-        console.log(err.message);
+        if (err.response.data && err.response.data.message) {
+          dispatch(notify(`${err.response.data.message}`, 'error'));
+        } else {
+          dispatch(notify(`Something went wrong.`, 'error'));
+        }
       }
     };
     getComments();
@@ -103,7 +108,11 @@ const PostCommentsPage = () => {
         dispatch(toggleUpvote(id, updatedUpvotedBy, updatedDownvotedBy));
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -118,7 +127,11 @@ const PostCommentsPage = () => {
         dispatch(toggleDownvote(id, updatedDownvotedBy, updatedUpvotedBy));
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 

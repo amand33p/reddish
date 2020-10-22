@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { logoutUser } from '../reducers/userReducer';
+import { notify } from '../reducers/notificationReducer';
 import MobileUserMenu from './MobileUserMenu';
 import DesktopUserMenu from './DesktopUserMenu';
 import SearchBar from './SearchBar';
@@ -31,6 +32,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    dispatch(notify(`u/${user.username} logged out`, 'success'));
   };
 
   return (

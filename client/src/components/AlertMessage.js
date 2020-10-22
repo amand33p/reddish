@@ -1,5 +1,4 @@
 import React from 'react';
-import propTypes from 'prop-types';
 
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { useAlertStyles } from '../styles/muiStyles';
@@ -19,13 +18,6 @@ const AlertMessage = ({ severity, error, clearError }) => {
       </Alert>
     </div>
   );
-};
-
-AlertMessage.propTypes = {
-  severity: propTypes.string.isRequired,
-  message: propTypes.string.isRequired,
-  clearError: propTypes.func.isRequired,
-  title: propTypes.string,
 };
 
 export default AlertMessage;

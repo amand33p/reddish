@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser, loadUserPosts } from '../reducers/userPageReducer';
+import { notify } from '../reducers/notificationReducer';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
 import UserPostCard from './UserPostCard';
 
@@ -36,7 +37,11 @@ const UserPage = () => {
         setPageLoading(false);
       } catch (err) {
         setPageLoading(false);
-        console.log(err.response.data.message);
+        if (err.response.data && err.response.data.message) {
+          dispatch(notify(`${err.response.data.message}`, 'error'));
+        } else {
+          dispatch(notify(`Something went wrong.`, 'error'));
+        }
       }
     };
     getUser();
@@ -78,7 +83,11 @@ const UserPage = () => {
       setPage((prevState) => prevState + 1);
       setLoadingMore(false);
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 

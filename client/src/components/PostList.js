@@ -6,6 +6,7 @@ import {
   toggleUpvote,
   toggleDownvote,
 } from '../reducers/postReducer';
+import { notify } from '../reducers/notificationReducer';
 import PostCard from './PostCard';
 import SortTabBar from './SortTabBar';
 
@@ -35,7 +36,11 @@ const PostList = () => {
       }
     } catch (err) {
       setPageLoading(false);
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -46,7 +51,11 @@ const PostList = () => {
       setPage((prevState) => prevState + 1);
       setLoadingMore(false);
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 

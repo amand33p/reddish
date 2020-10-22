@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { addNewSubreddit } from '../reducers/subredditReducer';
 import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
+import { notify } from '../reducers/notificationReducer';
 import AlertMessage from './AlertMessage';
 
 import { useSubredditFormStyles } from '../styles/muiStyles';
@@ -26,6 +27,9 @@ const SubredditForm = ({ closeModal }) => {
       await dispatch(addNewSubreddit(values));
       setSubmitting(false);
       history.push(`/r/${values.subredditName}`);
+      dispatch(
+        notify(`New subreddit created: r/${values.subredditName}`, 'success')
+      );
 
       resetForm();
       closeModal();
@@ -96,7 +100,7 @@ const SubredditForm = ({ closeModal }) => {
               disabled={isSubmitting}
               startIcon={<AddIcon />}
             >
-              Create Subreddit
+              {isSubmitting ? 'Creating' : 'Create Subreddit'}
             </Button>
           </Form>
         )}

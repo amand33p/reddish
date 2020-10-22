@@ -9,6 +9,7 @@ import {
   editDescription,
   loadSubPosts,
 } from '../reducers/subredditPageReducer';
+import { notify } from '../reducers/notificationReducer';
 import SortTabBar from './SortTabBar';
 import PostCard from './PostCard';
 import PostFormModal from './PostFormModal';
@@ -53,7 +54,11 @@ const SubredditPage = () => {
         setPageLoading(false);
       } catch (err) {
         setPageLoading(false);
-        console.log(err.message);
+        if (err.response.data && err.response.data.message) {
+          dispatch(notify(`${err.response.data.message}`, 'error'));
+        } else {
+          dispatch(notify(`Something went wrong.`, 'error'));
+        }
       }
     };
     getSubreddit();
@@ -102,18 +107,34 @@ const SubredditPage = () => {
       } else {
         updatedSubscribedBy = [...subscribedBy, user.id];
       }
-      dispatch(toggleSubscribe(id, updatedSubscribedBy));
+      await dispatch(toggleSubscribe(id, updatedSubscribedBy));
+
+      let message = isSubscribed
+        ? `Unsubscribed from r/${subredditName}`
+        : `Subscribed to r/${subredditName}!`;
+      dispatch(notify(message, 'success'));
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
-  const handleEditDescription = () => {
+  const handleEditDescription = async () => {
     try {
-      dispatch(editDescription(id, descInput));
+      await dispatch(editDescription(id, descInput));
       setEditOpen(false);
+      dispatch(
+        notify(`Updated description of your sub: r/${subredditName}`, 'success')
+      );
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -129,7 +150,11 @@ const SubredditPage = () => {
       }
     } catch (err) {
       setPostsLoading(false);
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -140,7 +165,11 @@ const SubredditPage = () => {
       setPage((prevState) => prevState + 1);
       setLoadingMore(false);
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 

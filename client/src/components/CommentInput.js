@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addComment } from '../reducers/postCommentsReducer';
+import { notify } from '../reducers/notificationReducer';
 
 import { Link, Typography, TextField, Button } from '@material-ui/core';
 import { useCommentInputStyles } from '../styles/muiStyles';
@@ -14,12 +15,16 @@ const CommentInput = ({ user, postId, isMobile }) => {
 
   const handlePostComment = async (e) => {
     e.preventDefault();
-
     try {
-      dispatch(addComment(postId, comment));
+      await dispatch(addComment(postId, comment));
       setComment('');
+      dispatch(notify(`Comment submitted!`, 'success'));
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -41,8 +46,8 @@ const CommentInput = ({ user, postId, isMobile }) => {
         <TextField
           placeholder={`What are your thoughts?`}
           multiline
-          required
           fullWidth
+          required
           rows={4}
           rowsMax={Infinity}
           value={comment}

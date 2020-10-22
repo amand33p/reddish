@@ -5,6 +5,7 @@ import {
   editComment,
   deleteComment,
 } from '../reducers/postCommentsReducer';
+import { notify } from '../reducers/notificationReducer';
 import DeleteDialog from './DeleteDialog';
 
 import { TextField, Button, Typography } from '@material-ui/core';
@@ -23,28 +24,43 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
 
   const handlePostReply = async () => {
     try {
-      dispatch(addReply(postId, comment.id, replyInput));
+      await dispatch(addReply(postId, comment.id, replyInput));
       setReplyOpen(false);
       setReplyInput('');
+      dispatch(notify(`Reply submitted!`, 'success'));
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
-  const handleEditComment = () => {
+  const handleEditComment = async () => {
     try {
-      dispatch(editComment(postId, comment.id, editInput));
+      await dispatch(editComment(postId, comment.id, editInput));
       setEditOpen(false);
+      dispatch(notify(`Comment edited!`, 'success'));
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
-  const handleCommentDelete = () => {
+  const handleCommentDelete = async () => {
     try {
-      dispatch(deleteComment(postId, comment.id));
+      await dispatch(deleteComment(postId, comment.id));
+      dispatch(notify(`Comment deleted!`, 'success'));
     } catch (err) {
-      console.log(err.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -56,7 +72,6 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
         <div className={classes.inputDiv}>
           <TextField
             multiline
-            required
             fullWidth
             rows={2}
             rowsMax={Infinity}

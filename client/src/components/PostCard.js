@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
+import { notify } from '../reducers/notificationReducer';
 import EditDeleteMenu from './EditDeleteMenu';
 import getEditedThumbail from '../utils/cloudinaryTransform';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
@@ -61,7 +62,11 @@ const PostCard = ({ post, toggleUpvote, toggleDownvote }) => {
         dispatch(toggleUpvote(id, updatedUpvotedBy, updatedDownvotedBy));
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -76,7 +81,11 @@ const PostCard = ({ post, toggleUpvote, toggleDownvote }) => {
         dispatch(toggleDownvote(id, updatedDownvotedBy, updatedUpvotedBy));
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 

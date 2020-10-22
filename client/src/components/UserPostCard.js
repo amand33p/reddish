@@ -2,6 +2,7 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toggleUpvote, toggleDownvote } from '../reducers/userPageReducer';
+import { notify } from '../reducers/notificationReducer';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
 import ReactTimeAgo from 'react-time-ago';
 import ReactHtmlParser from 'react-html-parser';
@@ -47,7 +48,11 @@ const UserPostCard = ({ post, user, isMobile }) => {
         dispatch(toggleUpvote(id, updatedUpvotedBy, updatedDownvotedBy));
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
@@ -62,7 +67,11 @@ const UserPostCard = ({ post, user, isMobile }) => {
         dispatch(toggleDownvote(id, updatedDownvotedBy, updatedUpvotedBy));
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      if (err.response.data && err.response.data.message) {
+        dispatch(notify(`${err.response.data.message}`, 'error'));
+      } else {
+        dispatch(notify(`Something went wrong.`, 'error'));
+      }
     }
   };
 
