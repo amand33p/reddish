@@ -61,7 +61,7 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
             )}
             <div>
               <Typography color="secondary">{user.username}</Typography>
-              <Typography variant="caption">
+              <Typography variant="caption" className={classes.karmaWrapper}>
                 <FilterVintageIcon
                   fontSize="inherit"
                   style={{ marginRight: '0.2em' }}

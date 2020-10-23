@@ -748,6 +748,10 @@ export const useUserMenuStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  karmaWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 export const useAvatarFormStyles = makeStyles((theme) => ({
