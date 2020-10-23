@@ -7,6 +7,7 @@ import UserPage from './UserPage';
 import SubredditPage from './SubredditPage';
 import SubInfoPanel from './SubInfoPanel';
 import SearchResults from './SearchResults';
+import NotFoundPage from './NotFoundPage';
 
 import { Container } from '@material-ui/core/';
 import { useMainPaperStyles } from '../styles/muiStyles';
@@ -36,6 +37,9 @@ const Routes = () => {
       </Route>
       <Route exact path="/search/:query">
         <SearchResults />
+      </Route>
+      <Route>
+        <NotFoundPage />
       </Route>
     </Switch>
   );

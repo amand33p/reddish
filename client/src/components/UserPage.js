@@ -5,6 +5,9 @@ import { fetchUser, loadUserPosts } from '../reducers/userPageReducer';
 import { notify } from '../reducers/notificationReducer';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
 import UserPostCard from './UserPostCard';
+import ErrorPage from './ErrorPage';
+import LoadMoreButton from './LoadMoreButton';
+import LoadingSpinner from './LoadingSpinner';
 
 import {
   Container,
@@ -12,13 +15,10 @@ import {
   useMediaQuery,
   Typography,
   Avatar,
-  Button,
-  CircularProgress,
 } from '@material-ui/core';
 import { useUserPageStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
 import CakeIcon from '@material-ui/icons/Cake';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
 import PersonIcon from '@material-ui/icons/Person';
 
 const UserPage = () => {
@@ -28,6 +28,7 @@ const UserPage = () => {
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
+  const [pageError, setPageError] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,11 +37,10 @@ const UserPage = () => {
         await dispatch(fetchUser(username));
         setPageLoading(false);
       } catch (err) {
-        setPageLoading(false);
         if (err.response.data && err.response.data.message) {
-          dispatch(notify(`${err.response.data.message}`, 'error'));
+          setPageError(err.response.data.message);
         } else {
-          dispatch(notify(`Something went wrong.`, 'error'));
+          setPageError('Something went wrong.');
         }
       }
     };
@@ -52,16 +52,21 @@ const UserPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
+  if (pageError) {
+    return (
+      <Container disableGutters>
+        <Paper variant="outlined" className={classes.mainPaper}>
+          <ErrorPage errorMsg={pageError} />
+        </Paper>
+      </Container>
+    );
+  }
+
   if (!userInfo || pageLoading) {
     return (
       <Container disableGutters>
         <Paper variant="outlined" className={classes.mainPaper}>
-          <div className={classes.loadSpinner}>
-            <CircularProgress size="8em" disableShrink />
-            <Typography color="primary" variant="body1">
-              {`Fetching user data...`}
-            </Typography>
-          </div>
+          <LoadingSpinner text={'Fetching user data...'} />
         </Paper>
       </Container>
     );
@@ -178,18 +183,10 @@ const UserPage = () => {
           )}
         </div>
         {'next' in userInfo.posts && (
-          <div className={classes.loadBtnWrapper}>
-            <Button
-              color="primary"
-              variant="outlined"
-              size="large"
-              onClick={handleLoadPosts}
-              startIcon={<AutorenewIcon />}
-              className={classes.loadBtn}
-            >
-              {loadingMore ? 'Loading more posts...' : 'Load more'}
-            </Button>
-          </div>
+          <LoadMoreButton
+            handleLoadPosts={handleLoadPosts}
+            loading={loadingMore}
+          />
         )}
       </Paper>
     </Container>

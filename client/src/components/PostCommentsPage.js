@@ -12,6 +12,8 @@ import { UpvoteButton, DownvoteButton } from './VoteButtons';
 import EditDeleteMenu from './EditDeleteMenu';
 import CommentsDisplay from './CommentsDisplay';
 import SortCommentsMenu from './SortCommentsMenu';
+import ErrorPage from './ErrorPage';
+import LoadingSpinner from './LoadingSpinner';
 import ReactTimeAgo from 'react-time-ago';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 import ReactHtmlParser from 'react-html-parser';
@@ -25,7 +27,6 @@ import {
   MenuItem,
   ListItemIcon,
   Divider,
-  CircularProgress,
 } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
 import { useTheme } from '@material-ui/core/styles';
@@ -37,6 +38,7 @@ const PostCommentsPage = () => {
   const post = useSelector((state) => state.postComments);
   const user = useSelector((state) => state.user);
   const [pageLoading, setPageLoading] = useState(true);
+  const [pageError, setPageError] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,11 +47,10 @@ const PostCommentsPage = () => {
         await dispatch(fetchPostComments(postId));
         setPageLoading(false);
       } catch (err) {
-        setPageLoading(false);
         if (err.response.data && err.response.data.message) {
-          dispatch(notify(`${err.response.data.message}`, 'error'));
+          setPageError(err.response.data.message);
         } else {
-          dispatch(notify(`Something went wrong.`, 'error'));
+          setPageError('Something went wrong.');
         }
       }
     };
@@ -61,16 +62,21 @@ const PostCommentsPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
+  if (pageError) {
+    return (
+      <Container disableGutters>
+        <Paper variant="outlined" className={classes.mainPaper}>
+          <ErrorPage errorMsg={pageError} />
+        </Paper>
+      </Container>
+    );
+  }
+
   if (!post || pageLoading) {
     return (
       <Container disableGutters>
         <Paper variant="outlined" className={classes.mainPaper}>
-          <div className={classes.loadSpinner}>
-            <CircularProgress size="8em" disableShrink />
-            <Typography color="primary" variant="body1">
-              {`Fetching post comments...`}
-            </Typography>
-          </div>
+          <LoadingSpinner text={'Fetching post comments...'} />
         </Paper>
       </Container>
     );

@@ -12,7 +12,10 @@ import {
 import { notify } from '../reducers/notificationReducer';
 import SortTabBar from './SortTabBar';
 import PostCard from './PostCard';
+import LoadMoreButton from './LoadMoreButton';
 import PostFormModal from './PostFormModal';
+import ErrorPage from './ErrorPage';
+import LoadingSpinner from './LoadingSpinner';
 
 import {
   Container,
@@ -21,7 +24,6 @@ import {
   Button,
   Link,
   TextField,
-  CircularProgress,
 } from '@material-ui/core';
 import { useSubredditPageStyles } from '../styles/muiStyles';
 import CakeIcon from '@material-ui/icons/Cake';
@@ -30,7 +32,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import GroupIcon from '@material-ui/icons/Group';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 
 const SubredditPage = () => {
@@ -44,6 +45,7 @@ const SubredditPage = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [postsLoading, setPostsLoading] = useState(false);
+  const [pageError, setPageError] = useState(null);
   const dispatch = useDispatch();
   const classes = useSubredditPageStyles();
 
@@ -53,11 +55,10 @@ const SubredditPage = () => {
         await dispatch(fetchSubreddit(subreddit, 'hot'));
         setPageLoading(false);
       } catch (err) {
-        setPageLoading(false);
         if (err.response.data && err.response.data.message) {
-          dispatch(notify(`${err.response.data.message}`, 'error'));
+          setPageError(err.response.data.message);
         } else {
-          dispatch(notify(`Something went wrong.`, 'error'));
+          setPageError('Something went wrong.');
         }
       }
     };
@@ -71,16 +72,21 @@ const SubredditPage = () => {
     }
   }, [sub]);
 
+  if (pageError) {
+    return (
+      <Container disableGutters>
+        <Paper variant="outlined" className={classes.mainPaper}>
+          <ErrorPage errorMsg={pageError} />
+        </Paper>
+      </Container>
+    );
+  }
+
   if (!sub || pageLoading) {
     return (
       <Container disableGutters>
         <Paper variant="outlined" className={classes.mainPaper}>
-          <div className={classes.loadSpinner}>
-            <CircularProgress size="8em" disableShrink />
-            <Typography color="primary" variant="body1">
-              {`Fetching subreddit data...`}
-            </Typography>
-          </div>
+          <LoadingSpinner text={'Fetching subreddit data...'} />
         </Paper>
       </Container>
     );
@@ -283,12 +289,7 @@ const SubredditPage = () => {
         <PostFormModal fromSubreddit={{ subredditName, id }} />
         <SortTabBar sortBy={sortBy} handleTabChange={handleTabChange} />
         {postsLoading ? (
-          <div className={classes.loadSpinner}>
-            <CircularProgress size="8em" disableShrink />
-            <Typography color="primary" variant="body1">
-              {`Fetching subreddit posts...`}
-            </Typography>
-          </div>
+          <LoadingSpinner text={'Fetching subreddit posts...'} />
         ) : (
           <>
             <div>
@@ -314,18 +315,10 @@ const SubredditPage = () => {
               )}
             </div>
             {'next' in sub.posts && (
-              <div className={classes.loadBtnWrapper}>
-                <Button
-                  color="primary"
-                  variant="outlined"
-                  size="large"
-                  onClick={handleLoadPosts}
-                  startIcon={<AutorenewIcon />}
-                  className={classes.loadBtn}
-                >
-                  {loadingMore ? 'Loading more posts...' : 'Load more'}
-                </Button>
-              </div>
+              <LoadMoreButton
+                handleLoadPosts={handleLoadPosts}
+                loading={loadingMore}
+              />
             )}
           </>
         )}

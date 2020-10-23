@@ -9,25 +9,29 @@ import {
 } from '../reducers/searchReducer';
 import { notify } from '../reducers/notificationReducer';
 import PostCard from './PostCard';
+import LoadMoreButton from './LoadMoreButton';
+import LoadingSpinner from './LoadingSpinner';
 
-import { Container, Paper, Typography, Button } from '@material-ui/core';
+import { Container, Paper, Typography } from '@material-ui/core';
 import { useSearchPageStyles } from '../styles/muiStyles';
 import SearchIcon from '@material-ui/icons/Search';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 const SearchResults = () => {
   const { query } = useParams();
   const searchResults = useSelector((state) => state.search);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
   const dispatch = useDispatch();
   const classes = useSearchPageStyles();
 
   useEffect(() => {
     const getSearchResults = async () => {
       try {
-        dispatch(setSearchResults(query));
+        setPageLoading(true);
+        await dispatch(setSearchResults(query));
+        setPageLoading(false);
       } catch (err) {
         if (err.response.data && err.response.data.message) {
           dispatch(notify(`${err.response.data.message}`, 'error'));
@@ -36,14 +40,19 @@ const SearchResults = () => {
         }
       }
     };
-
     getSearchResults();
     setPage(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
-  if (!searchResults) {
-    return null;
+  if (!searchResults || pageLoading) {
+    return (
+      <Container disableGutters>
+        <Paper variant="outlined" className={classes.mainPaper}>
+          <LoadingSpinner text={'Searching for matches...'} />
+        </Paper>
+      </Container>
+    );
   }
 
   const handleLoadPosts = async () => {
@@ -93,18 +102,10 @@ const SearchResults = () => {
           </Typography>
         )}
         {'next' in searchResults && (
-          <div className={classes.loadBtnWrapper}>
-            <Button
-              color="primary"
-              variant="outlined"
-              size="large"
-              onClick={handleLoadPosts}
-              startIcon={<AutorenewIcon />}
-              className={classes.loadBtn}
-            >
-              {loadingMore ? 'Loading more posts...' : 'Load more'}
-            </Button>
-          </div>
+          <LoadMoreButton
+            handleLoadPosts={handleLoadPosts}
+            loading={loadingMore}
+          />
         )}
       </Paper>
     </Container>

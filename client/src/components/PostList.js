@@ -9,10 +9,11 @@ import {
 import { notify } from '../reducers/notificationReducer';
 import PostCard from './PostCard';
 import SortTabBar from './SortTabBar';
+import LoadMoreButton from './LoadMoreButton';
+import LoadingSpinner from './LoadingSpinner';
 
-import { Button, Typography, CircularProgress } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { usePostListStyles } from '../styles/muiStyles';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 const PostList = () => {
   const [sortBy, setSortBy] = useState('hot');
@@ -77,12 +78,7 @@ const PostList = () => {
           />
         ))
       ) : (
-        <div className={classes.loadSpinner}>
-          <CircularProgress size="8em" disableShrink />
-          <Typography color="primary" variant="body1">
-            {`Fetching posts. Wait a sec.`}
-          </Typography>
-        </div>
+        <LoadingSpinner text={'Fetching posts. Wait a sec.'} />
       )}
       {sortBy === 'subscribed' && posts.results.length === 0 && (
         <div className={classes.noSubscribedPosts}>
@@ -95,18 +91,10 @@ const PostList = () => {
         </div>
       )}
       {posts && 'next' in posts && !pageLoading && (
-        <div className={classes.loadBtnWrapper}>
-          <Button
-            color="primary"
-            variant="outlined"
-            size="large"
-            onClick={handleLoadPosts}
-            startIcon={<AutorenewIcon />}
-            className={classes.loadBtn}
-          >
-            {loadingMore ? 'Loading more posts...' : 'Load more'}
-          </Button>
-        </div>
+        <LoadMoreButton
+          handleLoadPosts={handleLoadPosts}
+          loading={loadingMore}
+        />
       )}
     </div>
   );

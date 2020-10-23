@@ -830,3 +830,22 @@ export const useSortCommentsStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
 }));
+
+export const useNotFoundPageStyles = makeStyles((theme) => ({
+  mainPaper: {
+    marginTop: '0.5em',
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: 0,
+    minHeight: '90vH',
+    paddingBottom: '1em',
+    textAlign: 'center',
+  },
+  textWrapper: {
+    marginTop: '20%',
+  },
+  icon: {
+    fontSize: '8em',
+    marginBottom: '0.3em',
+  },
+}));
