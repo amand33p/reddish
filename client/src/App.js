@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './reducers/userReducer';
 import { fetchPosts } from './reducers/postReducer';
 import { setSubredditList, setTopSubsList } from './reducers/subredditReducer';
+import { setDarkMode } from './reducers/themeReducer';
 import { notify } from './reducers/notificationReducer';
 import NavBar from './components/NavBar';
 import ToastNotif from './components/ToastNotif';
@@ -15,6 +16,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 
 const App = () => {
   const dispatch = useDispatch();
+  const { darkMode } = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(setUser());
@@ -23,6 +25,7 @@ const App = () => {
         dispatch(fetchPosts('hot'));
         dispatch(setSubredditList());
         dispatch(setTopSubsList());
+        dispatch(setDarkMode());
       } catch (err) {
         if (err.response.data && err.response.data.message) {
           dispatch(notify(`${err.response.data.message}`, 'error'));
@@ -38,7 +41,7 @@ const App = () => {
   const classes = useMainPaperStyles();
 
   return (
-    <ThemeProvider theme={customTheme}>
+    <ThemeProvider theme={customTheme(darkMode)}>
       <Paper className={classes.root} elevation={0}>
         <ToastNotif />
         <NavBar />

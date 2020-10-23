@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import AuthFormModal from './AuthFormModal';
 import NewSubredditModal from './NewSubredditModal';
 import UpdateAvatarModal from './UpdateAvatarModal';
+import DarkModeMenuItem from './DarkModeMenuItem';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
 import storageService from '../utils/localStorage';
 
@@ -13,6 +14,7 @@ import {
   Avatar,
   Typography,
   ListItemIcon,
+  Divider,
 } from '@material-ui/core';
 import { useUserMenuStyles } from '../styles/muiStyles';
 import FilterVintageIcon from '@material-ui/icons/FilterVintage';
@@ -99,6 +101,8 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
                 <PowerSettingsNewIcon style={{ marginRight: 7 }} /> Logout
               </ListItemIcon>
             </MenuItem>
+            <Divider variant="middle" />
+            <DarkModeMenuItem closeMenu={handleClose} />
           </Menu>
         </>
       ) : (

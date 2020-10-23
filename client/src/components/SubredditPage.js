@@ -210,7 +210,7 @@ const SubredditPage = () => {
                       variant="outlined"
                       size="small"
                       className={classes.cancelBtn}
-                      style={{ padding: '0em' }}
+                      style={{ padding: '0.2em' }}
                     >
                       Cancel
                     </Button>
@@ -219,7 +219,7 @@ const SubredditPage = () => {
                       color="primary"
                       variant="outlined"
                       size="small"
-                      style={{ padding: '0em' }}
+                      style={{ padding: '0.2em' }}
                     >
                       Update
                     </Button>
@@ -232,7 +232,7 @@ const SubredditPage = () => {
                   size="small"
                   variant="outlined"
                   color="primary"
-                  style={{ padding: '0em', marginLeft: '0.5em' }}
+                  style={{ padding: '0.2em', marginLeft: '0.5em' }}
                   startIcon={<EditIcon />}
                 >
                   Edit

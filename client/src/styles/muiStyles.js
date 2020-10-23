@@ -207,7 +207,7 @@ export const useCardStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     width: 30,
     alignItems: 'center',
-    backgroundColor: '#f7f5f3',
+    backgroundColor: theme.palette.type === 'light' ? '#f7f5f3' : '#2f271f',
   },
   thumbnailWrapper: {
     alignSelf: 'center',
@@ -218,7 +218,7 @@ export const useCardStyles = makeStyles((theme) => ({
     width: 70,
     height: 90,
     textAlign: 'center',
-    backgroundColor: '#f7f5f3',
+    backgroundColor: theme.palette.type === 'light' ? '#f7f5f3' : '#2f271f',
     borderRadius: 8,
     [theme.breakpoints.down('xs')]: {
       width: 60,
@@ -237,7 +237,7 @@ export const useCardStyles = makeStyles((theme) => ({
   },
   commentsBtn: {
     textTransform: 'capitalize',
-    color: '#787878',
+    color: theme.palette.type === 'light' ? '#787878' : '#dadada',
   },
   title: {
     marginRight: 5,
@@ -338,7 +338,7 @@ export const usePostCommentsStyles = makeStyles((theme) => ({
     width: 50,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    backgroundColor: '#f7f5f3',
+    backgroundColor: theme.palette.type === 'light' ? '#f7f5f3' : '#2f271f',
     [theme.breakpoints.down('xs')]: {
       width: 35,
     },

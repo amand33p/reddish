@@ -9,6 +9,7 @@ import postCommentsReducer from './reducers/postCommentsReducer';
 import userPageReducer from './reducers/userPageReducer';
 import subredditPageReducer from './reducers/subredditPageReducer';
 import searchReducer from './reducers/searchReducer';
+import themeReducer from './reducers/themeReducer';
 
 const reducer = combineReducers({
   user: userReducer,
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   userPage: userPageReducer,
   subredditPage: subredditPageReducer,
   search: searchReducer,
+  darkMode: themeReducer,
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
