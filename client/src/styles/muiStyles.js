@@ -744,6 +744,10 @@ export const useUserMenuStyles = makeStyles((theme) => ({
   userBtnMob: {
     padding: '0.1em',
   },
+  navItems: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 export const useAvatarFormStyles = makeStyles((theme) => ({

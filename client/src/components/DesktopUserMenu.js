@@ -106,7 +106,10 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
           </Menu>
         </>
       ) : (
-        <AuthFormModal />
+        <div className={classes.navItems}>
+          <AuthFormModal />
+          <DarkModeMenuItem closeMenu={handleClose} navItem={true} />
+        </div>
       )}
     </div>
   );
