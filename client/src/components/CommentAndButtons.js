@@ -19,16 +19,20 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
   const [editOpen, setEditOpen] = useState(false);
   const [replyInput, setReplyInput] = useState('');
   const [editInput, setEditInput] = useState(comment.commentBody);
+  const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
   const classes = useCommentAndBtnsStyles();
 
   const handlePostReply = async () => {
     try {
+      setSubmitting(true);
       await dispatch(addReply(postId, comment.id, replyInput));
+      setSubmitting(false);
       setReplyOpen(false);
       setReplyInput('');
       dispatch(notify(`Reply submitted!`, 'success'));
     } catch (err) {
+      setSubmitting(false);
       if (err.response.data && err.response.data.message) {
         dispatch(notify(`${err.response.data.message}`, 'error'));
       } else {
@@ -39,10 +43,13 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
 
   const handleEditComment = async () => {
     try {
+      setSubmitting(true);
       await dispatch(editComment(postId, comment.id, editInput));
+      setSubmitting(false);
       setEditOpen(false);
       dispatch(notify(`Comment edited!`, 'success'));
     } catch (err) {
+      setSubmitting(false);
       if (err.response.data && err.response.data.message) {
         dispatch(notify(`${err.response.data.message}`, 'error'));
       } else {
@@ -96,8 +103,9 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
               variant="contained"
               startIcon={<SendIcon />}
               size="small"
+              disabled={submitting}
             >
-              Update
+              {submitting ? 'Updating' : 'Update'}
             </Button>
           </div>
         </div>
@@ -159,8 +167,9 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
               variant="contained"
               startIcon={<SendIcon />}
               size="small"
+              disabled={submitting}
             >
-              Reply
+              {submitting ? 'Replying' : 'Reply'}
             </Button>
           </div>
         </div>

@@ -253,7 +253,7 @@ const AddPostForm = ({
                     htmlFor="image-upload"
                     variant="outlined"
                     color="primary"
-                    fullWidth={!isMobile}
+                    fullWidth
                     startIcon={
                       values.imageSubmission ? (
                         <CheckCircleIcon />
@@ -284,7 +284,7 @@ const AddPostForm = ({
                     <img
                       alt={fileName}
                       src={values.imageSubmission}
-                      width={isMobile ? 250 : 400}
+                      width={isMobile ? 250 : 350}
                     />
                   </div>
                 )}

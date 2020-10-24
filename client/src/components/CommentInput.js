@@ -10,16 +10,20 @@ import SendIcon from '@material-ui/icons/Send';
 
 const CommentInput = ({ user, postId, isMobile }) => {
   const [comment, setComment] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
   const classes = useCommentInputStyles();
 
   const handlePostComment = async (e) => {
     e.preventDefault();
     try {
+      setSubmitting(true);
       await dispatch(addComment(postId, comment));
+      setSubmitting(false);
       setComment('');
       dispatch(notify(`Comment submitted!`, 'success'));
     } catch (err) {
+      setSubmitting(false);
       if (err.response.data && err.response.data.message) {
         dispatch(notify(`${err.response.data.message}`, 'error'));
       } else {
@@ -62,9 +66,9 @@ const CommentInput = ({ user, postId, isMobile }) => {
           className={classes.commentBtn}
           startIcon={<SendIcon />}
           size={isMobile ? 'small' : 'medium'}
-          disabled={!user}
+          disabled={!user || submitting}
         >
-          {user ? 'Comment' : 'Login to comment'}
+          {!user ? 'Login to comment' : submitting ? 'Commenting' : 'Comment'}
         </Button>
       </form>
     </div>

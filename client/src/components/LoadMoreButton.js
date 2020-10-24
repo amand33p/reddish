@@ -18,7 +18,7 @@ const LoadMoreButton = ({ handleLoadPosts, loading }) => {
         className={classes.loadBtn}
         disabled={loading}
       >
-        {loading ? 'Loading more posts...' : 'Load more'}
+        {loading ? 'Loading...' : 'Load more'}
       </Button>
     </div>
   );

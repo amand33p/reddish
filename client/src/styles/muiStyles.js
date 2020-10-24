@@ -324,11 +324,9 @@ export const usePostFormStyles = makeStyles(
       alignItems: 'flex-end',
     },
     imagePreview: {
-      display: 'block',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      width: '50%',
-      marginTop: '1em',
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '0.7em',
     },
     clearSelectionBtn: {
       padding: '0.25em',

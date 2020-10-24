@@ -113,7 +113,7 @@ const UpdateAvatarForm = () => {
           htmlFor="image-upload"
           variant="outlined"
           color="primary"
-          fullWidth={!isMobile}
+          fullWidth
           startIcon={avatarInput ? <CheckCircleIcon /> : <PublishIcon />}
           size={isMobile ? 'small' : 'medium'}
           className={classes.selectBtn}

@@ -12,15 +12,19 @@ import EditIcon from '@material-ui/icons/Edit';
 const ReplyAndButtons = ({ isMobile, reply, postId, commentId, user }) => {
   const [editOpen, setEditOpen] = useState(false);
   const [editInput, setEditInput] = useState(reply.replyBody);
+  const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
   const classes = useCommentAndBtnsStyles();
 
   const handleEditReply = async () => {
     try {
-      dispatch(editReply(postId, commentId, reply.id, editInput));
+      setSubmitting(true);
+      await dispatch(editReply(postId, commentId, reply.id, editInput));
+      setSubmitting(false);
       setEditOpen(false);
       dispatch(notify(`Reply edited!`, 'success'));
     } catch (err) {
+      setSubmitting(false);
       if (err.response.data && err.response.data.message) {
         dispatch(notify(`${err.response.data.message}`, 'error'));
       } else {
@@ -75,8 +79,9 @@ const ReplyAndButtons = ({ isMobile, reply, postId, commentId, user }) => {
               variant="contained"
               startIcon={<SendIcon />}
               size="small"
+              disabled={submitting}
             >
-              Update
+              {submitting ? 'Updating' : 'Update'}
             </Button>
           </div>
         </div>
