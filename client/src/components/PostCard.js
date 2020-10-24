@@ -41,7 +41,7 @@ const PostCard = ({ post, toggleUpvote, toggleDownvote }) => {
     updatedAt,
   } = post;
 
-  const user = useSelector((state) => state.user);
+  const { user, darkMode } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const isUpvoted = user && upvotedBy.includes(user.id);
@@ -109,7 +109,13 @@ const PostCard = ({ post, toggleUpvote, toggleDownvote }) => {
         <Typography
           variant="body1"
           style={{
-            color: isUpvoted ? '#FF8b60' : isDownvoted ? '#9494FF' : '#333',
+            color: isUpvoted
+              ? '#FF8b60'
+              : isDownvoted
+              ? '#9494FF'
+              : darkMode
+              ? '#e4e4e4'
+              : '#333',
             fontWeight: 600,
           }}
         >

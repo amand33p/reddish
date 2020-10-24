@@ -35,7 +35,7 @@ const DeleteDialog = ({ title, handleDelete, handleMenuClose, type }) => {
           size="small"
           color="inherit"
           startIcon={<DeleteIcon />}
-          style={{ textTransform: 'capitalize' }}
+          style={{ textTransform: 'none' }}
         >
           Delete
         </Button>

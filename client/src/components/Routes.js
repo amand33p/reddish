@@ -18,7 +18,7 @@ const Routes = () => {
   return (
     <Switch>
       <Route exact path="/">
-        <Container disableGutters maxWidth="lg" className={classes.homepage}>
+        <Container disableGutters className={classes.homepage}>
           <div className={classes.postsPanel}>
             <PostFormModal />
             <PostList />

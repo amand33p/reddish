@@ -36,7 +36,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 const PostCommentsPage = () => {
   const { id: postId } = useParams();
   const post = useSelector((state) => state.postComments);
-  const user = useSelector((state) => state.user);
+  const { user, darkMode } = useSelector((state) => state);
   const [pageLoading, setPageLoading] = useState(true);
   const [pageError, setPageError] = useState(null);
   const dispatch = useDispatch();
@@ -158,7 +158,13 @@ const PostCommentsPage = () => {
             <Typography
               variant="body1"
               style={{
-                color: isUpvoted ? '#FF8b60' : isDownvoted ? '#9494FF' : '#333',
+                color: isUpvoted
+                  ? '#FF8b60'
+                  : isDownvoted
+                  ? '#9494FF'
+                  : darkMode
+                  ? '#e4e4e4'
+                  : '#333',
                 fontWeight: 600,
               }}
             >

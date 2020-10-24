@@ -1,3 +1,3 @@
-const backendUrl = 'http://localhost:3005';
+const backendUrl = 'https://readify-reddit.herokuapp.com';
 
 export default backendUrl;
