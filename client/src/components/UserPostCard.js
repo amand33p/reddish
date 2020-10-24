@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleUpvote, toggleDownvote } from '../reducers/userPageReducer';
 import { notify } from '../reducers/notificationReducer';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
@@ -14,6 +14,7 @@ import { Paper, Typography, Link, Button } from '@material-ui/core';
 import { useUserPostCardStyles } from '../styles/muiStyles';
 
 const UserPostCard = ({ post, user, isMobile }) => {
+  const { darkMode } = useSelector((state) => state);
   const dispatch = useDispatch();
   const classes = useUserPostCardStyles();
 
@@ -96,7 +97,13 @@ const UserPostCard = ({ post, user, isMobile }) => {
         <Typography
           variant="body1"
           style={{
-            color: isUpvoted ? '#FF8b60' : isDownvoted ? '#9494FF' : '#333',
+            color: isUpvoted
+              ? '#FF8b60'
+              : isDownvoted
+              ? '#9494FF'
+              : darkMode
+              ? '#e4e4e4'
+              : '#333',
             fontWeight: 600,
           }}
         >
