@@ -28,6 +28,8 @@ import PublishIcon from '@material-ui/icons/Publish';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import ChatIcon from '@material-ui/icons/Chat';
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import EditIcon from '@material-ui/icons/Edit';
 
 const validationSchema = yup.object({
   title: yup.string().required('Required'),
@@ -309,8 +311,15 @@ const AddPostForm = ({
               size="large"
               className={classes.submitButton}
               disabled={isSubmitting}
+              startIcon={postToEditId ? <EditIcon /> : <PostAddIcon />}
             >
-              {isSubmitting ? 'Submitting' : 'Submit'}
+              {postToEditId
+                ? isSubmitting
+                  ? 'Updating'
+                  : 'Update'
+                : isSubmitting
+                ? 'Posting'
+                : 'Post'}
             </Button>
           </Form>
         )}
