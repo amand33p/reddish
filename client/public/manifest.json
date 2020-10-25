@@ -1,6 +1,6 @@
 {
-  "short_name": "readify",
-  "name": "readify - reddit | amand33p",
+  "short_name": "reddish",
+  "name": "reddish | amand33p",
   "icons": [
     {
       "src": "favicon.png",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#FF5700",
+  "theme_color": "#ffa576",
   "background_color": "#ffa576"
 }

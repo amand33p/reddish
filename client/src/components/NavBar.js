@@ -51,7 +51,7 @@ const NavBar = () => {
                     startIcon={<RedditIcon fontSize="large" />}
                     size="large"
                   >
-                    readify
+                    reddish
                   </Button>
                   <Typography variant="caption" color="secondary">
                     Made with <FavoriteIcon style={{ fontSize: 12 }} /> by
