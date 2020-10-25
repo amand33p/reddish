@@ -20,7 +20,7 @@ router.get('/:username', async (req, res) => {
       .send({ message: `Username '${username}' does not exist on server.` });
   }
 
-  const postsCount = user.posts.length;
+  const postsCount = await Post.find({ author: user.id }).countDocuments();
   const paginated = paginateResults(page, limit, postsCount);
   const userPosts = await Post.find({ author: user.id })
     .sort({ createdAt: -1 })

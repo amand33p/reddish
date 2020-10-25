@@ -50,7 +50,10 @@ router.get('/r/:subredditName', async (req, res) => {
     });
   }
 
-  const postsCount = subreddit.posts.length;
+  const postsCount = await Post.find({
+    subreddit: subreddit.id,
+  }).countDocuments();
+
   const paginated = paginateResults(page, limit, postsCount);
   const subredditPosts = await Post.find({ subreddit: subreddit.id })
     .sort(sortQuery)
