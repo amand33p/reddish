@@ -1,6 +1,6 @@
 # Reddish - A Reddit Clone - MERN
 
-Simplified full-stack [reddit](https://www.reddit.com) clone (a social media site) made with MERN stack, w/ Redux for state management
+[Reddit](https://www.reddit.com) clone (a social media site) made with MERN stack, w/ Redux for state management
 
 ## Demo
 
