@@ -655,6 +655,9 @@ export const useSubredditPageStyles = makeStyles(
       display: 'flex',
       alignItems: 'flex-end',
       flexWrap: 'wrap',
+      [theme.breakpoints.down('xs')]: {
+        justifyContent: 'center',
+      },
     },
     inputDiv: {
       display: 'flex',

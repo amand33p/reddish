@@ -49,14 +49,16 @@ Simplified full-stack [reddit](https://www.reddit.com) clone (a social media sit
 
 ## Screenshots
 
-#### Desktop/Tablet Home
+#### Desktop/Tablet
 
-![Home](https://github.com/amand33p/to-view-list-mern/blob/master/screenshots/desktop-home.png)
+![Desktop-home](https://github.com/amand33p/reddish-reddit-clone-mern/blob/master/screenshots/desktop-home.png)
+![Desktop-2](https://github.com/amand33p/reddish-reddit-clone-mern/blob/master/screenshots/desktop-2.png)
+![Desktop-3](https://github.com/amand33p/reddish-reddit-clone-mern/blob/master/screenshots/desktop-3.png)
 
-#### Auth & Add Entry Form
+#### Mobile
 
-![Add entry & auth forms](https://github.com/amand33p/to-view-list-mern/blob/master/screenshots/forms.png)
-
-#### Responsive Mobile UI Home
-
-![Responsive Mobile UI w/ FAB](https://github.com/amand33p/to-view-list-mern/blob/master/screenshots/mobile-ui.png)
+![Mobile-home](https://github.com/amand33p/reddish-reddit-clone-mern/blob/master/screenshots/mobile-home.png)
+![Mobile-2](https://github.com/amand33p/reddish-reddit-clone-mern/blob/master/screenshots/mobile-2.png)
+![Mobile-3](https://github.com/amand33p/reddish-reddit-clone-mern/blob/master/screenshots/mobile-3.png)
+![Mobile-4](https://github.com/amand33p/reddish-reddit-clone-mern/blob/master/screenshots/mobile-4.png)
+![Mobile-5](https://github.com/amand33p/reddish-reddit-clone-mern/blob/master/screenshots/mobile-5.png)

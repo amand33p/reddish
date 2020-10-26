@@ -76,9 +76,6 @@ const UpdateAvatarForm = () => {
 
   return (
     <div>
-      <Typography color="secondary" variant="h4" className={classes.title}>
-        {user.avatar.exists ? 'Update your avatar' : 'Add an avatar'}
-      </Typography>
       {user.avatar.exists && (
         <div>
           <div className={classes.imagePreview}>
@@ -115,7 +112,6 @@ const UpdateAvatarForm = () => {
           color="primary"
           fullWidth
           startIcon={avatarInput ? <CheckCircleIcon /> : <PublishIcon />}
-          size={isMobile ? 'small' : 'medium'}
           className={classes.selectBtn}
         >
           {avatarInput
@@ -139,7 +135,7 @@ const UpdateAvatarForm = () => {
         </div>
       )}
       <Button
-        size={isMobile ? 'small' : 'large'}
+        size={isMobile ? 'medium' : 'large'}
         variant="contained"
         color="secondary"
         className={classes.submitButton}

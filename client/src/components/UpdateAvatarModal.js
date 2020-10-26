@@ -7,6 +7,7 @@ import {
   DialogContent,
   MenuItem,
   ListItemIcon,
+  Typography,
 } from '@material-ui/core';
 import { useDialogStyles } from '../styles/muiStyles';
 import FaceIcon from '@material-ui/icons/Face';
@@ -40,7 +41,11 @@ const UpdateAvatarModal = ({ handleCloseMenu, user }) => {
         classes={{ paper: classes.dialogWrapper }}
         fullWidth
       >
-        <DialogTitle onClose={handleClose}></DialogTitle>
+        <DialogTitle onClose={handleClose}>
+          <Typography color="primary" className={classes.dialogTitle}>
+            {user.avatar.exists ? 'Update your avatar' : 'Add an avatar'}
+          </Typography>
+        </DialogTitle>
         <DialogContent>
           <UpdateAvatarForm />
         </DialogContent>
