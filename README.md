@@ -1,6 +1,6 @@
 # Reddish - A Reddit Clone - MERN
 
-Simplified full-stack [reddit](https://www.reddit.com) clone (a social media site) made with MERN stack, w/ redux for state management
+Simplified full-stack [reddit](https://www.reddit.com) clone (a social media site) made with MERN stack, w/ Redux for state management
 
 ## Demo
 
@@ -12,6 +12,7 @@ Simplified full-stack [reddit](https://www.reddit.com) clone (a social media sit
 
 - [ReactJS](https://reactjs.org/) - Frontend framework
 - [Redux w/ useDispatch & useSelector hooks](https://redux.js.org/) - For state management
+- [Redux Thunk](https://github.com/reduxjs/redux-thunk) - For asynchronous actions
 - [React Router](https://reactrouter.com/) - For general routing & navigation
 - [Formik](https://formik.org/) - For flexible forms
 - [Material-UI w/ lots of CSS customisations](https://material-ui.com/) - UI library
