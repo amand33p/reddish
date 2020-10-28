@@ -629,7 +629,7 @@ export const useSubredditPageStyles = makeStyles(
       justifyContent: 'space-between',
       alignItems: 'center',
       [theme.breakpoints.down('xs')]: {
-        flexWrap: 'wrap',
+        flexDirection: 'column',
         justifyContent: 'center',
       },
     },
