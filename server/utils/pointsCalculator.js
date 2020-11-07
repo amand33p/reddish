@@ -17,7 +17,7 @@ const pointsCalculator = (upvotes, downvotes, createdDate) => {
   }
 
   result.hotAlgo =
-    Math.log(Math.max(Math.abs(upvotes - downvotes)), 1) + createdDate / 4500;
+    Math.log(Math.max(Math.abs(upvotes - downvotes), 1)) + createdDate / 4500;
 
   result.controversialAlgo =
     (upvotes + downvotes) / Math.max(Math.abs(upvotes - downvotes), 1);
