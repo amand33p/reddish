@@ -43,6 +43,7 @@
 - Pagination of posts
 - Error management to prevent app crashes
 - Sort comments by oldest, newest, most upvoted etc.
+- Avatar uploading for user profiles
 - Toast notifications for actions: adding posts, deleting comments etc.
 - Loading spinners for relevant fetching processes
 - Dark mode toggle w/ local storage save
