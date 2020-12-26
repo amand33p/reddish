@@ -196,17 +196,16 @@ const AddPostForm = ({
                       actionType === 'edit'
                         ? postToEditSub.subredditName
                         : !fromSubreddit
-                        ? 'Choose a subreddit'
+                        ? 'Choose a subreddish'
                         : fromSubreddit.subredditName
                     }
-                    placeholder="Search by subreddit name"
+                    placeholder="Search by subreddish name"
                     required
                     disabled={actionType === 'edit' || !!fromSubreddit}
                   />
                 )}
               />
             </div>
-
             <div className={classes.input}>
               <TitleIcon className={classes.inputIcon} color="primary" />
               <TextInput
