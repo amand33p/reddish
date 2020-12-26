@@ -76,7 +76,7 @@ const SubredditForm = ({ closeModal }) => {
               color="secondary"
               className={classes.formTitle}
             >
-              Create a new subreddit
+              Create a new subreddish
             </Typography>
             <div className={classes.input}>
               <Typography
@@ -90,7 +90,7 @@ const SubredditForm = ({ closeModal }) => {
                 name="subredditName"
                 type="text"
                 placeholder="Enter name"
-                label="Subreddit Name"
+                label="Subreddish Name"
                 required
                 fullWidth
               />
@@ -119,7 +119,7 @@ const SubredditForm = ({ closeModal }) => {
               disabled={isSubmitting}
               startIcon={<AddIcon />}
             >
-              {isSubmitting ? 'Creating' : 'Create Subreddit'}
+              {isSubmitting ? 'Creating' : 'Create Subreddish'}
             </Button>
           </Form>
         )}

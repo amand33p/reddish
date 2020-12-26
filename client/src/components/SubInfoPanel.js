@@ -60,7 +60,7 @@ const SubInfoPanel = () => {
     <Paper variant="outlined" className={classes.mainPaper}>
       <Paper variant="outlined" className={classes.listPaper}>
         <Typography variant="h5" color="secondary" className={classes.title}>
-          Top 10 subreddits
+          Top Subreddishes
         </Typography>
         {subreddits.topSubs.map((s, i) => (
           <div key={s.id} className={classes.listWrapper}>

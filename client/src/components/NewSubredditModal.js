@@ -42,13 +42,13 @@ const NewSubredditModal = ({ type, handleCloseMenu }) => {
           size="large"
           startIcon={<AddCircleIcon />}
         >
-          Create New Subreddit
+          Create New Subreddish
         </Button>
       ) : (
         <MenuItem onClick={handleOpenMenu}>
           <ListItemIcon>
             <AddCircleIcon style={{ marginRight: 7 }} />
-            Create Subreddit
+            Create Subreddish
           </ListItemIcon>
         </MenuItem>
       )}
