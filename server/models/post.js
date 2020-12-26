@@ -119,7 +119,7 @@ const postSchema = new mongoose.Schema({
   },
   hotAlgo: {
     type: Number,
-    default: 0,
+    default: Date.now,
   },
   controversialAlgo: {
     type: Number,
