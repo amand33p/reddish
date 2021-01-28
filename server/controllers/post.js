@@ -1,13 +1,11 @@
-const router = require('express').Router();
 const Post = require('../models/post');
 const Subreddit = require('../models/subreddit');
 const User = require('../models/user');
 const postTypeValidator = require('../utils/postTypeValidator');
-const { auth } = require('../utils/middleware');
 const { cloudinary } = require('../utils/config');
 const paginateResults = require('../utils/paginateResults');
 
-router.get('/', async (req, res) => {
+const getPosts = async (req, res) => {
   const page = Number(req.query.page);
   const limit = Number(req.query.limit);
   const sortBy = req.query.sortby;
@@ -53,9 +51,9 @@ router.get('/', async (req, res) => {
   };
 
   res.status(200).json(paginatedPosts);
-});
+};
 
-router.get('/subscribed', auth, async (req, res) => {
+const getSubscribedPosts = async (req, res) => {
   const page = Number(req.query.page);
   const limit = Number(req.query.limit);
 
@@ -92,9 +90,9 @@ router.get('/subscribed', auth, async (req, res) => {
   };
 
   res.status(200).json(paginatedPosts);
-});
+};
 
-router.get('/search', async (req, res) => {
+const getSearchedPosts = async (req, res) => {
   const page = Number(req.query.page);
   const limit = Number(req.query.limit);
   const query = req.query.query;
@@ -133,9 +131,9 @@ router.get('/search', async (req, res) => {
   };
 
   res.status(200).json(paginatedPosts);
-});
+};
 
-router.get('/:id/comments', async (req, res) => {
+const getPostAndComments = async (req, res) => {
   const { id } = req.params;
 
   const post = await Post.findById(id);
@@ -153,9 +151,9 @@ router.get('/:id/comments', async (req, res) => {
     .execPopulate();
 
   res.status(200).json(populatedPost);
-});
+};
 
-router.post('/', auth, async (req, res) => {
+const createNewPost = async (req, res) => {
   const {
     title,
     subreddit,
@@ -228,9 +226,9 @@ router.post('/', auth, async (req, res) => {
     .execPopulate();
 
   res.status(201).json(populatedPost);
-});
+};
 
-router.patch('/:id', auth, async (req, res) => {
+const updatePost = async (req, res) => {
   const { id } = req.params;
 
   const { textSubmission, linkSubmission, imageSubmission } = req.body;
@@ -270,7 +268,7 @@ router.patch('/:id', auth, async (req, res) => {
       post.linkSubmission = validatedFields.linkSubmission;
       break;
 
-    case 'Image':
+    case 'Image': {
       const uploadedImage = await cloudinary.uploader.upload(
         imageSubmission,
         {
@@ -286,6 +284,7 @@ router.patch('/:id', auth, async (req, res) => {
         imageId: uploadedImage.public_id,
       };
       break;
+    }
 
     default:
       return res.status(403).send({ message: 'Invalid post type.' });
@@ -302,9 +301,9 @@ router.patch('/:id', auth, async (req, res) => {
     .execPopulate();
 
   res.status(202).json(populatedPost);
-});
+};
 
-router.delete('/:id', auth, async (req, res) => {
+const deletePost = async (req, res) => {
   const { id } = req.params;
 
   const post = await Post.findById(id);
@@ -343,6 +342,14 @@ router.delete('/:id', auth, async (req, res) => {
   await author.save();
 
   res.status(204).end();
-});
+};
 
-module.exports = router;
+module.exports = {
+  getPosts,
+  getSubscribedPosts,
+  getSearchedPosts,
+  getPostAndComments,
+  createNewPost,
+  updatePost,
+  deletePost,
+};

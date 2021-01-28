@@ -1,10 +1,8 @@
-const router = require('express').Router();
 const Post = require('../models/post');
 const User = require('../models/user');
-const { auth } = require('../utils/middleware');
 const pointsCalculator = require('../utils/pointsCalculator');
 
-router.post('/:id/upvote', auth, async (req, res) => {
+const upvotePost = async (req, res) => {
   const { id } = req.params;
 
   const post = await Post.findById(id);
@@ -60,9 +58,9 @@ router.post('/:id/upvote', auth, async (req, res) => {
   await author.save();
 
   res.status(201).end();
-});
+};
 
-router.post('/:id/downvote', auth, async (req, res) => {
+const downvotePost = async (req, res) => {
   const { id } = req.params;
 
   const post = await Post.findById(id);
@@ -118,6 +116,6 @@ router.post('/:id/downvote', auth, async (req, res) => {
   await author.save();
 
   res.status(201).end();
-});
+};
 
-module.exports = router;
+module.exports = { upvotePost, downvotePost };

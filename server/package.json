@@ -21,5 +21,8 @@
     "mongoose": "^5.10.0",
     "mongoose-unique-validator": "^2.0.3",
     "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0"
   }
 }

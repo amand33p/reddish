@@ -1,16 +1,15 @@
-const router = require('express').Router();
 const Subreddit = require('../models/subreddit');
 const User = require('../models/user');
 const Post = require('../models/post');
-const { auth } = require('../utils/middleware');
+
 const paginateResults = require('../utils/paginateResults');
 
-router.get('/', async (_req, res) => {
+const getSubreddits = async (_req, res) => {
   const allSubreddits = await Subreddit.find({}).select('id subredditName');
   res.status(200).json(allSubreddits);
-});
+};
 
-router.get('/r/:subredditName', async (req, res) => {
+const getSubredditPosts = async (req, res) => {
   const { subredditName } = req.params;
   const page = Number(req.query.page);
   const limit = Number(req.query.limit);
@@ -70,18 +69,18 @@ router.get('/r/:subredditName', async (req, res) => {
   };
 
   res.status(200).json({ subDetails: subreddit, posts: paginatedPosts });
-});
+};
 
-router.get('/top10', async (_req, res) => {
+const getTopSubreddits = async (_req, res) => {
   const top10Subreddits = await Subreddit.find({})
     .sort({ subscriberCount: -1 })
     .limit(10)
     .select('-description -posts -admin ');
 
   res.status(200).json(top10Subreddits);
-});
+};
 
-router.post('/', auth, async (req, res) => {
+const createNewSubreddit = async (req, res) => {
   const { subredditName, description } = req.body;
 
   const admin = await User.findById(req.user);
@@ -115,9 +114,9 @@ router.post('/', auth, async (req, res) => {
   await admin.save();
 
   return res.status(201).json(savedSubreddit);
-});
+};
 
-router.patch('/:id', auth, async (req, res) => {
+const editSubDescription = async (req, res) => {
   const { description } = req.body;
   const { id } = req.params;
 
@@ -150,9 +149,9 @@ router.patch('/:id', auth, async (req, res) => {
 
   await subreddit.save();
   res.status(202).end();
-});
+};
 
-router.post('/:id/subscribe', auth, async (req, res) => {
+const subscribeToSubreddit = async (req, res) => {
   const { id } = req.params;
 
   const subreddit = await Subreddit.findById(id);
@@ -178,6 +177,13 @@ router.post('/:id/subscribe', auth, async (req, res) => {
   await user.save();
 
   res.status(201).end();
-});
+};
 
-module.exports = router;
+module.exports = {
+  getSubreddits,
+  getSubredditPosts,
+  getTopSubreddits,
+  createNewSubreddit,
+  editSubDescription,
+  subscribeToSubreddit,
+};

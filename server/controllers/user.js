@@ -1,11 +1,9 @@
-const router = require('express').Router();
 const User = require('../models/user');
 const Post = require('../models/post');
-const { auth } = require('../utils/middleware');
 const { cloudinary } = require('../utils/config');
 const paginateResults = require('../utils/paginateResults');
 
-router.get('/:username', async (req, res) => {
+const getUser = async (req, res) => {
   const { username } = req.params;
   const page = Number(req.query.page);
   const limit = Number(req.query.limit);
@@ -37,9 +35,9 @@ router.get('/:username', async (req, res) => {
   };
 
   res.status(200).json({ userDetails: user, posts: paginatedPosts });
-});
+};
 
-router.post('/avatar', auth, async (req, res) => {
+const setUserAvatar = async (req, res) => {
   const { avatarImage } = req.body;
 
   if (!avatarImage) {
@@ -74,9 +72,9 @@ router.post('/avatar', auth, async (req, res) => {
 
   const savedUser = await user.save();
   res.status(201).json({ avatar: savedUser.avatar });
-});
+};
 
-router.delete('/avatar', auth, async (req, res) => {
+const removeUserAvatar = async (req, res) => {
   const user = await User.findById(req.user);
 
   if (!user) {
@@ -93,6 +91,6 @@ router.delete('/avatar', auth, async (req, res) => {
 
   await user.save();
   res.status(204).end();
-});
+};
 
-module.exports = router;
+module.exports = { getUser, setUserAvatar, removeUserAvatar };
