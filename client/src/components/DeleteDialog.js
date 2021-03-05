@@ -53,8 +53,8 @@ const DeleteDialog = ({ title, handleDelete, handleMenuClose, type }) => {
       ) : (
         <MenuItem onClick={handleClickOpen}>
           <ListItemIcon>
-            <DeleteIcon style={{ marginRight: 5 }} />
-            <Typography variant="subtitle2">Delete</Typography>
+            <DeleteIcon style={{ marginRight: 7 }} />
+            Delete
           </ListItemIcon>
         </MenuItem>
       )}

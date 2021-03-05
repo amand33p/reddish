@@ -7,14 +7,11 @@ import { ReactComponent as Controversial } from '../svg/controversial.svg';
 import { ReactComponent as Old } from '../svg/old.svg';
 import { ReactComponent as Subscribed } from '../svg/subscribed.svg';
 
-import { Paper, Tabs, Tab, SvgIcon, useMediaQuery } from '@material-ui/core';
+import { Paper, Tabs, Tab, SvgIcon } from '@material-ui/core';
 import { useSortTabStyles } from '../styles/muiStyles';
-import { useTheme } from '@material-ui/core/styles';
 
 const SortTabBar = ({ sortBy, handleTabChange, subscribedTab, user }) => {
   const classes = useSortTabStyles();
-  const theme = useTheme();
-  const isTabletMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Paper variant="outlined" className={classes.mainPaper}>
@@ -23,7 +20,7 @@ const SortTabBar = ({ sortBy, handleTabChange, subscribedTab, user }) => {
         onChange={handleTabChange}
         indicatorColor="primary"
         textColor="primary"
-        variant={isTabletMobile ? 'scrollable' : 'fullWidth'}
+        variant="scrollable"
         scrollButtons="auto"
       >
         <Tab

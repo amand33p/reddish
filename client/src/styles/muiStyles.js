@@ -19,6 +19,7 @@ export const useMainPaperStyles = makeStyles(
       },
     },
     postsPanel: {
+      minWidth: '50vH',
       flexGrow: 1,
     },
   }),

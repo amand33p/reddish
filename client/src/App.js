@@ -7,7 +7,7 @@ import { setDarkMode } from './reducers/themeReducer';
 import { notify } from './reducers/notificationReducer';
 import NavBar from './components/NavBar';
 import ToastNotif from './components/ToastNotif';
-import Routes from './components/Routes';
+import Routes from './Routes';
 
 import { Paper } from '@material-ui/core/';
 import customTheme from './styles/customTheme';

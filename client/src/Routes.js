@@ -1,16 +1,16 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import PostFormModal from './PostFormModal';
-import PostList from './PostList';
-import PostCommentsPage from './PostCommentsPage';
-import UserPage from './UserPage';
-import SubredditPage from './SubredditPage';
-import SubInfoPanel from './SubInfoPanel';
-import SearchResults from './SearchResults';
-import NotFoundPage from './NotFoundPage';
+import PostFormModal from './components/PostFormModal';
+import PostList from './components/PostList';
+import PostCommentsPage from './components/PostCommentsPage';
+import UserPage from './components/UserPage';
+import SubredditPage from './components/SubredditPage';
+import SubInfoPanel from './components/SubInfoPanel';
+import SearchResults from './components/SearchResults';
+import NotFoundPage from './components/NotFoundPage';
 
 import { Container } from '@material-ui/core/';
-import { useMainPaperStyles } from '../styles/muiStyles';
+import { useMainPaperStyles } from './styles/muiStyles';
 
 const Routes = () => {
   const classes = useMainPaperStyles();
