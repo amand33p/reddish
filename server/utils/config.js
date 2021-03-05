@@ -1,9 +1,10 @@
 require('dotenv').config();
 const cloudinary = require('cloudinary').v2;
 
-let PORT = process.env.PORT;
-let MONGODB_URI = process.env.MONGODB_URI;
-let SECRET = process.env.SECRET;
+const PORT = process.env.PORT;
+const MONGODB_URI = process.env.MONGODB_URI;
+const SECRET = process.env.SECRET;
+const UPLOAD_PRESET = process.env.UPLOAD_PRESET || 'ml_default';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -16,4 +17,5 @@ module.exports = {
   MONGODB_URI,
   SECRET,
   cloudinary,
+  UPLOAD_PRESET,
 };

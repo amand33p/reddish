@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const Post = require('../models/post');
-const { cloudinary } = require('../utils/config');
+const { cloudinary, UPLOAD_PRESET } = require('../utils/config');
 const paginateResults = require('../utils/paginateResults');
 
 const getUser = async (req, res) => {
@@ -57,7 +57,7 @@ const setUserAvatar = async (req, res) => {
   const uploadedImage = await cloudinary.uploader.upload(
     avatarImage,
     {
-      upload_preset: 'readify',
+      upload_preset: UPLOAD_PRESET,
     },
     (error) => {
       if (error) return res.status(401).send({ message: error.message });

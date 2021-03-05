@@ -2,7 +2,7 @@ const Post = require('../models/post');
 const Subreddit = require('../models/subreddit');
 const User = require('../models/user');
 const postTypeValidator = require('../utils/postTypeValidator');
-const { cloudinary } = require('../utils/config');
+const { cloudinary, UPLOAD_PRESET } = require('../utils/config');
 const paginateResults = require('../utils/paginateResults');
 
 const getPosts = async (req, res) => {
@@ -198,7 +198,7 @@ const createNewPost = async (req, res) => {
     const uploadedImage = await cloudinary.uploader.upload(
       imageSubmission,
       {
-        upload_preset: 'readify',
+        upload_preset: UPLOAD_PRESET,
       },
       (error) => {
         if (error) return res.status(401).send({ message: error.message });
@@ -272,7 +272,7 @@ const updatePost = async (req, res) => {
       const uploadedImage = await cloudinary.uploader.upload(
         imageSubmission,
         {
-          upload_preset: 'readify',
+          upload_preset: UPLOAD_PRESET,
         },
         (error) => {
           if (error) return res.status(401).send({ message: error.message });

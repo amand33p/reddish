@@ -1,6 +1,6 @@
 # Reddish - A Reddit Clone - MERN
 
-[Reddit](https://www.reddit.com) clone (a social media site) made with MERN stack, w/ Redux for state management
+[Reddit](https://www.reddit.com) clone (a social media site) made w/ MERN stack & Redux.
 
 ## Demo
 
@@ -33,7 +33,7 @@
 
 ## Features
 
-- Authentication (login/register with username)
+- Authentication (login/register with username-password)
 - CRUD posts & comments
 - Add posts in the form of text, link or image
 - Upvote/downvote posts & comments
@@ -64,3 +64,37 @@
 ![Mobile-3](https://github.com/amand33p/reddish-mern/blob/master/screenshots/mobile-3.png)
 ![Mobile-4](https://github.com/amand33p/reddish-mern/blob/master/screenshots/mobile-4.png)
 ![Mobile-5](https://github.com/amand33p/reddish-mern/blob/master/screenshots/mobile-5.png)
+
+#### Env variable:
+
+Create .env file in server directory and add the following:
+
+```
+MONGODB_URI = "Your Mongo URI"
+PORT = 3005
+SECRET = "Your JWT secret"
+CLOUDINARY_NAME = "From your cloudinary dashboard"
+CLOUDINARY_API_KEY = "From your cloudinary dashboard"
+CLOUDINARY_API_SECRET = "From your cloudinary dashboard"
+UPLOAD_PRESET = "Folder/preset name from your cloudinary account" (OPTIONAL)
+```
+
+#### Client:
+
+Open client/src/backendUrl.js & change "backend" variable to `"http://localhost:3005"`
+
+```
+cd client
+npm install
+npm start
+```
+
+#### Server:
+
+Note: Make sure that you have installed 'nodemon' as global package.
+
+```
+cd server
+npm install
+npm run dev
+```
