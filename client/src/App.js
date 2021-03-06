@@ -21,9 +21,6 @@ const App = () => {
   const { darkMode } = useSelector((state) => state);
 
   useEffect(() => {
-    dispatch(setUser());
-    dispatch(setDarkMode());
-
     const setPostsAndSubreddits = async () => {
       try {
         await dispatch(fetchPosts('hot'));
@@ -34,6 +31,8 @@ const App = () => {
       }
     };
 
+    dispatch(setUser());
+    dispatch(setDarkMode());
     setPostsAndSubreddits();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
