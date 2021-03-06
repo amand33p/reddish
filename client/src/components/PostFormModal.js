@@ -13,7 +13,6 @@ import {
   Paper,
   Avatar,
   useMediaQuery,
-  Typography,
   MenuItem,
   ListItemIcon,
 } from '@material-ui/core';

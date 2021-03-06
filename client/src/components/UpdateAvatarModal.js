@@ -7,7 +7,6 @@ import {
   DialogContent,
   MenuItem,
   ListItemIcon,
-  Typography,
 } from '@material-ui/core';
 import { useDialogStyles } from '../styles/muiStyles';
 import FaceIcon from '@material-ui/icons/Face';

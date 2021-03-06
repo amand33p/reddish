@@ -68,7 +68,7 @@ export const useNavStyles = makeStyles(
     },
     search: {
       flexGrow: 0.75,
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         flexGrow: 1,
       },
     },
