@@ -37,9 +37,11 @@ const MobileUserMenu = ({ user, handleLogout }) => {
     handleLogout();
   };
 
+  const loggedUser = storageService.loadUser() || user;
+
   return (
     <div>
-      {(storageService.loadUser() || user) && user ? (
+      {loggedUser ? (
         <IconButton onClick={handleMenu} className={classes.userBtnMob}>
           {user.avatar && user.avatar.exists ? (
             <Avatar

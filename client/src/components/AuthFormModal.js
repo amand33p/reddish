@@ -20,12 +20,11 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const AuthFormModal = ({ closeMobileMenu, type }) => {
-  const [open, setOpen] = useState(false);
-
   const classes = useDialogStyles();
   const classesBtn = useNavStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);

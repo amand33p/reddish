@@ -38,9 +38,11 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
     handleLogout();
   };
 
+  const loggedUser = storageService.loadUser() || user;
+
   return (
     <div>
-      {(storageService.loadUser() || user) && user ? (
+      {loggedUser ? (
         <>
           <Button onClick={handleMenu} className={classes.userBtn}>
             {user.avatar && user.avatar.exists ? (
