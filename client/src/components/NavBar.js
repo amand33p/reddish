@@ -37,7 +37,7 @@ const NavBar = () => {
 
   return (
     <AppBar position="sticky" color="inherit" elevation={1}>
-      <Toolbar>
+      <Toolbar disableGutters={isMobile}>
         {!searchOpen && (
           <>
             <div className={classes.leftPortion}>

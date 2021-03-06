@@ -58,7 +58,7 @@ const NewSubredditModal = ({ type, handleCloseMenu }) => {
         classes={{ paper: classes.dialogWrapper }}
         fullWidth
       >
-        <DialogTitle onClose={handleClose}></DialogTitle>
+        <DialogTitle onClose={handleClose}>Create a new subreddish</DialogTitle>
         <DialogContent>
           <SubredditForm closeModal={handleClose} />
         </DialogContent>

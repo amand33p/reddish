@@ -67,13 +67,6 @@ const SubredditForm = ({ closeModal }) => {
       >
         {({ isSubmitting }) => (
           <Form className={classes.form}>
-            <Typography
-              variant="h4"
-              color="secondary"
-              className={classes.formTitle}
-            >
-              Create a new subreddish
-            </Typography>
             <div className={classes.input}>
               <Typography
                 className={classes.inputIconText}

@@ -107,7 +107,7 @@ const AuthForm = ({ closeModal }) => {
             <>
               <Form className={classes.form}>
                 <Typography
-                  variant="h4"
+                  variant="h5"
                   color="secondary"
                   className={classes.formTitle}
                 >

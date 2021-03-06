@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleUpvote, toggleDownvote } from '../reducers/userPageReducer';
 import { notify } from '../reducers/notificationReducer';
 import { UpvoteButton, DownvoteButton } from './VoteButtons';
-import ReactTimeAgo from 'react-time-ago';
+import TimeAgo from 'timeago-react';
 import ReactHtmlParser from 'react-html-parser';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
@@ -123,10 +123,10 @@ const UserPostCard = ({ post, user, isMobile }) => {
             <Link component={RouterLink} to={`/u/${author.username}`}>
               {` u/${author.username} `}
             </Link>
-            • <ReactTimeAgo date={new Date(createdAt)} />
+            • <TimeAgo datetime={new Date(createdAt)} />
             {createdAt !== updatedAt && (
               <em>
-                {' • edited'} <ReactTimeAgo date={new Date(updatedAt)} />
+                {' • edited'} <TimeAgo datetime={new Date(updatedAt)} />
               </em>
             )}
           </Typography>

@@ -6,7 +6,7 @@ import { notify } from '../reducers/notificationReducer';
 import EditDeleteMenu from './EditDeleteMenu';
 import getEditedThumbail from '../utils/cloudinaryTransform';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
-import ReactTimeAgo from 'react-time-ago';
+import TimeAgo from 'timeago-react';
 import getErrorMsg from '../utils/getErrorMsg';
 
 import {
@@ -87,6 +87,7 @@ const PostCard = ({ post, toggleUpvote, toggleDownvote }) => {
       : postType === 'Image'
       ? imageSubmission.imageLink
       : '';
+
   const formattedLink = trimLink(prettifyLink(linkToShow), 30);
 
   return (
@@ -183,7 +184,7 @@ const PostCard = ({ post, toggleUpvote, toggleDownvote }) => {
             <Link component={RouterLink} to={`/u/${author.username}`}>
               u/{author.username}
             </Link>{' '}
-            • <ReactTimeAgo date={new Date(createdAt)} />
+            • <TimeAgo datetime={new Date(createdAt)} />
             {createdAt !== updatedAt && '*'}
           </Typography>
         </Typography>

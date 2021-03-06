@@ -135,9 +135,7 @@ const AddPostModal = ({
         fullWidth={true}
       >
         <DialogTitle onClose={handleClose}>
-          <Typography color="primary" className={classes.dialogTitle}>
-            {actionType === 'edit' ? 'Update your post' : 'Add a new post'}
-          </Typography>
+          {actionType === 'edit' ? 'Update your post' : 'Add a new post'}
         </DialogTitle>
         <DialogContent>
           <PostForm

@@ -32,6 +32,9 @@ export const useNavStyles = makeStyles(
       flexGrow: 1,
       display: 'flex',
       alignItems: 'center',
+      [theme.breakpoints.down('xs')]: {
+        marginLeft: '1em',
+      },
     },
     logoWrapper: {
       marginRight: theme.spacing(10),
@@ -249,8 +252,10 @@ export const useCardStyles = makeStyles(
       marginTop: 30,
     },
     postInfoWrapper: {
-      paddingTop: 8,
-      paddingLeft: 8,
+      // paddingTop: 8,
+      // paddingLeft: 8,
+      padding: 10,
+      paddingBottom: 0,
     },
     userAndDate: {
       marginLeft: 10,

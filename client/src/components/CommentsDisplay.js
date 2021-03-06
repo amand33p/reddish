@@ -11,7 +11,7 @@ import {
   toggleReplyDownvote,
 } from '../reducers/postCommentsReducer';
 import { notify } from '../reducers/notificationReducer';
-import ReactTimeAgo from 'react-time-ago';
+import TimeAgo from 'timeago-react';
 import getErrorMsg from '../utils/getErrorMsg';
 
 import { Typography, Link } from '@material-ui/core';
@@ -162,10 +162,10 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
           {` ${comment.pointsCount} ${
             comment.pointsCount === 1 ? 'point' : 'points'
           } • `}
-          <ReactTimeAgo date={new Date(comment.createdAt)} />
+          <TimeAgo datetime={new Date(comment.createdAt)} />
           {comment.createdAt !== comment.updatedAt && (
             <em>
-              {' • edited'} <ReactTimeAgo date={new Date(comment.updatedAt)} />
+              {' • edited'} <TimeAgo datetime={new Date(comment.updatedAt)} />
             </em>
           )}
         </Typography>

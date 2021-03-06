@@ -14,7 +14,7 @@ import CommentsDisplay from './CommentsDisplay';
 import SortCommentsMenu from './SortCommentsMenu';
 import ErrorPage from './ErrorPage';
 import LoadingSpinner from './LoadingSpinner';
-import ReactTimeAgo from 'react-time-ago';
+import TimeAgo from 'timeago-react';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 import ReactHtmlParser from 'react-html-parser';
 import getErrorMsg from '../utils/getErrorMsg';
@@ -176,10 +176,10 @@ const PostCommentsPage = () => {
                 <Link component={RouterLink} to={`/u/${author.username}`}>
                   {` u/${author.username} `}
                 </Link>
-                • <ReactTimeAgo date={new Date(createdAt)} />
+                • <TimeAgo datetime={new Date(createdAt)} />
                 {createdAt !== updatedAt && (
                   <em>
-                    {' • edited'} <ReactTimeAgo date={new Date(updatedAt)} />
+                    {' • edited'} <TimeAgo datetime={new Date(updatedAt)} />
                   </em>
                 )}
               </Typography>

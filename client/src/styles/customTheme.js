@@ -5,10 +5,10 @@ const customTheme = (darkMode) =>
     palette: {
       type: darkMode ? 'dark' : 'light',
       primary: {
-        main: darkMode ? '#ffa576' : '#FF5700',
+        main: darkMode ? '#ffb28a' : '#FF5700',
       },
       secondary: {
-        main: darkMode ? '#eb878a' : '#941a1c',
+        main: darkMode ? '#f3b9bb' : '#941a1c',
       },
     },
     overrides: {

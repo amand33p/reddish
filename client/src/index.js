@@ -1,15 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import './index.css';
-import 'typeface-varela-round';
 import App from './App';
+import { Provider } from 'react-redux';
 import store from './store';
+import './index.css';
 import { BrowserRouter as Router } from 'react-router-dom';
-import JavascriptTimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
-
-JavascriptTimeAgo.addLocale(en);
+import 'typeface-varela-round';
 
 ReactDOM.render(
   <Router>

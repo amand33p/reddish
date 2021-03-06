@@ -41,9 +41,7 @@ const UpdateAvatarModal = ({ handleCloseMenu, user }) => {
         fullWidth
       >
         <DialogTitle onClose={handleClose}>
-          <Typography color="primary" className={classes.dialogTitle}>
-            {user.avatar.exists ? 'Update your avatar' : 'Add an avatar'}
-          </Typography>
+          {user.avatar.exists ? 'Update your avatar' : 'Add an avatar'}
         </DialogTitle>
         <DialogContent>
           <UpdateAvatarForm />
