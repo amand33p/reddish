@@ -20,22 +20,21 @@ const App = () => {
   const dispatch = useDispatch();
   const { darkMode } = useSelector((state) => state);
 
-  const setPostsAndSubreddits = async () => {
-    try {
-      await dispatch(fetchPosts('hot'));
-      await dispatch(setSubredditList());
-      await dispatch(setTopSubsList());
-      dispatch(setDarkMode());
-    } catch (err) {
-      dispatch(notify(getErrorMsg(err), 'error'));
-    }
-  };
-
   useEffect(() => {
     dispatch(setUser());
-    setPostsAndSubreddits().catch((err) => {
-      notify(getErrorMsg(err), 'error');
-    });
+    dispatch(setDarkMode());
+
+    const setPostsAndSubreddits = async () => {
+      try {
+        await dispatch(fetchPosts('hot'));
+        await dispatch(setSubredditList());
+        await dispatch(setTopSubsList());
+      } catch (err) {
+        dispatch(notify(getErrorMsg(err), 'error'));
+      }
+    };
+
+    setPostsAndSubreddits();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
