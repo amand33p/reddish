@@ -45,10 +45,10 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
       {loggedUser ? (
         <>
           <Button onClick={handleMenu} className={classes.userBtn}>
-            {user.avatar && user.avatar.exists ? (
+            {loggedUser?.avatar?.exists ? (
               <Avatar
-                alt={user.username}
-                src={getCircularAvatar(user.avatar.imageLink)}
+                alt={loggedUser.username}
+                src={getCircularAvatar(loggedUser.avatar.imageLink)}
                 variant="rounded"
                 className={classes.avatar}
               />
@@ -58,18 +58,18 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
                 variant="rounded"
                 className={classes.avatar}
               >
-                {user.username[0]}
+                {loggedUser.username[0]}
               </Avatar>
             )}
             <div>
-              <Typography color="secondary">{user.username}</Typography>
+              <Typography color="secondary">{loggedUser.username}</Typography>
               <Typography variant="caption" className={classes.karmaWrapper}>
                 <FilterVintageIcon
                   fontSize="inherit"
                   style={{ marginRight: '0.2em' }}
                   color="secondary"
                 />
-                {user.karma} karma
+                {loggedUser.karma} karma
               </Typography>
             </div>
           </Button>
@@ -89,7 +89,7 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
           >
             <MenuItem
               component={RouterLink}
-              to={`/u/${user.username}`}
+              to={`/u/${loggedUser.username}`}
               onClick={handleClose}
             >
               <ListItemIcon>
@@ -97,7 +97,10 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
               </ListItemIcon>
             </MenuItem>
             <NewSubredditModal type="menu" handleCloseMenu={handleClose} />
-            <UpdateAvatarModal handleCloseMenu={handleClose} user={user} />
+            <UpdateAvatarModal
+              handleCloseMenu={handleClose}
+              user={loggedUser}
+            />
             <MenuItem onClick={handleLogoutClick}>
               <ListItemIcon>
                 <PowerSettingsNewIcon style={{ marginRight: 7 }} /> Logout

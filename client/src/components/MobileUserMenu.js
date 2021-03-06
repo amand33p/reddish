@@ -43,10 +43,10 @@ const MobileUserMenu = ({ user, handleLogout }) => {
     <div>
       {loggedUser ? (
         <IconButton onClick={handleMenu} className={classes.userBtnMob}>
-          {user.avatar && user.avatar.exists ? (
+          {loggedUser?.avatar?.exists ? (
             <Avatar
-              alt={user.username}
-              src={getCircularAvatar(user.avatar.imageLink)}
+              alt={loggedUser.username}
+              src={getCircularAvatar(loggedUser.avatar.imageLink)}
               className={classes.avatar}
             />
           ) : (
@@ -54,7 +54,7 @@ const MobileUserMenu = ({ user, handleLogout }) => {
               style={{ backgroundColor: '#941a1c' }}
               className={classes.avatar}
             >
-              {user.username[0]}
+              {loggedUser.username[0]}
             </Avatar>
           )}
           <MoreVertIcon color="primary" />
@@ -78,11 +78,11 @@ const MobileUserMenu = ({ user, handleLogout }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {(storageService.loadUser() || user) && user ? (
+        {loggedUser ? (
           <div>
             <MenuItem
               component={RouterLink}
-              to={`/u/${user.username}`}
+              to={`/u/${loggedUser.username}`}
               onClick={handleClose}
             >
               <ListItemIcon>
@@ -90,7 +90,10 @@ const MobileUserMenu = ({ user, handleLogout }) => {
               </ListItemIcon>
             </MenuItem>
             <NewSubredditModal type="menu" handleCloseMenu={handleClose} />
-            <UpdateAvatarModal handleCloseMenu={handleClose} user={user} />
+            <UpdateAvatarModal
+              handleCloseMenu={handleClose}
+              user={loggedUser}
+            />
             <MenuItem onClick={handleLogoutClick}>
               <ListItemIcon>
                 <PowerSettingsNewIcon style={{ marginRight: 7 }} /> Logout
