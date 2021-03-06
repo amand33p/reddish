@@ -158,7 +158,7 @@ const removeReply = async (postId, commentId, replyId) => {
   return response.data;
 };
 
-export default {
+const postService = {
   getPosts,
   getSubPosts,
   getSearchResults,
@@ -179,3 +179,5 @@ export default {
   updateReply,
   removeReply,
 };
+
+export default postService;

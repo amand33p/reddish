@@ -4,8 +4,8 @@ import PostFormModal from './components/PostFormModal';
 import PostList from './components/PostList';
 import PostCommentsPage from './components/PostCommentsPage';
 import UserPage from './components/UserPage';
-import SubredditPage from './components/SubredditPage';
-import SubInfoPanel from './components/SubInfoPanel';
+import SubPage from './components/SubPage';
+import TopSubsPanel from './components/TopSubsPanel';
 import SearchResults from './components/SearchResults';
 import NotFoundPage from './components/NotFoundPage';
 
@@ -23,7 +23,7 @@ const Routes = () => {
             <PostFormModal />
             <PostList />
           </div>
-          <SubInfoPanel />
+          <TopSubsPanel />
         </Container>
       </Route>
       <Route exact path="/comments/:id">
@@ -33,7 +33,7 @@ const Routes = () => {
         <UserPage />
       </Route>
       <Route exact path="/r/:subreddit">
-        <SubredditPage />
+        <SubPage />
       </Route>
       <Route exact path="/search/:query">
         <SearchResults />

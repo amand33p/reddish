@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { loginUser, signupUser } from '../reducers/userReducer';
 import { Formik, Form } from 'formik';
@@ -31,7 +30,7 @@ const validationSchemaSignup = yup.object({
     .max(20, 'Must be at most 20 characters')
     .min(3, 'Must be at least 3 characters')
     .matches(
-      /^[a-zA-Z0-9]*$/,
+      /^[a-zA-Z0-9-_]*$/,
       'Only alphanumeric characters allowed, no spaces/symbols'
     ),
 
@@ -46,7 +45,7 @@ const validationSchemaLogin = yup.object({
   password: yup.string().required('Required'),
 });
 
-const AuthForm = ({ closeModal }) => {
+const AuthForm = () => {
   const dispatch = useDispatch();
   const [authType, setAuthType] = useState('login');
   const [showPass, setShowPass] = useState(false);
@@ -57,12 +56,9 @@ const AuthForm = ({ closeModal }) => {
     try {
       setSubmitting(true);
       await dispatch(loginUser(values));
-      setSubmitting(false);
-
       dispatch(
         notify(`Welcome, ${values.username}. You're logged in!`, 'success')
       );
-      closeModal();
     } catch (err) {
       setSubmitting(false);
       setError(getErrorMsg(err));
@@ -73,15 +69,12 @@ const AuthForm = ({ closeModal }) => {
     try {
       setSubmitting(true);
       await dispatch(signupUser(values));
-      setSubmitting(false);
-
       dispatch(
         notify(
           `Welcome, ${values.username}. You've been successfully registered.`,
           'success'
         )
       );
-      closeModal();
     } catch (err) {
       setSubmitting(false);
       setError(getErrorMsg(err));
@@ -218,10 +211,6 @@ const AuthForm = ({ closeModal }) => {
       </div>
     </div>
   );
-};
-
-AuthForm.propTypes = {
-  closeModal: PropTypes.func.isRequired,
 };
 
 export default AuthForm;

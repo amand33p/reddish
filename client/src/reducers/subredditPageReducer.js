@@ -1,4 +1,4 @@
-import subredditService from '../services/subreddits';
+import subService from '../services/subs';
 import postService from '../services/posts';
 
 const subredditPageReducer = (state = null, action) => {
@@ -40,7 +40,7 @@ const subredditPageReducer = (state = null, action) => {
 
 export const fetchSubreddit = (subredditName, sortBy) => {
   return async (dispatch) => {
-    const subreddit = await subredditService.getSubreddit(
+    const subreddit = await subService.getSubreddit(
       subredditName,
       sortBy,
       10,
@@ -56,7 +56,7 @@ export const fetchSubreddit = (subredditName, sortBy) => {
 
 export const loadSubPosts = (subredditName, sortBy, page) => {
   return async (dispatch) => {
-    const subreddit = await subredditService.getSubreddit(
+    const subreddit = await subService.getSubreddit(
       subredditName,
       sortBy,
       10,
@@ -111,13 +111,13 @@ export const toggleSubscribe = (id, subscribedBy) => {
       payload: { subscribedBy, subscriberCount },
     });
 
-    await subredditService.subscribeSub(id);
+    await subService.subscribeSub(id);
   };
 };
 
 export const editDescription = (id, description) => {
   return async (dispatch) => {
-    await subredditService.updateDescription(id, { description });
+    await subService.updateDescription(id, { description });
 
     dispatch({
       type: 'EDIT_DESCRIPTION',

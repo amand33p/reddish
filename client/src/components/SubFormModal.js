@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SubredditForm from './SubredditForm';
+import SubForm from './SubForm';
 
 import { DialogTitle } from './CustomDialogTitle';
 import {
@@ -12,7 +12,7 @@ import {
 import { useDialogStyles } from '../styles/muiStyles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-const NewSubredditModal = ({ type, handleCloseMenu }) => {
+const SubFormModal = ({ type, handleCloseMenu }) => {
   const classes = useDialogStyles();
   const [open, setOpen] = useState(false);
 
@@ -60,11 +60,11 @@ const NewSubredditModal = ({ type, handleCloseMenu }) => {
       >
         <DialogTitle onClose={handleClose}>Create a new subreddish</DialogTitle>
         <DialogContent>
-          <SubredditForm closeModal={handleClose} />
+          <SubForm closeModal={handleClose} />
         </DialogContent>
       </Dialog>
     </div>
   );
 };
 
-export default NewSubredditModal;
+export default SubFormModal;

@@ -1,4 +1,4 @@
-import subredditService from '../services/subreddits';
+import subService from '../services/subs';
 
 const subredditReducer = (state = null, action) => {
   switch (action.type) {
@@ -25,7 +25,7 @@ const subredditReducer = (state = null, action) => {
 
 export const setSubredditList = () => {
   return async (dispatch) => {
-    const subreddits = await subredditService.getAllSubreddits();
+    const subreddits = await subService.getAllSubreddits();
 
     dispatch({
       type: 'SET_ALL_SUBS_LIST',
@@ -36,7 +36,7 @@ export const setSubredditList = () => {
 
 export const setTopSubsList = () => {
   return async (dispatch) => {
-    const top10Subs = await subredditService.getTopSubreddits();
+    const top10Subs = await subService.getTopSubreddits();
 
     dispatch({
       type: 'SET_TOP_SUBS_LIST',
@@ -54,15 +54,13 @@ export const toggleSubscribe = (id, subscribedBy) => {
       payload: { id, data: { subscribedBy, subscriberCount } },
     });
 
-    await subredditService.subscribeSub(id);
+    await subService.subscribeSub(id);
   };
 };
 
 export const addNewSubreddit = (subredditObj) => {
   return async (dispatch) => {
-    const createdSubreddit = await subredditService.createSubreddit(
-      subredditObj
-    );
+    const createdSubreddit = await subService.createSubreddit(subredditObj);
 
     dispatch({
       type: 'ADD_NEW_SUB',

@@ -31,4 +31,6 @@ const removeAvatar = async () => {
   return response.data;
 };
 
-export default { getUser, uploadAvatar, removeAvatar };
+const userService = { getUser, uploadAvatar, removeAvatar };
+
+export default userService;

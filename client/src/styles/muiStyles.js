@@ -70,6 +70,7 @@ export const useNavStyles = makeStyles(
       flexGrow: 0.75,
       [theme.breakpoints.down('sm')]: {
         flexGrow: 1,
+        padding: '0 0.5em',
       },
     },
     searchBtn: {
@@ -173,6 +174,9 @@ export const useDialogStyles = makeStyles(
     },
     createSubBtn: {
       marginTop: '1em',
+    },
+    defaultAvatar: {
+      backgroundColor: theme.palette.secondary.main,
     },
   }),
   { index: 1 }
@@ -800,11 +804,13 @@ export const useUserMenuStyles = makeStyles(
     avatar: {
       width: theme.spacing(4),
       height: theme.spacing(4),
-      marginRight: '0.2em',
+      marginRight: '0.1em',
+      backgroundColor: theme.palette.secondary.main,
+      [theme.breakpoints.up('xs')]: {
+        marginRight: '0.5em',
+      },
     },
-    userBtnMob: {
-      padding: '0.1em',
-    },
+    userBtnMob: {},
     navItems: {
       display: 'flex',
       alignItems: 'center',

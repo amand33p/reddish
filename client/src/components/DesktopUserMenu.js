@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import AuthFormModal from './AuthFormModal';
-import NewSubredditModal from './NewSubredditModal';
+import SubFormModal from './SubFormModal';
 import UpdateAvatarModal from './UpdateAvatarModal';
 import DarkModeMenuItem from './DarkModeMenuItem';
 import { getCircularAvatar } from '../utils/cloudinaryTransform';
@@ -53,11 +53,7 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
                 className={classes.avatar}
               />
             ) : (
-              <Avatar
-                style={{ backgroundColor: '#941a1c' }}
-                variant="rounded"
-                className={classes.avatar}
-              >
+              <Avatar variant="rounded" className={classes.avatar}>
                 {loggedUser.username[0]}
               </Avatar>
             )}
@@ -96,7 +92,7 @@ const DesktopUserMenu = ({ user, handleLogout }) => {
                 <AccountCircleIcon style={{ marginRight: 7 }} /> My Profile
               </ListItemIcon>
             </MenuItem>
-            <NewSubredditModal type="menu" handleCloseMenu={handleClose} />
+            <SubFormModal type="menu" handleCloseMenu={handleClose} />
             <UpdateAvatarModal
               handleCloseMenu={handleClose}
               user={loggedUser}

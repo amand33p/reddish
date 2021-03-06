@@ -79,7 +79,7 @@ const AuthFormModal = ({ closeMobileMenu, type }) => {
       >
         <DialogTitle onClose={handleClose}></DialogTitle>
         <DialogContent>
-          <AuthForm closeModal={handleClose} />
+          <AuthForm />
         </DialogContent>
       </Dialog>
     </div>

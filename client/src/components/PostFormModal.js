@@ -101,7 +101,7 @@ const AddPostModal = ({
               src={getCircularAvatar(user.avatar.imageLink)}
             />
           ) : (
-            <Avatar style={{ backgroundColor: '#941a1c' }}>
+            <Avatar className={classes.defaultAvatar}>
               {user.username[0]}
             </Avatar>
           )}
@@ -140,7 +140,6 @@ const AddPostModal = ({
           <PostForm
             actionType={actionType}
             postType={postType}
-            closeModal={handleClose}
             postToEditType={postToEditType}
             postToEditTitle={postToEditTitle}
             postToEditSub={postToEditSub}

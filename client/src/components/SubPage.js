@@ -35,7 +35,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 
-const SubredditPage = () => {
+const SubPage = () => {
   const classes = useSubredditPageStyles();
   const { subreddit } = useParams();
   const dispatch = useDispatch();
@@ -117,11 +117,7 @@ const SubredditPage = () => {
         : `Subscribed to r/${subredditName}!`;
       dispatch(notify(message, 'success'));
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -133,11 +129,7 @@ const SubredditPage = () => {
         notify(`Updated description of your sub: r/${subredditName}`, 'success')
       );
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -153,11 +145,7 @@ const SubredditPage = () => {
       }
     } catch (err) {
       setPostsLoading(false);
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -168,11 +156,7 @@ const SubredditPage = () => {
       setPage((prevState) => prevState + 1);
       setLoadingMore(false);
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -324,4 +308,4 @@ const SubredditPage = () => {
   );
 };
 
-export default SubredditPage;
+export default SubPage;

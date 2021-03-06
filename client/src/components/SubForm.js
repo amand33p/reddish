@@ -21,7 +21,7 @@ const validationSchema = yup.object({
     .max(20, 'Must be at most 20 characters')
     .min(3, 'Must be at least 3 characters')
     .matches(
-      /^[a-zA-Z0-9]*$/,
+      /^[a-zA-Z0-9-_]*$/,
       'Only alphanumeric characters allowed, no spaces/symbols'
     ),
   description: yup
@@ -31,26 +31,22 @@ const validationSchema = yup.object({
     .min(3, 'Must be at least 3 characters'),
 });
 
-const SubredditForm = ({ closeModal }) => {
+const SubForm = ({ closeModal }) => {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const classes = useSubredditFormStyles();
   const history = useHistory();
 
-  const handleCreateSubreddit = async (
-    values,
-    { setSubmitting, resetForm }
-  ) => {
+  const handleCreateSubreddit = async (values, { setSubmitting }) => {
     try {
       setSubmitting(true);
       await dispatch(addNewSubreddit(values));
       setSubmitting(false);
       history.push(`/r/${values.subredditName}`);
-      dispatch(
-        notify(`New subreddit created: r/${values.subredditName}`, 'success')
-      );
-      resetForm();
-      closeModal();
+      // dispatch(
+      //   notify(`New subreddish created: r/${values.subredditName}`, 'success')
+      // );
+      // closeModal();
     } catch (err) {
       setSubmitting(false);
       dispatch(notify(getErrorMsg(err), 'error'));
@@ -122,4 +118,4 @@ const SubredditForm = ({ closeModal }) => {
   );
 };
 
-export default SubredditForm;
+export default SubForm;

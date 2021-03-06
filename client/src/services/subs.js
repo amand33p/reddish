@@ -50,7 +50,7 @@ const getTopSubreddits = async () => {
   return response.data;
 };
 
-export default {
+const subService = {
   getAllSubreddits,
   createSubreddit,
   getSubreddit,
@@ -58,3 +58,5 @@ export default {
   updateDescription,
   getTopSubreddits,
 };
+
+export default subService;

@@ -8,6 +8,7 @@ import { createNewPost, updatePost } from '../reducers/postCommentsReducer';
 import { notify } from '../reducers/notificationReducer';
 import * as yup from 'yup';
 import AlertMessage from './AlertMessage';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import {
   Button,
@@ -45,7 +46,6 @@ const validationSchema = yup.object({
 
 const AddPostForm = ({
   postType,
-  closeModal,
   actionType,
   postToEditType,
   postToEditTitle,
@@ -75,43 +75,29 @@ const AddPostForm = ({
     setFileName('');
   };
 
-  const handleAddPost = async (values, { setSubmitting, resetForm }) => {
+  const handleAddPost = async (values, { setSubmitting }) => {
     try {
       setSubmitting(true);
       const postId = await dispatch(createNewPost(values));
       setSubmitting(false);
       history.push(`/comments/${postId}`);
-
       dispatch(notify('Added new post!', 'success'));
-      resetForm();
-      closeModal();
     } catch (err) {
       setSubmitting(false);
-      if (err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError(err.message);
-      }
+      setError(getErrorMsg(err));
     }
   };
 
-  const handleUpdatePost = async (values, { setSubmitting, resetForm }) => {
+  const handleUpdatePost = async (values, { setSubmitting }) => {
     try {
       setSubmitting(true);
       await dispatch(updatePost(postToEditId, values));
       setSubmitting(false);
       history.push(`/comments/${postToEditId}`);
-
       dispatch(notify('Successfully updated the post!', 'success'));
-      resetForm();
-      closeModal();
     } catch (err) {
       setSubmitting(false);
-      if (err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError(err.message);
-      }
+      setError(getErrorMsg(err));
     }
   };
 
@@ -199,7 +185,7 @@ const AddPostForm = ({
                         ? 'Choose a subreddish'
                         : fromSubreddit.subredditName
                     }
-                    placeholder="Search by subreddish name"
+                    placeholder="Search by name"
                     required
                     disabled={actionType === 'edit' || !!fromSubreddit}
                   />

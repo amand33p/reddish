@@ -3,8 +3,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleSubscribe } from '../reducers/subredditReducer';
 import { notify } from '../reducers/notificationReducer';
-import NewSubredditModal from './NewSubredditModal';
+import SubFormModal from './SubFormModal';
 import getErrorMsg from '../utils/getErrorMsg';
+import storageService from '../utils/localStorage';
 
 import {
   Paper,
@@ -18,7 +19,7 @@ import { useTheme } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 
-const SubInfoPanel = () => {
+const TopSubsPanel = () => {
   const { subreddits, user } = useSelector((state) => state);
   const dispatch = useDispatch();
   const classes = useSubPanelStyles();
@@ -28,6 +29,8 @@ const SubInfoPanel = () => {
   if (isNotDesktop || !subreddits || !subreddits.topSubs) {
     return null;
   }
+
+  const loggedUser = storageService.loadUser() || user;
 
   const isSubscribed = (subscribedBy, user) => {
     return subscribedBy.includes(user.id);
@@ -72,7 +75,7 @@ const SubInfoPanel = () => {
               </Link>
               {` - ${s.subscriberCount} members `}
             </Typography>
-            {user && (
+            {loggedUser && (
               <Button
                 variant="outlined"
                 color="primary"
@@ -94,9 +97,9 @@ const SubInfoPanel = () => {
           </div>
         ))}
       </Paper>
-      {user && <NewSubredditModal />}
+      {loggedUser && <SubFormModal />}
     </Paper>
   );
 };
 
-export default SubInfoPanel;
+export default TopSubsPanel;

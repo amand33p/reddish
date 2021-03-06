@@ -17,4 +17,6 @@ const signup = async (enteredData) => {
   return response.data;
 };
 
-export default { setToken, login, signup };
+const authService = { setToken, login, signup };
+
+export default authService;
