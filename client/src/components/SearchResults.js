@@ -11,6 +11,7 @@ import { notify } from '../reducers/notificationReducer';
 import PostCard from './PostCard';
 import LoadMoreButton from './LoadMoreButton';
 import LoadingSpinner from './LoadingSpinner';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import { Container, Paper, Typography } from '@material-ui/core';
 import { useSearchPageStyles } from '../styles/muiStyles';
@@ -18,13 +19,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 
 const SearchResults = () => {
+  const classes = useSearchPageStyles();
   const { query } = useParams();
+  const dispatch = useDispatch();
   const searchResults = useSelector((state) => state.search);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
-  const dispatch = useDispatch();
-  const classes = useSearchPageStyles();
 
   useEffect(() => {
     const getSearchResults = async () => {
@@ -33,11 +34,7 @@ const SearchResults = () => {
         await dispatch(setSearchResults(query));
         setPageLoading(false);
       } catch (err) {
-        if (err.response.data && err.response.data.message) {
-          dispatch(notify(`${err.response.data.message}`, 'error'));
-        } else {
-          dispatch(notify(`Something went wrong.`, 'error'));
-        }
+        dispatch(notify(getErrorMsg(err), 'error'));
       }
     };
     getSearchResults();
@@ -62,11 +59,7 @@ const SearchResults = () => {
       setPage((prevState) => prevState + 1);
       setLoadingMore(false);
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

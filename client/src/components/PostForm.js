@@ -246,7 +246,6 @@ const AddPostForm = ({
                     onChange={(e) => fileInputOnChange(e, setFieldValue)}
                     required={values.postType === 'Image'}
                   />
-
                   <Button
                     component="label"
                     htmlFor="image-upload"

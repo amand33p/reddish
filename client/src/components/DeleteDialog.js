@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   Button,
   Dialog,
@@ -8,7 +7,6 @@ import {
   DialogContentText,
   DialogTitle,
   MenuItem,
-  Typography,
   ListItemIcon,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';

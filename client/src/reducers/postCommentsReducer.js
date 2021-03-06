@@ -98,8 +98,6 @@ const postPageReducer = (state = null, action) => {
         ...state,
         comments: state.comments.sort((a, b) => {
           switch (action.payload) {
-            case 'old':
-              return new Date(a.createdAt) - new Date(b.createdAt);
             case 'new':
               return new Date(b.createdAt) - new Date(a.createdAt);
             case 'upvoted':
@@ -109,7 +107,7 @@ const postPageReducer = (state = null, action) => {
             case 'replied':
               return b.replies.length - a.replies.length;
             default:
-              return null;
+              return new Date(a.createdAt) - new Date(b.createdAt);
           }
         }),
       };

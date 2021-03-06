@@ -7,6 +7,7 @@ import { TextInput } from './FormikMuiFields';
 import { notify } from '../reducers/notificationReducer';
 import AlertMessage from './AlertMessage';
 import * as yup from 'yup';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import { useSubredditFormStyles } from '../styles/muiStyles';
 import { Button, Typography } from '@material-ui/core';
@@ -48,16 +49,11 @@ const SubredditForm = ({ closeModal }) => {
       dispatch(
         notify(`New subreddit created: r/${values.subredditName}`, 'success')
       );
-
       resetForm();
       closeModal();
     } catch (err) {
       setSubmitting(false);
-      if (err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError(err.message);
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

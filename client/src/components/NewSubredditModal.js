@@ -13,9 +13,8 @@ import { useDialogStyles } from '../styles/muiStyles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 const NewSubredditModal = ({ type, handleCloseMenu }) => {
-  const [open, setOpen] = useState(false);
-
   const classes = useDialogStyles();
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);

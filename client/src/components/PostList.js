@@ -11,6 +11,7 @@ import PostCard from './PostCard';
 import SortTabBar from './SortTabBar';
 import LoadMoreButton from './LoadMoreButton';
 import LoadingSpinner from './LoadingSpinner';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import { Typography } from '@material-ui/core';
 import { usePostListStyles } from '../styles/muiStyles';
@@ -37,11 +38,7 @@ const PostList = () => {
       }
     } catch (err) {
       setPageLoading(false);
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -52,11 +49,8 @@ const PostList = () => {
       setPage((prevState) => prevState + 1);
       setLoadingMore(false);
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      setLoadingMore(false);
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

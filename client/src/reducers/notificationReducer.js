@@ -11,7 +11,9 @@ const notificationReducer = (state = null, action) => {
 
 let timeoutID = null;
 
-export const notify = (message, severity, duration = 5) => {
+export const notify = (message, severity) => {
+  const duration = severity === 'error' ? 15 : 5;
+
   return (dispatch) => {
     clearTimeout(timeoutID);
 

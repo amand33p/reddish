@@ -22,8 +22,8 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
 const DesktopUserMenu = ({ user, handleLogout }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
   const classes = useUserMenuStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);

@@ -7,6 +7,7 @@ import {
 } from '../reducers/postCommentsReducer';
 import { notify } from '../reducers/notificationReducer';
 import DeleteDialog from './DeleteDialog';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import { TextField, Button, Typography } from '@material-ui/core';
 import { useCommentAndBtnsStyles } from '../styles/muiStyles';
@@ -15,13 +16,13 @@ import SendIcon from '@material-ui/icons/Send';
 import EditIcon from '@material-ui/icons/Edit';
 
 const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
+  const classes = useCommentAndBtnsStyles();
+  const dispatch = useDispatch();
   const [replyOpen, setReplyOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [replyInput, setReplyInput] = useState('');
   const [editInput, setEditInput] = useState(comment.commentBody);
   const [submitting, setSubmitting] = useState(false);
-  const dispatch = useDispatch();
-  const classes = useCommentAndBtnsStyles();
 
   const handlePostReply = async () => {
     try {
@@ -33,11 +34,7 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
       dispatch(notify(`Reply submitted!`, 'success'));
     } catch (err) {
       setSubmitting(false);
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -50,11 +47,7 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
       dispatch(notify(`Comment edited!`, 'success'));
     } catch (err) {
       setSubmitting(false);
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -63,11 +56,7 @@ const CommentAndButtons = ({ isMobile, comment, postId, user }) => {
       await dispatch(deleteComment(postId, comment.id));
       dispatch(notify(`Comment deleted!`, 'success'));
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

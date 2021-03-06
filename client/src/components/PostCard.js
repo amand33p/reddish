@@ -7,6 +7,7 @@ import EditDeleteMenu from './EditDeleteMenu';
 import getEditedThumbail from '../utils/cloudinaryTransform';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 import ReactTimeAgo from 'react-time-ago';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import {
   Paper,
@@ -41,15 +42,14 @@ const PostCard = ({ post, toggleUpvote, toggleDownvote }) => {
     updatedAt,
   } = post;
 
-  const { user, darkMode } = useSelector((state) => state);
+  const classes = useCardStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const dispatch = useDispatch();
+  const { user, darkMode } = useSelector((state) => state);
 
   const isUpvoted = user && upvotedBy.includes(user.id);
   const isDownvoted = user && downvotedBy.includes(user.id);
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
-  const classes = useCardStyles();
 
   const handleUpvoteToggle = async () => {
     try {
@@ -62,11 +62,7 @@ const PostCard = ({ post, toggleUpvote, toggleDownvote }) => {
         dispatch(toggleUpvote(id, updatedUpvotedBy, updatedDownvotedBy));
       }
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -81,11 +77,7 @@ const PostCard = ({ post, toggleUpvote, toggleDownvote }) => {
         dispatch(toggleDownvote(id, updatedDownvotedBy, updatedUpvotedBy));
       }
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

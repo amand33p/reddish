@@ -13,9 +13,8 @@ import { useDialogStyles } from '../styles/muiStyles';
 import FaceIcon from '@material-ui/icons/Face';
 
 const UpdateAvatarModal = ({ handleCloseMenu, user }) => {
-  const [open, setOpen] = useState(false);
-
   const classes = useDialogStyles();
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);

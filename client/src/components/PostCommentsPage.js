@@ -17,6 +17,7 @@ import LoadingSpinner from './LoadingSpinner';
 import ReactTimeAgo from 'react-time-ago';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 import ReactHtmlParser from 'react-html-parser';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import {
   Container,
@@ -47,11 +48,7 @@ const PostCommentsPage = () => {
         await dispatch(fetchPostComments(postId));
         setPageLoading(false);
       } catch (err) {
-        if (err.response.data && err.response.data.message) {
-          setPageError(err.response.data.message);
-        } else {
-          setPageError('Something went wrong.');
-        }
+        setPageError(getErrorMsg(err));
       }
     };
     getComments();
@@ -114,11 +111,7 @@ const PostCommentsPage = () => {
         dispatch(toggleUpvote(id, updatedUpvotedBy, updatedDownvotedBy));
       }
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -133,11 +126,7 @@ const PostCommentsPage = () => {
         dispatch(toggleDownvote(id, updatedDownvotedBy, updatedUpvotedBy));
       }
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

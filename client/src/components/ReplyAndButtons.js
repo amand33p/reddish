@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { editReply, deleteReply } from '../reducers/postCommentsReducer';
 import { notify } from '../reducers/notificationReducer';
 import DeleteDialog from './DeleteDialog';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import { TextField, Button, Typography } from '@material-ui/core';
 import { useCommentAndBtnsStyles } from '../styles/muiStyles';
@@ -25,11 +26,7 @@ const ReplyAndButtons = ({ isMobile, reply, postId, commentId, user }) => {
       dispatch(notify(`Reply edited!`, 'success'));
     } catch (err) {
       setSubmitting(false);
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -38,11 +35,7 @@ const ReplyAndButtons = ({ isMobile, reply, postId, commentId, user }) => {
       await dispatch(deleteReply(postId, commentId, reply.id));
       dispatch(notify(`Reply deleted!`, 'success'));
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

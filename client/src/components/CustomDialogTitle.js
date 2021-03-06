@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Typography, IconButton } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';

@@ -7,9 +7,9 @@ import { useSortCommentsStyles } from '../styles/muiStyles';
 import SortIcon from '@material-ui/icons/Sort';
 
 const SortCommentsMenu = () => {
-  const [sortBy, setSortBy] = useState('old');
-  const dispatch = useDispatch();
   const classes = useSortCommentsStyles();
+  const dispatch = useDispatch();
+  const [sortBy, setSortBy] = useState('old');
 
   const handleSortComments = (value) => {
     setSortBy(value);

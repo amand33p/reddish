@@ -12,16 +12,16 @@ import {
 } from '../reducers/postCommentsReducer';
 import { notify } from '../reducers/notificationReducer';
 import ReactTimeAgo from 'react-time-ago';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import { Typography, Link } from '@material-ui/core';
 import { usePostCommentsStyles } from '../styles/muiStyles';
 import ForumIcon from '@material-ui/icons/Forum';
 
 const CommentsDisplay = ({ comments, postId, isMobile }) => {
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-
   const classes = usePostCommentsStyles();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const handleCommentUpvote = async (commentId) => {
     const { upvotedBy, downvotedBy } = comments.find((c) => c.id === commentId);
@@ -45,11 +45,7 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
         );
       }
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -80,11 +76,7 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
         );
       }
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -120,11 +112,7 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
         );
       }
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -160,11 +148,7 @@ const CommentsDisplay = ({ comments, postId, isMobile }) => {
         );
       }
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

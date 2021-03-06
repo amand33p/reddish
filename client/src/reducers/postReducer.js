@@ -29,6 +29,7 @@ const postReducer = (state = null, action) => {
 export const fetchPosts = (sortBy) => {
   return async (dispatch) => {
     let posts;
+
     if (sortBy !== 'subscribed') {
       posts = await postService.getPosts(sortBy, 10, 1);
     } else {

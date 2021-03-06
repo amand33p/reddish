@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleSubscribe } from '../reducers/subredditReducer';
 import { notify } from '../reducers/notificationReducer';
 import NewSubredditModal from './NewSubredditModal';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import {
   Paper,
@@ -48,11 +49,7 @@ const SubInfoPanel = () => {
         : `Subscribed to r/${subredditName}!`;
       dispatch(notify(message, 'success'));
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

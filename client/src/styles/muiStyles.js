@@ -19,7 +19,7 @@ export const useMainPaperStyles = makeStyles(
       },
     },
     postsPanel: {
-      minWidth: '50vH',
+      minWidth: '40vW',
       flexGrow: 1,
     },
   }),
@@ -313,6 +313,7 @@ export const usePostFormStyles = makeStyles(
       paddingBottom: 0,
       marginRight: 9,
       fontWeight: 700,
+      wordBreak: 'keep-all',
     },
     typeBtnGroup: {
       marginBottom: 5,
@@ -774,6 +775,7 @@ export const useSubredditFormStyles = makeStyles(
       paddingBottom: 0,
       marginRight: 9,
       fontWeight: 700,
+      wordBreak: 'keep-all',
     },
     descInput: {
       display: 'flex',

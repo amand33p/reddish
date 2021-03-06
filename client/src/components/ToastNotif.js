@@ -14,8 +14,6 @@ const ToastNotif = () => {
   }
 
   const { message, severity } = notification;
-  const open = !!notification;
-  const duration = 5;
 
   const handleNotifClose = () => {
     dispatch(clearNotif());
@@ -23,8 +21,7 @@ const ToastNotif = () => {
 
   return (
     <Snackbar
-      open={open}
-      autoHideDuration={duration * 1000}
+      open={!!notification}
       onClose={handleNotifClose}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >

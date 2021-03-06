@@ -3,16 +3,17 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addComment } from '../reducers/postCommentsReducer';
 import { notify } from '../reducers/notificationReducer';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import { Link, Typography, TextField, Button } from '@material-ui/core';
 import { useCommentInputStyles } from '../styles/muiStyles';
 import SendIcon from '@material-ui/icons/Send';
 
 const CommentInput = ({ user, postId, isMobile }) => {
+  const classes = useCommentInputStyles();
+  const dispatch = useDispatch();
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const dispatch = useDispatch();
-  const classes = useCommentInputStyles();
 
   const handlePostComment = async (e) => {
     e.preventDefault();
@@ -24,11 +25,7 @@ const CommentInput = ({ user, postId, isMobile }) => {
       dispatch(notify(`Comment submitted!`, 'success'));
     } catch (err) {
       setSubmitting(false);
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

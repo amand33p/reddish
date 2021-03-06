@@ -8,6 +8,7 @@ import UserPostCard from './UserPostCard';
 import ErrorPage from './ErrorPage';
 import LoadMoreButton from './LoadMoreButton';
 import LoadingSpinner from './LoadingSpinner';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import {
   Container,
@@ -22,14 +23,17 @@ import CakeIcon from '@material-ui/icons/Cake';
 import PersonIcon from '@material-ui/icons/Person';
 
 const UserPage = () => {
+  const classes = useUserPageStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const { username } = useParams();
+  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userPage);
   const user = useSelector((state) => state.user);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [pageError, setPageError] = useState(null);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const getUser = async () => {
@@ -37,20 +41,12 @@ const UserPage = () => {
         await dispatch(fetchUser(username));
         setPageLoading(false);
       } catch (err) {
-        if (err.response.data && err.response.data.message) {
-          setPageError(err.response.data.message);
-        } else {
-          setPageError('Something went wrong.');
-        }
+        setPageError(getErrorMsg(err), 'error');
       }
     };
     getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
-
-  const classes = useUserPageStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
   if (pageError) {
     return (

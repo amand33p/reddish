@@ -16,6 +16,7 @@ import LoadMoreButton from './LoadMoreButton';
 import PostFormModal from './PostFormModal';
 import ErrorPage from './ErrorPage';
 import LoadingSpinner from './LoadingSpinner';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import {
   Container,
@@ -35,7 +36,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 
 const SubredditPage = () => {
+  const classes = useSubredditPageStyles();
   const { subreddit } = useParams();
+  const dispatch = useDispatch();
   const sub = useSelector((state) => state.subredditPage);
   const user = useSelector((state) => state.user);
   const [editOpen, setEditOpen] = useState(false);
@@ -46,8 +49,6 @@ const SubredditPage = () => {
   const [pageLoading, setPageLoading] = useState(true);
   const [postsLoading, setPostsLoading] = useState(false);
   const [pageError, setPageError] = useState(null);
-  const dispatch = useDispatch();
-  const classes = useSubredditPageStyles();
 
   useEffect(() => {
     const getSubreddit = async () => {
@@ -55,11 +56,7 @@ const SubredditPage = () => {
         await dispatch(fetchSubreddit(subreddit, 'hot'));
         setPageLoading(false);
       } catch (err) {
-        if (err.response.data && err.response.data.message) {
-          setPageError(err.response.data.message);
-        } else {
-          setPageError('Something went wrong.');
-        }
+        setPageError(getErrorMsg(err));
       }
     };
     getSubreddit();

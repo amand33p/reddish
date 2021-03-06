@@ -9,14 +9,15 @@ import ReactHtmlParser from 'react-html-parser';
 import { trimLink, prettifyLink, fixUrl } from '../utils/formatUrl';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import CommentIcon from '@material-ui/icons/Comment';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import { Paper, Typography, Link, Button } from '@material-ui/core';
 import { useUserPostCardStyles } from '../styles/muiStyles';
 
 const UserPostCard = ({ post, user, isMobile }) => {
-  const { darkMode } = useSelector((state) => state);
-  const dispatch = useDispatch();
   const classes = useUserPostCardStyles();
+  const dispatch = useDispatch();
+  const { darkMode } = useSelector((state) => state);
 
   const {
     id,
@@ -49,11 +50,7 @@ const UserPostCard = ({ post, user, isMobile }) => {
         dispatch(toggleUpvote(id, updatedUpvotedBy, updatedDownvotedBy));
       }
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 
@@ -68,11 +65,7 @@ const UserPostCard = ({ post, user, isMobile }) => {
         dispatch(toggleDownvote(id, updatedDownvotedBy, updatedUpvotedBy));
       }
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        dispatch(notify(`${err.response.data.message}`, 'error'));
-      } else {
-        dispatch(notify(`Something went wrong.`, 'error'));
-      }
+      dispatch(notify(getErrorMsg(err), 'error'));
     }
   };
 

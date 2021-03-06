@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { TextInput } from './FormikMuiFields';
 import { notify } from '../reducers/notificationReducer';
 import AlertMessage from './AlertMessage';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import {
   Button,
@@ -46,10 +47,10 @@ const validationSchemaLogin = yup.object({
 });
 
 const AuthForm = ({ closeModal }) => {
+  const dispatch = useDispatch();
   const [authType, setAuthType] = useState('login');
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState(null);
-  const dispatch = useDispatch();
   const classes = useAuthStyles(authType)();
 
   const handleLogin = async (values, { setSubmitting, resetForm }) => {
@@ -65,11 +66,7 @@ const AuthForm = ({ closeModal }) => {
       );
     } catch (err) {
       setSubmitting(false);
-      if (err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError(err.message);
-      }
+      setError(getErrorMsg(err));
     }
   };
 
@@ -89,11 +86,7 @@ const AuthForm = ({ closeModal }) => {
       );
     } catch (err) {
       setSubmitting(false);
-      if (err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError(err.message);
-      }
+      setError(getErrorMsg(err));
     }
   };
 

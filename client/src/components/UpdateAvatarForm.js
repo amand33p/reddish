@@ -5,6 +5,7 @@ import { notify } from '../reducers/notificationReducer';
 import DeleteDialog from './DeleteDialog';
 import generateBase64Encode from '../utils/genBase64Encode';
 import AlertMessage from './AlertMessage';
+import getErrorMsg from '../utils/getErrorMsg';
 
 import {
   Button,
@@ -53,11 +54,7 @@ const UpdateAvatarForm = () => {
       setFileName('');
     } catch (err) {
       setIsLoading(false);
-      if (err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError(err.message);
-      }
+      setError(getErrorMsg(err), 'error');
     }
   };
 
@@ -66,11 +63,7 @@ const UpdateAvatarForm = () => {
       await dispatch(deleteAvatar());
       dispatch(notify('Removed avatar.', 'success'));
     } catch (err) {
-      if (err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError(err.message);
-      }
+      setError(getErrorMsg(err), 'error');
     }
   };
 
