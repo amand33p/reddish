@@ -1,6 +1,6 @@
 import subService from '../services/subs';
 
-const subredditReducer = (state = null, action) => {
+const subReducer = (state = null, action) => {
   switch (action.type) {
     case 'SET_ALL_SUBS_LIST':
       return { ...state, allSubs: action.payload };
@@ -23,13 +23,13 @@ const subredditReducer = (state = null, action) => {
   }
 };
 
-export const setSubredditList = () => {
+export const setSubList = () => {
   return async (dispatch) => {
-    const subreddits = await subService.getAllSubreddits();
+    const subs = await subService.getAllSubreddits();
 
     dispatch({
       type: 'SET_ALL_SUBS_LIST',
-      payload: subreddits,
+      payload: subs,
     });
   };
 };
@@ -58,18 +58,18 @@ export const toggleSubscribe = (id, subscribedBy) => {
   };
 };
 
-export const addNewSubreddit = (subredditObj) => {
+export const addNewSub = (subredditObj) => {
   return async (dispatch) => {
-    const createdSubreddit = await subService.createSubreddit(subredditObj);
+    const createdSub = await subService.createSubreddit(subredditObj);
 
     dispatch({
       type: 'ADD_NEW_SUB',
       payload: {
-        subredditName: createdSubreddit.subredditName,
-        id: createdSubreddit.id,
+        subredditName: createdSub.subredditName,
+        id: createdSub.id,
       },
     });
   };
 };
 
-export default subredditReducer;
+export default subReducer;

@@ -1,9 +1,9 @@
 import subService from '../services/subs';
 import postService from '../services/posts';
 
-const subredditPageReducer = (state = null, action) => {
+const subPageReducer = (state = null, action) => {
   switch (action.type) {
-    case 'FETCH_SUBREDDIT':
+    case 'FETCH_SUB':
       return action.payload;
     case 'LOAD_SUB_POSTS':
       return {
@@ -23,7 +23,7 @@ const subredditPageReducer = (state = null, action) => {
           ),
         },
       };
-    case 'SUBSCRIBE_SUBREDDIT':
+    case 'SUBSCRIBE_SUB':
       return {
         ...state,
         subDetails: { ...state.subDetails, ...action.payload },
@@ -38,34 +38,24 @@ const subredditPageReducer = (state = null, action) => {
   }
 };
 
-export const fetchSubreddit = (subredditName, sortBy) => {
+export const fetchSub = (subredditName, sortBy) => {
   return async (dispatch) => {
-    const subreddit = await subService.getSubreddit(
-      subredditName,
-      sortBy,
-      10,
-      1
-    );
+    const sub = await subService.getSubreddit(subredditName, sortBy, 10, 1);
 
     dispatch({
-      type: 'FETCH_SUBREDDIT',
-      payload: subreddit,
+      type: 'FETCH_SUB',
+      payload: sub,
     });
   };
 };
 
 export const loadSubPosts = (subredditName, sortBy, page) => {
   return async (dispatch) => {
-    const subreddit = await subService.getSubreddit(
-      subredditName,
-      sortBy,
-      10,
-      page
-    );
+    const sub = await subService.getSubreddit(subredditName, sortBy, 10, page);
 
     dispatch({
       type: 'LOAD_SUB_POSTS',
-      payload: subreddit,
+      payload: sub,
     });
   };
 };
@@ -107,7 +97,7 @@ export const toggleSubscribe = (id, subscribedBy) => {
     const subscriberCount = subscribedBy.length;
 
     dispatch({
-      type: 'SUBSCRIBE_SUBREDDIT',
+      type: 'SUBSCRIBE_SUB',
       payload: { subscribedBy, subscriberCount },
     });
 
@@ -126,4 +116,4 @@ export const editDescription = (id, description) => {
   };
 };
 
-export default subredditPageReducer;
+export default subPageReducer;

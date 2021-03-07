@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  fetchSubreddit,
+  fetchSub,
   toggleUpvote,
   toggleDownvote,
   toggleSubscribe,
   editDescription,
   loadSubPosts,
-} from '../reducers/subredditPageReducer';
+} from '../reducers/subPageReducer';
 import { notify } from '../reducers/notificationReducer';
 import SortTabBar from './SortTabBar';
 import PostCard from './PostCard';
@@ -26,7 +26,7 @@ import {
   Link,
   TextField,
 } from '@material-ui/core';
-import { useSubredditPageStyles } from '../styles/muiStyles';
+import { useSubPageStyles } from '../styles/muiStyles';
 import CakeIcon from '@material-ui/icons/Cake';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import CheckIcon from '@material-ui/icons/Check';
@@ -36,10 +36,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 
 const SubPage = () => {
-  const classes = useSubredditPageStyles();
-  const { subreddit } = useParams();
+  const classes = useSubPageStyles();
+  const { sub } = useParams();
   const dispatch = useDispatch();
-  const sub = useSelector((state) => state.subredditPage);
+  const subPage = useSelector((state) => state.subPage);
   const user = useSelector((state) => state.user);
   const [editOpen, setEditOpen] = useState(false);
   const [descInput, setDescInput] = useState('');
@@ -51,23 +51,23 @@ const SubPage = () => {
   const [pageError, setPageError] = useState(null);
 
   useEffect(() => {
-    const getSubreddit = async () => {
+    const getSub = async () => {
       try {
-        await dispatch(fetchSubreddit(subreddit, 'hot'));
+        await dispatch(fetchSub(sub, 'hot'));
         setPageLoading(false);
       } catch (err) {
         setPageError(getErrorMsg(err));
       }
     };
-    getSubreddit();
+    getSub();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subreddit]);
+  }, [sub]);
 
   useEffect(() => {
-    if (sub) {
-      setDescInput(sub.subDetails.description);
+    if (subPage) {
+      setDescInput(subPage.subDetails.description);
     }
-  }, [sub]);
+  }, [subPage]);
 
   if (pageError) {
     return (
@@ -79,11 +79,11 @@ const SubPage = () => {
     );
   }
 
-  if (!sub || pageLoading) {
+  if (!subPage || pageLoading) {
     return (
       <Container disableGutters>
         <Paper variant="outlined" className={classes.mainPaper}>
-          <LoadingSpinner text={'Fetching subreddit data...'} />
+          <LoadingSpinner text={'Fetching subs data...'} />
         </Paper>
       </Container>
     );
@@ -97,7 +97,7 @@ const SubPage = () => {
     admin,
     createdAt,
     id,
-  } = sub.subDetails;
+  } = subPage.subDetails;
 
   const isSubscribed = user && subscribedBy.includes(user.id);
 
@@ -136,7 +136,7 @@ const SubPage = () => {
   const handleTabChange = async (e, newValue) => {
     try {
       setPostsLoading(true);
-      await dispatch(fetchSubreddit(subreddit, newValue));
+      await dispatch(fetchSub(sub, newValue));
       setSortBy(newValue);
       setPostsLoading(false);
 
@@ -152,7 +152,7 @@ const SubPage = () => {
   const handleLoadPosts = async () => {
     try {
       setLoadingMore(true);
-      await dispatch(loadSubPosts(subreddit, sortBy, page + 1));
+      await dispatch(loadSubPosts(sub, sortBy, page + 1));
       setPage((prevState) => prevState + 1);
       setLoadingMore(false);
     } catch (err) {
@@ -274,8 +274,8 @@ const SubPage = () => {
         ) : (
           <>
             <div>
-              {sub.posts.results.length !== 0 ? (
-                sub.posts.results.map((p) => (
+              {subPage.posts.results.length !== 0 ? (
+                subPage.posts.results.map((p) => (
                   <PostCard
                     key={p.id}
                     post={p}
@@ -295,7 +295,7 @@ const SubPage = () => {
                 </div>
               )}
             </div>
-            {'next' in sub.posts && (
+            {'next' in subPage.posts && (
               <LoadMoreButton
                 handleLoadPosts={handleLoadPosts}
                 loading={loadingMore}

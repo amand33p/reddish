@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addNewSubreddit } from '../reducers/subredditReducer';
+import { addNewSub } from '../reducers/subReducer';
 import { Formik, Form } from 'formik';
 import { TextInput } from './FormikMuiFields';
 import { notify } from '../reducers/notificationReducer';
@@ -40,7 +40,7 @@ const SubForm = ({ closeModal }) => {
   const handleCreateSubreddit = async (values, { setSubmitting }) => {
     try {
       setSubmitting(true);
-      await dispatch(addNewSubreddit(values));
+      await dispatch(addNewSub(values));
       setSubmitting(false);
       history.push(`/r/${values.subredditName}`);
       // dispatch(

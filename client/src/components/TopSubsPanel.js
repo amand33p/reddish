@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleSubscribe } from '../reducers/subredditReducer';
+import { toggleSubscribe } from '../reducers/subReducer';
 import { notify } from '../reducers/notificationReducer';
 import SubFormModal from './SubFormModal';
 import LoadingSpinner from './LoadingSpinner';
@@ -21,7 +21,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 
 const TopSubsPanel = () => {
-  const { subreddits, user } = useSelector((state) => state);
+  const { subs, user } = useSelector((state) => state);
   const dispatch = useDispatch();
   const classes = useSubPanelStyles();
   const theme = useTheme();
@@ -33,7 +33,7 @@ const TopSubsPanel = () => {
 
   const loggedUser = storageService.loadUser() || user;
 
-  const loadingSubs = !subreddits || !subreddits.topSubs;
+  const loadingSubs = !subs || !subs.topSubs;
 
   const isSubscribed = (subscribedBy, user) => {
     return subscribedBy.includes(user.id);
@@ -41,7 +41,7 @@ const TopSubsPanel = () => {
 
   const handleJoinSub = async (id, subscribedBy, subredditName) => {
     try {
-      let updatedSubscribedBy = [];
+      let updatedSubscribedBy;
 
       if (subscribedBy.includes(user.id)) {
         updatedSubscribedBy = subscribedBy.filter((s) => s !== user.id);
@@ -68,7 +68,7 @@ const TopSubsPanel = () => {
         {loadingSubs ? (
           <LoadingSpinner text="Fetching subs data..." />
         ) : (
-          subreddits.topSubs.map((s, i) => (
+          subs.topSubs.map((s, i) => (
             <div key={s.id} className={classes.listWrapper}>
               <Typography variant="body1" className={classes.listItem}>
                 {`${i + 1}. `}

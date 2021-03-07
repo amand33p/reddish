@@ -57,7 +57,7 @@ const AddPostForm = ({
 }) => {
   const [fileName, setFileName] = useState('');
   const [error, setError] = useState(null);
-  const subreddits = useSelector((state) => state.subreddits);
+  const { subs } = useSelector((state) => state);
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
@@ -171,7 +171,7 @@ const AddPostForm = ({
                   setFieldValue('subreddit', value ? value.id : '')
                 }
                 fullWidth
-                options={subreddits && subreddits.allSubs}
+                options={subs && subs.allSubs}
                 disabled={actionType === 'edit' || !!fromSubreddit}
                 getOptionLabel={(option) => option.subredditName}
                 getOptionSelected={(option, value) => option.id === value.id}

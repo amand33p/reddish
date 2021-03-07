@@ -32,7 +32,7 @@ const Routes = () => {
       <Route exact path="/u/:username">
         <UserPage />
       </Route>
-      <Route exact path="/r/:subreddit">
+      <Route exact path="/r/:sub">
         <SubPage />
       </Route>
       <Route exact path="/search/:query">

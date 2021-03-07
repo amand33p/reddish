@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './reducers/userReducer';
 import { fetchPosts } from './reducers/postReducer';
-import { setSubredditList, setTopSubsList } from './reducers/subredditReducer';
+import { setSubList, setTopSubsList } from './reducers/subReducer';
 import { setDarkMode } from './reducers/themeReducer';
 import { notify } from './reducers/notificationReducer';
 import NavBar from './components/NavBar';
@@ -24,7 +24,7 @@ const App = () => {
     const setPostsAndSubreddits = async () => {
       try {
         await dispatch(fetchPosts('hot'));
-        await dispatch(setSubredditList());
+        await dispatch(setSubList());
         await dispatch(setTopSubsList());
       } catch (err) {
         dispatch(notify(getErrorMsg(err), 'error'));

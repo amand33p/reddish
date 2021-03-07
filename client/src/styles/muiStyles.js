@@ -622,7 +622,7 @@ export const useUserPostCardStyles = makeStyles(
   { index: 1 }
 );
 
-export const useSubredditPageStyles = makeStyles(
+export const useSubPageStyles = makeStyles(
   (theme) => ({
     mainPaper: {
       marginTop: '0.5em',
