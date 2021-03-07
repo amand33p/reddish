@@ -20,16 +20,16 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import FaceIcon from '@material-ui/icons/Face';
 
-const UpdateAvatarForm = () => {
+const UpdateAvatarForm = ({ closeModal }) => {
+  const classes = useAvatarFormStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state);
   const [avatarInput, setAvatarInput] = useState('');
   const [fileName, setFileName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const classes = useAvatarFormStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -43,7 +43,10 @@ const UpdateAvatarForm = () => {
   };
 
   const handleAvatarUpload = async () => {
-    if (avatarInput === '') return setError('Select an image file first.');
+    if (avatarInput === '') {
+      return setError('Select an image file first.');
+    }
+
     try {
       setIsLoading(true);
       await dispatch(setAvatar(avatarInput));
@@ -52,6 +55,7 @@ const UpdateAvatarForm = () => {
       dispatch(notify('Successfully updated the avatar!', 'success'));
       setAvatarInput('');
       setFileName('');
+      closeModal();
     } catch (err) {
       setIsLoading(false);
       setError(getErrorMsg(err), 'error');
@@ -69,7 +73,7 @@ const UpdateAvatarForm = () => {
 
   return (
     <div>
-      {user.avatar.exists && (
+      {user?.avatar?.exists && (
         <div>
           <div className={classes.imagePreview}>
             <img
@@ -137,7 +141,7 @@ const UpdateAvatarForm = () => {
         onClick={handleAvatarUpload}
         disabled={isLoading}
       >
-        {user.avatar.exists
+        {user?.avatar?.exists
           ? isLoading
             ? 'Updating'
             : 'Update avatar'

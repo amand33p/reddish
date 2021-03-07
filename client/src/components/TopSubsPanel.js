@@ -70,7 +70,7 @@ const TopSubsPanel = () => {
         ) : (
           subs.topSubs.map((s, i) => (
             <div key={s.id} className={classes.listWrapper}>
-              <Typography variant="body1" className={classes.listItem}>
+              <Typography variant="body2" className={classes.listItem}>
                 {`${i + 1}. `}
                 <Link
                   component={RouterLink}

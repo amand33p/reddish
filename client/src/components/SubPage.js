@@ -82,7 +82,7 @@ const SubPage = () => {
     return (
       <Container disableGutters>
         <Paper variant="outlined" className={classes.mainPaper}>
-          <LoadingSpinner text={'Fetching subs data...'} />
+          <LoadingSpinner text={'Fetching sub data...'} />
         </Paper>
       </Container>
     );
