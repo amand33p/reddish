@@ -28,7 +28,7 @@ import {
 } from '@material-ui/core';
 import { useSubPageStyles } from '../styles/muiStyles';
 import CakeIcon from '@material-ui/icons/Cake';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import PersonIcon from '@material-ui/icons/Person';
 import CheckIcon from '@material-ui/icons/Check';
 import GroupIcon from '@material-ui/icons/Group';
 import AddIcon from '@material-ui/icons/Add';
@@ -224,7 +224,7 @@ const SubPage = () => {
               className={classes.iconText}
               color="secondary"
             >
-              <CakeIcon /> Created
+              <CakeIcon style={{ marginRight: 5 }} /> Created
               {' ' +
                 String(new Date(createdAt)).split(' ').slice(1, 4).join(' ')}
             </Typography>
@@ -233,7 +233,7 @@ const SubPage = () => {
               color="secondary"
               className={classes.iconText}
             >
-              <SupervisorAccountIcon />
+              <PersonIcon style={{ marginRight: 5 }} />
               Admin:
               <Link
                 component={RouterLink}
@@ -257,11 +257,11 @@ const SubPage = () => {
               </Button>
             )}
             <Typography
-              variant="body1"
+              variant="body2"
               color="primary"
               className={classes.iconText}
             >
-              <GroupIcon />
+              <GroupIcon style={{ marginRight: 5 }} />
               {subscriberCount} subscribers
             </Typography>
           </div>

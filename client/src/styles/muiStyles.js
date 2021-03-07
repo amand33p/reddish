@@ -665,6 +665,8 @@ export const useSubPageStyles = makeStyles(
       display: 'flex',
       alignItems: 'flex-end',
       flexWrap: 'wrap',
+      margin: '0.3em 0',
+      maxWidth: 300,
       [theme.breakpoints.down('xs')]: {
         justifyContent: 'center',
       },
