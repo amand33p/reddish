@@ -39,8 +39,7 @@ const SubPage = () => {
   const classes = useSubPageStyles();
   const { sub } = useParams();
   const dispatch = useDispatch();
-  const subPage = useSelector((state) => state.subPage);
-  const user = useSelector((state) => state.user);
+  const { user, subPage } = useSelector((state) => state);
   const [editOpen, setEditOpen] = useState(false);
   const [descInput, setDescInput] = useState('');
   const [sortBy, setSortBy] = useState('hot');

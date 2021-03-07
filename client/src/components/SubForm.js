@@ -31,22 +31,21 @@ const validationSchema = yup.object({
     .min(3, 'Must be at least 3 characters'),
 });
 
-const SubForm = ({ closeModal }) => {
+const SubForm = () => {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const classes = useSubredditFormStyles();
   const history = useHistory();
 
-  const handleCreateSubreddit = async (values, { setSubmitting }) => {
+  const handleCreateSub = async (values, { setSubmitting }) => {
     try {
       setSubmitting(true);
       await dispatch(addNewSub(values));
       setSubmitting(false);
+      dispatch(
+        notify(`New subreddish created: r/${values.subredditName}`, 'success')
+      );
       history.push(`/r/${values.subredditName}`);
-      // dispatch(
-      //   notify(`New subreddish created: r/${values.subredditName}`, 'success')
-      // );
-      // closeModal();
     } catch (err) {
       setSubmitting(false);
       dispatch(notify(getErrorMsg(err), 'error'));
@@ -58,7 +57,7 @@ const SubForm = ({ closeModal }) => {
       <Formik
         validateOnChange={true}
         initialValues={{ subredditName: '', description: '' }}
-        onSubmit={handleCreateSubreddit}
+        onSubmit={handleCreateSub}
         validationSchema={validationSchema}
       >
         {({ isSubmitting }) => (
