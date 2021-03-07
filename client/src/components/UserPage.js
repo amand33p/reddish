@@ -62,7 +62,7 @@ const UserPage = () => {
     return (
       <Container disableGutters>
         <Paper variant="outlined" className={classes.mainPaper}>
-          <LoadingSpinner text={'Fetching user data...'} />
+          <LoadingSpinner text="Fetching user data..." />
         </Paper>
       </Container>
     );

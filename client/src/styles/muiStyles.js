@@ -217,6 +217,7 @@ export const usePostListStyles = makeStyles(
     loadSpinner: {
       textAlign: 'center',
       marginTop: '12em',
+      marginBottom: '6em',
     },
   }),
   { index: 1 }
@@ -256,8 +257,6 @@ export const useCardStyles = makeStyles(
       marginTop: 30,
     },
     postInfoWrapper: {
-      // paddingTop: 8,
-      // paddingLeft: 8,
       padding: 10,
       paddingBottom: 0,
     },

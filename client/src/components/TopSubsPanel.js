@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleSubscribe } from '../reducers/subredditReducer';
 import { notify } from '../reducers/notificationReducer';
 import SubFormModal from './SubFormModal';
+import LoadingSpinner from './LoadingSpinner';
 import getErrorMsg from '../utils/getErrorMsg';
 import storageService from '../utils/localStorage';
 
@@ -26,11 +27,13 @@ const TopSubsPanel = () => {
   const theme = useTheme();
   const isNotDesktop = useMediaQuery(theme.breakpoints.down('md'));
 
-  if (isNotDesktop || !subreddits || !subreddits.topSubs) {
+  if (isNotDesktop) {
     return null;
   }
 
   const loggedUser = storageService.loadUser() || user;
+
+  const loadingSubs = !subreddits || !subreddits.topSubs;
 
   const isSubscribed = (subscribedBy, user) => {
     return subscribedBy.includes(user.id);
@@ -62,40 +65,44 @@ const TopSubsPanel = () => {
         <Typography variant="h5" color="secondary" className={classes.title}>
           Top Subreddishes
         </Typography>
-        {subreddits.topSubs.map((s, i) => (
-          <div key={s.id} className={classes.listWrapper}>
-            <Typography variant="body1" className={classes.listItem}>
-              {`${i + 1}. `}
-              <Link
-                component={RouterLink}
-                to={`/r/${s.subredditName}`}
-                color="primary"
-              >
-                r/{s.subredditName}
-              </Link>
-              {` - ${s.subscriberCount} members `}
-            </Typography>
-            {loggedUser && (
-              <Button
-                variant="outlined"
-                color="primary"
-                size="small"
-                startIcon={
-                  isSubscribed(s.subscribedBy, user) ? (
-                    <CheckIcon />
-                  ) : (
-                    <AddIcon />
-                  )
-                }
-                onClick={() =>
-                  handleJoinSub(s.id, s.subscribedBy, s.subredditName)
-                }
-              >
-                {isSubscribed(s.subscribedBy, user) ? 'Joined' : 'Join'}
-              </Button>
-            )}
-          </div>
-        ))}
+        {loadingSubs ? (
+          <LoadingSpinner text="Fetching subs data..." />
+        ) : (
+          subreddits.topSubs.map((s, i) => (
+            <div key={s.id} className={classes.listWrapper}>
+              <Typography variant="body1" className={classes.listItem}>
+                {`${i + 1}. `}
+                <Link
+                  component={RouterLink}
+                  to={`/r/${s.subredditName}`}
+                  color="primary"
+                >
+                  r/{s.subredditName}
+                </Link>
+                {` - ${s.subscriberCount} members `}
+              </Typography>
+              {loggedUser && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  startIcon={
+                    isSubscribed(s.subscribedBy, user) ? (
+                      <CheckIcon />
+                    ) : (
+                      <AddIcon />
+                    )
+                  }
+                  onClick={() =>
+                    handleJoinSub(s.id, s.subscribedBy, s.subredditName)
+                  }
+                >
+                  {isSubscribed(s.subscribedBy, user) ? 'Joined' : 'Join'}
+                </Button>
+              )}
+            </div>
+          ))
+        )}
       </Paper>
       {loggedUser && <SubFormModal />}
     </Paper>

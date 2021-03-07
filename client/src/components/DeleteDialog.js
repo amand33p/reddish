@@ -25,6 +25,11 @@ const DeleteDialog = ({ title, handleDelete, handleMenuClose, type }) => {
     setOpen(false);
   };
 
+  const handleActionClick = () => {
+    handleDelete();
+    handleClose();
+  };
+
   return (
     <div>
       {type === 'comment' ? (
@@ -84,7 +89,7 @@ const DeleteDialog = ({ title, handleDelete, handleMenuClose, type }) => {
             Cancel
           </Button>
           <Button
-            onClick={handleDelete}
+            onClick={handleActionClick}
             color="primary"
             variant="contained"
             size="small"
