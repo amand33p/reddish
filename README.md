@@ -65,6 +65,13 @@
 ![Mobile-4](https://github.com/amand33p/reddish-mern/blob/master/screenshots/mobile-4.png)
 ![Mobile-5](https://github.com/amand33p/reddish-mern/blob/master/screenshots/mobile-5.png)
 
+## Usage
+
+Notes:
+
+- For image API, make account at cloudinary.com & get API keys from account dashboard.
+- For upload preset usage, if you want to organize images separately at cloudinary.com, you have to create it from account settings first. If you don't want to, just don't put anything or use .env key - `UPLOAD_PRESET`.
+
 #### Env variable:
 
 Create .env file in server directory and add the following:
